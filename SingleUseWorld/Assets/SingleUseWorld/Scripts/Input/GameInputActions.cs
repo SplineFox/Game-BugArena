@@ -172,17 +172,6 @@ public class @GameInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e3824b6c-7fb0-4200-aa42-82252f3f6a31"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""20f14adb-ce43-4ed6-a81c-83f9a7416310"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
