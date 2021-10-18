@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<engine:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:engine="UnityEngine.UIElements"
-    xmlns:editor="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
->
-    <engine:Label text="Hello World! From UXML" />
-</engine:UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="/Assets/SingleUseWorld/Editor/StateMachine/Views/USS/StateGraphEditorWindow.uss" />
+    <SingleUseWorld.StateMachine.Views.SplitView fixed-pane-initial-dimension="200">
+        <ui:VisualElement name="left-pane">
+            <SingleUseWorld.StateMachine.Views.InspectorView style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="right-pane">
+            <SingleUseWorld.StateMachine.Views.StateGraphView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </SingleUseWorld.StateMachine.Views.SplitView>
+</ui:UXML>
