@@ -19,7 +19,6 @@ namespace SingleUseWorld.StateMachine.Windows
         #region Public Methods
         public void SetCurrentSelection(GraphModel graphModel)
         {
-
             if (_graphModel != graphModel)
             {
                 _graphModel = graphModel;
@@ -73,28 +72,9 @@ namespace SingleUseWorld.StateMachine.Windows
             FindOrCreateEditorWindow();
         }
 
-        public static StateGraphEditorWindow FindEditorWindow()
-        {
-            var editorWindow = Resources.FindObjectsOfTypeAll<StateGraphEditorWindow>().FirstOrDefault();
-            return editorWindow;
-        }
-
-        public static StateGraphEditorWindow CreateEditorWindow()
-        {
-            var editorWindow = CreateInstance<StateGraphEditorWindow>();
-            return editorWindow;
-        }
-
         public static StateGraphEditorWindow FindOrCreateEditorWindow()
         {
-            var editorWindow = FindEditorWindow();
-            if (editorWindow == null)
-            {
-                editorWindow = CreateEditorWindow();
-            }
-            editorWindow.Show();
-            editorWindow.Focus();
-            return editorWindow;
+            return GetWindow<StateGraphEditorWindow>("StateGraphEditor");
         }
         #endregion
     }
