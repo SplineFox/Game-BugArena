@@ -5,6 +5,7 @@ using SingleUseWorld.StateMachine.Models;
 using System.Collections.Generic;
 using UnityEditor;
 using System.Linq;
+using System;
 
 namespace SingleUseWorld.StateMachine.Views
 {
@@ -16,6 +17,7 @@ namespace SingleUseWorld.StateMachine.Views
 
         #region Fields
         private GraphModel _model;
+        private Vector2 _lastMousePosition;
         #endregion
 
         #region Properties
@@ -28,6 +30,7 @@ namespace SingleUseWorld.StateMachine.Views
             InitUss();
             InitElements();
             InitManipulators();
+            InitCallbacks();
         }
         #endregion
 
@@ -75,6 +78,11 @@ namespace SingleUseWorld.StateMachine.Views
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
+        }
+
+        private void InitCallbacks()
+        {
+            this.RegisterCallback<MouseMoveEvent>(OnGraphMouseMove);
         }
 
         private void SubscribeToModel(GraphModel model)
@@ -167,6 +175,11 @@ namespace SingleUseWorld.StateMachine.Views
             graphEdge.output = null;
         }
 
+        private void OnGraphMouseMove(MouseMoveEvent evt)
+        {
+            _lastMousePosition = evt.mousePosition;
+        }
+
         private GraphViewChange OnGraphViewChanged(GraphViewChange change)
         {
             if (change.edgesToCreate != null)
@@ -223,13 +236,14 @@ namespace SingleUseWorld.StateMachine.Views
 
         private void RequestToCreateMasterNode()
         {
-            Vector2 position = Vector2.zero;
+            Vector2 position = contentViewContainer.WorldToLocal(_lastMousePosition);
             _model.CreateMasterNode(position);
         }
 
         private void RequestToCreateSlaveNode(NodeView nodeView)
         {
-            Vector2 position = Vector2.zero;
+            Rect nodeViewRect = nodeView.GetPosition();
+            Vector2 position = new Vector2(nodeViewRect.xMin + 20, nodeViewRect.yMin + 20);
             _model.CreateSlaveNode(position, nodeView.Model);
         }
 
