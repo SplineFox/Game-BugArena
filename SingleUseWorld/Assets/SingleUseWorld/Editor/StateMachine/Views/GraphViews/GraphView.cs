@@ -176,7 +176,7 @@ namespace SingleUseWorld.StateMachine.Views
 
         private void OnGraphMouseMove(MouseMoveEvent evt)
         {
-            _lastMousePosition = evt.localMousePosition;//evt.mousePosition;
+            _lastMousePosition = evt.mousePosition;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange change)
@@ -255,7 +255,7 @@ namespace SingleUseWorld.StateMachine.Views
 
         internal void RequestToCreateMasterNode()
         {
-            Vector2 position = contentViewContainer.WorldToLocal(_lastMousePosition);
+            Vector2 position = this.contentViewContainer.WorldToLocal(_lastMousePosition);
             _model.CreateMasterNode(position);
         }
 
