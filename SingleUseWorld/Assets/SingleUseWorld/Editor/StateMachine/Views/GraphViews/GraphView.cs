@@ -141,6 +141,7 @@ namespace SingleUseWorld.StateMachine.Views
         private void DestroyNodeView(NodeModel node)
         {
             var view = this.GetNodeByGuid(node.Guid);
+            if (view == null) return;
 
             this.graphViewChanged -= OnGraphViewChanged;
             this.RemoveElement(view);
@@ -150,6 +151,8 @@ namespace SingleUseWorld.StateMachine.Views
         private void DestroyEdgeView(EdgeModel edge)
         {
             var view = this.GetEdgeByGuid(edge.Guid);
+            if (view == null) return;
+
             DisconnectEdge(view);
 
             this.graphViewChanged -= OnGraphViewChanged;
