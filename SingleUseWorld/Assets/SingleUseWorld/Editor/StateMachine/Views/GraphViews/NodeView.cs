@@ -1,56 +1,88 @@
+using Node = UnityEditor.Experimental.GraphView.Node;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
-using GraphNodeView = UnityEditor.Experimental.GraphView.Node;
 using SingleUseWorld.StateMachine.Models;
+using UnityEngine.UIElements;
+using System;
 
 namespace SingleUseWorld.StateMachine.Views
 {
-    public sealed class NodeView : GraphNodeView
+    public sealed class NodeView : Node
     {
         #region Fields
-        private GraphNodeModel _model;
+        private GraphView _graph;
+        private NodeModel _model;
         private Port _input;
         private Port _output;
         #endregion
 
         #region Properties
-        public GraphNodeModel Model { get => _model; }
+        public NodeModel Model { get => _model; }
         public Port Input { get => _input; }
         public Port Output { get => _output; }
         #endregion
 
         #region Public Methods
-        public void SetModel(GraphNodeModel model)
+        public void SetModel(GraphView graph, NodeModel model)
         {
+            _graph = graph;
             _model = model;
-            viewDataKey = _model.Guid.ToString();
+            viewDataKey = _model.Guid;
 
-            style.left = _model.Position.x;
-            style.top = _model.Position.y;
+            SetPosition(new Rect(_model.Position, Vector2.one));
 
-            UpdateView();
             CreatePort();
+
+            OnValidateView();
+            RegisterCallback<AttachToPanelEvent>(OnEnableView);
+            RegisterCallback<DetachFromPanelEvent>(OnDisableView);
         }
 
         public override void SetPosition(Rect newPosition)
         {
             base.SetPosition(newPosition);
-            _model.Position = new Vector2(newPosition.xMin, newPosition.yMin);
+            _model.Position = newPosition.position;
+        }
+
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            if (_model is MasterNodeModel)
+            {
+                evt.menu.AppendAction($"Create slave state", (action) => RequestToCreateSlaveNode());
+            }
+
+            if (_model is SlaveNodeModel)
+            {
+                evt.menu.AppendAction($"Go to master state", (action) => RequestToGoToMasterNode());
+            }
+
+            evt.menu.AppendSeparator();
         }
         #endregion
 
         #region Private Methods
-        private void UpdateView()
+        private void OnEnableView(AttachToPanelEvent evt)
         {
-            title = _model.name;
+            Model.State.Validated += OnValidateView;
+        }
+
+        private void OnDisableView(DetachFromPanelEvent evt)
+        {
+            Model.State.Validated -= OnValidateView;
+        }
+
+        private void OnValidateView()
+        {
+            title = Model.State.name;
+            titleContainer.style.backgroundColor = Model.State.Color;
         }
 
         private void CreatePort()
         {
-            if (_model is GraphMasterNodeModel)
+            if (_model is MasterNodeModel)
                 CreateOutputPort();
 
-            if (_model is GraphSlaveNodeModel)
+            if (_model is SlaveNodeModel)
                 CreateInputPort();
         }
 
@@ -74,6 +106,17 @@ namespace SingleUseWorld.StateMachine.Views
                 inputContainer.Add(inputPort);
                 _input = inputPort;
             }
+        }
+
+        private void RequestToCreateSlaveNode()
+        {
+            _graph.RequestToCreateSlaveNode(this);
+        }
+
+        private void RequestToGoToMasterNode()
+        {
+            var slave = _model as SlaveNodeModel;
+            _graph.MoveViewpointTo(slave.Master.Position);
         }
         #endregion
     }

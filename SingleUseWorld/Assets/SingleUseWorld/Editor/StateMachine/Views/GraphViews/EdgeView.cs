@@ -1,25 +1,28 @@
+using Edge = UnityEditor.Experimental.GraphView.Edge;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
-using GraphEdgeView = UnityEditor.Experimental.GraphView.Edge;
 using SingleUseWorld.StateMachine.Models;
+using UnityEngine.UIElements;
 
 namespace SingleUseWorld.StateMachine.Views
 {
-    public sealed class EdgeView : GraphEdgeView
+    public sealed class EdgeView : Edge
     {
         #region Fields
-        GraphEdgeModel _model;
+        private GraphView _graph;
+        private EdgeModel _model;
         #endregion
 
         #region Properties
-        public GraphEdgeModel Model { get => _model; }
+        public EdgeModel Model { get => _model; }
         #endregion
 
         #region Public Methods
-        public void SetModel(GraphEdgeModel model)
+        public void SetModel(GraphView graph, EdgeModel model)
         {
+            _graph = graph;
             _model = model;
-            viewDataKey = _model.Guid.ToString();
+            viewDataKey = _model.Guid;
         }
         #endregion
     }

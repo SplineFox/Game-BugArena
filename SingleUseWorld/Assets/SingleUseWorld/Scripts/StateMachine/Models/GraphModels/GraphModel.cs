@@ -14,31 +14,32 @@ namespace SingleUseWorld.StateMachine.Models
     public class GraphModel : ScriptableObject
     {
         #region Fields
-        private List<StateModel> _states = new List<StateModel>();
-        private List<TransitionModel> _transitions = new List<TransitionModel>();
-        private List<GraphNodeModel> _nodes = new List<GraphNodeModel>();
-        private List<GraphEdgeModel> _edges = new List<GraphEdgeModel>();
+        [SerializeField] private List<StateModel> _states = new List<StateModel>();
+        [SerializeField] private List<TransitionModel> _transitions = new List<TransitionModel>();
+
+        [SerializeReference] private List<NodeModel> _nodes = new List<NodeModel>();
+        [SerializeReference] private List<EdgeModel> _edges = new List<EdgeModel>();
         #endregion
 
         #region Properties
         public IReadOnlyList<StateModel> States { get => _states; }
         public IReadOnlyList<TransitionModel> Transitions { get => _transitions; }
-        public IReadOnlyList<GraphNodeModel> Nodes { get => _nodes; }
-        public IReadOnlyList<GraphEdgeModel> Edges { get => _edges; }
+        public IReadOnlyList<NodeModel> Nodes { get => _nodes; }
+        public IReadOnlyList<EdgeModel> Edges { get => _edges; }
         #endregion
 
         #region Delegates & Events
-        public delegate void NodeCreatedDelegate(GraphNodeModel node);
-        public delegate void NodeAboutToBeDestroyedDelegate(GraphNodeModel node);
+        public delegate void AfterNodeCreatedDelegate(NodeModel node);
+        public delegate void BeforeNodeDestroyedDelegate(NodeModel node);
 
-        public delegate void EdgeCreatedDelegate(GraphEdgeModel edge);
-        public delegate void EdgeAboutToBeDestroyedDelegate(GraphEdgeModel edge);
+        public delegate void AfterEdgeCreatedDelegate(EdgeModel edge);
+        public delegate void BeforeEdgeDestroyedDelegate(EdgeModel edge);
 
-        public event NodeCreatedDelegate NodeCreated = delegate { };
-        public event NodeAboutToBeDestroyedDelegate NodeAboutToBeDestroyed = delegate { };
+        public event AfterNodeCreatedDelegate AfterNodeCreated = delegate { };
+        public event BeforeNodeDestroyedDelegate BeforeNodeDestroyed = delegate { };
 
-        public event EdgeCreatedDelegate EdgeCreated = delegate { };
-        public event EdgeAboutToBeDestroyedDelegate EdgeAboutToBeDestroyed = delegate { };
+        public event AfterEdgeCreatedDelegate AfterEdgeCreated = delegate { };
+        public event BeforeEdgeDestroyedDelegate BeforeEdgeDestroyed = delegate { };
 
         #endregion
 
@@ -48,82 +49,95 @@ namespace SingleUseWorld.StateMachine.Models
         /// </summary>
         public void CreateMasterNode(Vector2 position)
         {
+            // Create state
             var state = StateModel.New();
             AddObj(state);
             _states.Add(state);
             
-            var master = GraphMasterNodeModel.New(this, position, state);
-            AddObj(master);
+            // Create node
+            var master = new MasterNodeModel(state, position);
+            master.Graph = this;
             _nodes.Add(master);
 
-            NodeCreated.Invoke(master);
+            // Notify
+            master.OnAfterAddedToGraph();
+            AfterNodeCreated.Invoke(master);
         }
 
         /// <summary>
         /// Creates slave node.
         /// </summary>
-        public void CreateSlaveNode(Vector2 position, GraphNodeModel node)
+        public void CreateSlaveNode(Vector2 position, NodeModel node)
         {
-            var master = node as GraphMasterNodeModel;
-            if (!master) return;
+            // Check conditions
+            var master = node as MasterNodeModel;
+            if (master == null) return;
 
-            var slave = GraphSlaveNodeModel.New(this, position, master);
-            AddObj(slave);
+            // Create node
+            var slave = new SlaveNodeModel(master, position);
+            slave.Graph = this;
             _nodes.Add(slave);
-            
-            NodeCreated.Invoke(slave);
+
+            // Notify
+            slave.OnAfterAddedToGraph();
+            AfterNodeCreated.Invoke(slave);
         }
 
         /// <summary>
         /// Creates edge as well as its transition.
         /// </summary>
-        public void CreateEdge(GraphNodeModel source, GraphNodeModel target)
+        public void CreateEdge(NodeModel source, NodeModel target)
         {
-            var master = source as GraphMasterNodeModel;
-            var slave = target as GraphSlaveNodeModel;
-            if (!master || !slave) return;
+            // Check conditions
+            var master = source as MasterNodeModel;
+            var slave = target as SlaveNodeModel;
+            if (master == null || slave == null ) return;
+            if (master.State == slave.State || source.HasOutputWithState(target.State)) return;
 
+            // Create transition
             var transition = TransitionModel.New(target.State);
             AddObj(transition);
             _transitions.Add(transition);
 
-            source.State.AddTransition(transition);
-
-            var edge = GraphEdgeModel.New(this, source, target, transition);
-            AddObj(edge);
+            // Create edge
+            var edge = new EdgeModel(transition, source, target);
+            edge.Graph = this;
             _edges.Add(edge);
 
-            EdgeCreated.Invoke(edge);
+            // Notify
+            edge.OnAfterAddedToGraph();
+            AfterEdgeCreated.Invoke(edge);
         }
 
         /// <summary>
         /// Destroys given node.
         /// </summary>
-        public void DestroyNode(GraphNodeModel node)
+        public void DestroyNode(NodeModel node)
         {
-            if (node is GraphMasterNodeModel master)
+            if (node is MasterNodeModel master)
                 DestroyMasterNode(master);
 
-            if (node is GraphSlaveNodeModel slave)
+            if (node is SlaveNodeModel slave)
                 DestroySlaveNode(slave);
         }
 
         /// <summary>
         /// Destroys edge as well as its transition.
         /// </summary>
-        public void DestroyEdge(GraphEdgeModel edge)
+        public void DestroyEdge(EdgeModel edge)
         {
-            EdgeAboutToBeDestroyed.Invoke(edge);
+            // Notify
+            BeforeEdgeDestroyed.Invoke(edge);
+            edge.OnBeforeRemovedFromGraph();
 
-            edge.Source.State.RemoveTransition(edge.Transition);
+            // Destroy edge
+            _edges.Remove(edge);
+            edge.Graph = null;
 
+            // Destroy transition
             _transitions.Remove(edge.Transition);
             RemoveObj(edge.Transition);
             TransitionModel.Delete(edge.Transition);
-
-            _edges.Remove(edge);
-            RemoveObj(edge);
-            GraphEdgeModel.Delete(edge);
         }
         #endregion
 
@@ -131,38 +145,46 @@ namespace SingleUseWorld.StateMachine.Models
         /// <summary>
         /// Destroys master node as well as its slaves, edges and state.
         /// </summary>
-        private void DestroyMasterNode(GraphMasterNodeModel master)
+        private void DestroyMasterNode(MasterNodeModel master)
         {
+            // Destroy slaves
             foreach (var slave in master.Slaves)
                 DestroySlaveNode(slave);
 
+            // Destroy edges
             foreach (var edge in master.Outputs)
                 DestroyEdge(edge);
 
-            NodeAboutToBeDestroyed.Invoke(master);
+            // Notify
+            BeforeNodeDestroyed.Invoke(master);
+            master.OnBeforeRemovedFromGraph();
 
+            // Destroy node
+            _nodes.Remove(master);
+            master.Graph = null;
+
+            // Destroy state
             _states.Remove(master.State);
             RemoveObj(master.State);
             StateModel.Delete(master.State);
-
-            _nodes.Remove(master);
-            RemoveObj(master);
-            GraphMasterNodeModel.Delete(master);
         }
 
         /// <summary>
         /// Destroys slave node as well as its edges.
         /// </summary>
-        private void DestroySlaveNode(GraphSlaveNodeModel slave)
+        private void DestroySlaveNode(SlaveNodeModel slave)
         {
+            // Destroy edges
             foreach (var edge in slave.Inputs)
                 DestroyEdge(edge);
 
-            NodeAboutToBeDestroyed.Invoke(slave);
+            // Notify
+            BeforeNodeDestroyed.Invoke(slave);
+            slave.OnBeforeRemovedFromGraph();
 
+            // Destroy node
             _nodes.Remove(slave);
-            RemoveObj(slave);
-            GraphSlaveNodeModel.Delete(slave);
+            slave.Graph = null;
         }
 
         /// <summary>
@@ -183,5 +205,20 @@ namespace SingleUseWorld.StateMachine.Models
             AssetDatabase.SaveAssets();
         }
         #endregion
+
+        //#region Static Methods
+        //[OnOpenAsset(1)]
+        //public static bool OpenAsset(int instanceId, int line)
+        //{
+        //    var obj = EditorUtility.InstanceIDToObject(instanceId);
+        //    if (obj is GraphModel graphModel)
+        //    {
+        //        var graphEditorWindow = StateGraphEditorWindow.FindOrCreateEditorWindow();
+        //        graphEditorWindow.SetCurrentSelection(graphModel);
+        //        return graphEditorWindow != null;
+        //    }
+        //    return false;
+        //}
+        //#endregion
     }
 }

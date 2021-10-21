@@ -1,3 +1,4 @@
+using Graph = UnityEditor.Experimental.GraphView.GraphView;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -9,10 +10,10 @@ using System;
 
 namespace SingleUseWorld.StateMachine.Views
 {
-    public class StateGraphView : GraphView
+    public sealed class GraphView : Graph
     {
         #region Nested Classes
-        public new class UxmlFactory : UxmlFactory<StateGraphView, GraphView.UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<GraphView, Graph.UxmlTraits> { }
         #endregion
 
         #region Fields
@@ -25,12 +26,11 @@ namespace SingleUseWorld.StateMachine.Views
         #endregion
 
         #region Constructors
-        public StateGraphView()
+        public GraphView()
         {
             InitUss();
             InitElements();
             InitManipulators();
-            InitCallbacks();
         }
         #endregion
 
@@ -80,27 +80,26 @@ namespace SingleUseWorld.StateMachine.Views
             this.AddManipulator(new RectangleSelector());
         }
 
-        private void InitCallbacks()
-        {
-            this.RegisterCallback<MouseMoveEvent>(OnGraphMouseMove);
-        }
-
         private void SubscribeToModel(GraphModel model)
         {
-            model.NodeCreated += OnNodeCreated;
-            model.EdgeCreated += OnEdgeCreated;
-            model.NodeAboutToBeDestroyed += OnNodeDestroyed;
-            model.EdgeAboutToBeDestroyed += OnEdgeDestroyed;
-            this.graphViewChanged += OnGraphViewChanged;
+            model.AfterNodeCreated      += OnAfterNodeCreated;
+            model.AfterEdgeCreated      += OnAfterEdgeCreated;
+            model.BeforeNodeDestroyed   += OnBeforeNodeDestroyed;
+            model.BeforeEdgeDestroyed   += OnBeforeEdgeDestroyed;
+            this.graphViewChanged       += OnGraphViewChanged;
+
+            this.RegisterCallback<MouseMoveEvent>(OnGraphMouseMove);
         }
 
         private void UnsubscribeFromModel(GraphModel model)
         {
-            model.NodeCreated -= OnNodeCreated;
-            model.EdgeCreated -= OnEdgeCreated;
-            model.NodeAboutToBeDestroyed -= OnNodeDestroyed;
-            model.EdgeAboutToBeDestroyed -= OnEdgeDestroyed;
-            this.graphViewChanged -= OnGraphViewChanged;
+            model.AfterNodeCreated      -= OnAfterNodeCreated;
+            model.AfterEdgeCreated      -= OnAfterEdgeCreated;
+            model.BeforeNodeDestroyed   -= OnBeforeNodeDestroyed;
+            model.BeforeEdgeDestroyed   -= OnBeforeEdgeDestroyed;
+            this.graphViewChanged       -= OnGraphViewChanged;
+
+            this.UnregisterCallback<MouseMoveEvent>(OnGraphMouseMove);
         }
 
         private void PopulateGraphView()
@@ -119,38 +118,38 @@ namespace SingleUseWorld.StateMachine.Views
             this.graphViewChanged += OnGraphViewChanged;
         }
 
-        private void CreateNodeView(GraphNodeModel node)
+        private void CreateNodeView(NodeModel node)
         {
             var view = new NodeView();
-            view.SetModel(node);
+            view.SetModel(this, node);
             
             this.graphViewChanged -= OnGraphViewChanged;
             this.AddElement(view);
             this.graphViewChanged += OnGraphViewChanged;
         }
 
-        private void CreateEdgeView(GraphEdgeModel edge)
+        private void CreateEdgeView(EdgeModel edge)
         {
             var view = ConnectEdge(edge);
-            view.SetModel(edge);
+            view.SetModel(this, edge);
 
             this.graphViewChanged -= OnGraphViewChanged;
             this.AddElement(view);
             this.graphViewChanged += OnGraphViewChanged;
         }
 
-        private void DestroyNodeView(GraphNodeModel node)
+        private void DestroyNodeView(NodeModel node)
         {
-            var view = this.GetNodeByGuid(node.Guid.ToString());
+            var view = this.GetNodeByGuid(node.Guid);
 
             this.graphViewChanged -= OnGraphViewChanged;
             this.RemoveElement(view);
             this.graphViewChanged += OnGraphViewChanged;
         }
 
-        private void DestroyEdgeView(GraphEdgeModel edge)
+        private void DestroyEdgeView(EdgeModel edge)
         {
-            var view = this.GetEdgeByGuid(edge.Guid.ToString());
+            var view = this.GetEdgeByGuid(edge.Guid);
             DisconnectEdge(view);
 
             this.graphViewChanged -= OnGraphViewChanged;
@@ -158,11 +157,11 @@ namespace SingleUseWorld.StateMachine.Views
             this.graphViewChanged += OnGraphViewChanged;
         }
 
-        private EdgeView ConnectEdge(GraphEdgeModel edge)
+        private EdgeView ConnectEdge(EdgeModel edge)
         {
-            var sourceView = this.GetNodeByGuid(edge.Source.Guid.ToString()) as NodeView;
-            var targetView = this.GetNodeByGuid(edge.Target.Guid.ToString()) as NodeView;
-            var edgeView = sourceView.Input.ConnectTo<EdgeView>(targetView.Output);
+            var sourceView = this.GetNodeByGuid(edge.Source.Guid) as NodeView;
+            var targetView = this.GetNodeByGuid(edge.Target.Guid) as NodeView;
+            var edgeView = sourceView.Output.ConnectTo<EdgeView>(targetView.Input);
 
             return edgeView;
         }
@@ -177,7 +176,7 @@ namespace SingleUseWorld.StateMachine.Views
 
         private void OnGraphMouseMove(MouseMoveEvent evt)
         {
-            _lastMousePosition = evt.mousePosition;
+            _lastMousePosition = evt.localMousePosition;//evt.mousePosition;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange change)
@@ -214,52 +213,72 @@ namespace SingleUseWorld.StateMachine.Views
             return change;
         }
 
-        private void OnNodeCreated(GraphNodeModel node)
+        private void OnAfterNodeCreated(NodeModel node)
         {
             CreateNodeView(node);
         }
 
-        private void OnEdgeCreated(GraphEdgeModel edge)
+        private void OnAfterEdgeCreated(EdgeModel edge)
         {
             CreateEdgeView(edge);
         }
 
-        private void OnNodeDestroyed(GraphNodeModel node)
+        private void OnBeforeNodeDestroyed(NodeModel node)
         {
             DestroyNodeView(node);
         }
 
-        private void OnEdgeDestroyed(GraphEdgeModel edge)
+        private void OnBeforeEdgeDestroyed(EdgeModel edge)
         {
             DestroyEdgeView(edge);
         }
+        #endregion
 
-        private void RequestToCreateMasterNode()
+        #region Internal Methods
+        internal void MoveViewpointTo(Vector2 position)
+        {
+            // This will move the viewpoint so that the desired position
+            // is in the upper left corner of the viewport.
+            Vector3 viewpoint = new Vector3(-position.x, -position.y, 0);
+
+            // To match current zoom viewpoint must be scaled.
+            viewpoint = Vector3.Scale(viewpoint, this.viewTransform.scale);
+
+            // In order for the desired position to be in the center,
+            // it is necessary to shift it by half the width and height of the viewport.
+            float viewportHalfWidth = this.viewport.localBound.width / 2;
+            float viewportHalfHeight = this.viewport.localBound.height / 2;
+            Vector3 viewportCenter = new Vector3(viewportHalfWidth, viewportHalfHeight, 0);
+
+            this.viewTransform.position = viewpoint + viewportCenter;
+        }
+
+        internal void RequestToCreateMasterNode()
         {
             Vector2 position = contentViewContainer.WorldToLocal(_lastMousePosition);
             _model.CreateMasterNode(position);
         }
 
-        private void RequestToCreateSlaveNode(NodeView nodeView)
+        internal void RequestToCreateSlaveNode(NodeView nodeView)
         {
             Rect nodeViewRect = nodeView.GetPosition();
             Vector2 position = new Vector2(nodeViewRect.xMin + 20, nodeViewRect.yMin + 20);
             _model.CreateSlaveNode(position, nodeView.Model);
         }
 
-        private void RequestToCreateEdge(Edge edge)
+        internal void RequestToCreateEdge(Edge edge)
         {
-            var sourceView = edge.input.node as NodeView;
-            var targetView = edge.output.node as NodeView;
+            var sourceView = edge.output.node as NodeView;
+            var targetView = edge.input.node as NodeView;
             _model.CreateEdge(sourceView.Model, targetView.Model);
         }
 
-        private void RequestToDestroyNode(NodeView nodeView)
+        internal void RequestToDestroyNode(NodeView nodeView)
         {
             _model.DestroyNode(nodeView.Model);
         }
 
-        private void RequestToDestroyEdge(EdgeView edgeView)
+        internal void RequestToDestroyEdge(EdgeView edgeView)
         {
             _model.DestroyEdge(edgeView.Model);
         }

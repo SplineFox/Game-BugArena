@@ -1,34 +1,33 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
 namespace SingleUseWorld.StateMachine.Models
 {
-    /// <summary>
-    /// Base class of data container for graph elements.
-    /// </summary>
-    public abstract class GraphElementModel : ScriptableObject
+    [Serializable]
+    public abstract class GraphElementModel
     {
         #region Fields
-        protected GUID _guid;
-        protected GraphModel _graph;
+        [SerializeField] private string _guid;
+        [SerializeField] private GraphModel _graph;
         #endregion
 
         #region Properties
-        public GUID Guid { get => _guid; }
-        public GraphModel Graph { get => _graph; }
+        public string Guid { get => _guid; }
+        public GraphModel Graph { get => _graph; internal set => _graph = value; }
         #endregion
 
         #region Constructors
-        protected void Constructor(GraphModel graph)
-        {
-            _graph = graph;
-            _guid = GUID.Generate();
-        }
-
-        protected void Destructor()
+        public GraphElementModel()
         {
             _graph = null;
+            _guid = GUID.Generate().ToString();
         }
+        #endregion
+
+        #region Internal Methods
+        internal virtual void OnAfterAddedToGraph() { }
+        internal virtual void OnBeforeRemovedFromGraph() { }
         #endregion
     }
 }

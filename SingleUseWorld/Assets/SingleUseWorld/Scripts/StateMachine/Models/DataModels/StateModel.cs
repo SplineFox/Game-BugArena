@@ -12,9 +12,13 @@ namespace SingleUseWorld.StateMachine.Models
         [SerializeField] private Color _color;
         [SerializeField] private List<ActionModel> _actions;
         [SerializeField] private List<TransitionModel> _transitions;
+
+        public delegate void ValidatedDelegate();
+        public event ValidatedDelegate Validated = delegate { };
         #endregion
 
         #region Properties
+        public Color Color { get => _color; }
         public IReadOnlyCollection<ActionModel> Actions { get => _actions; }
         public IReadOnlyCollection<TransitionModel> Transitions { get => _transitions; }
         #endregion
@@ -22,6 +26,7 @@ namespace SingleUseWorld.StateMachine.Models
         #region Constructors
         private void Constructor()
         {
+            _color = Color.gray;
             _actions = new List<ActionModel>();
             _transitions = new List<TransitionModel>();
         }
@@ -30,6 +35,13 @@ namespace SingleUseWorld.StateMachine.Models
         {
             _actions = null;
             _transitions = null;
+        }
+        #endregion
+
+        #region LifeCycle Methods
+        private void OnValidate()
+        {
+            Validated.Invoke();
         }
         #endregion
 

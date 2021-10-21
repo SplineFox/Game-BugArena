@@ -8,11 +8,12 @@ using SingleUseWorld.StateMachine.Models;
 
 namespace SingleUseWorld.StateMachine.Windows
 {
-    public sealed class StateGraphEditorWindow : EditorWindow
+    public sealed class GraphEditorWindow : EditorWindow
     {
         #region Fields
         private GraphModel _graphModel;
-        private StateGraphView _graphView;
+
+        private GraphView _graphView;
         private InspectorView _inspectorView;
         #endregion
 
@@ -59,7 +60,7 @@ namespace SingleUseWorld.StateMachine.Windows
 
         private void InitElements()
         {
-            _graphView = rootVisualElement.Q<StateGraphView>();
+            _graphView = rootVisualElement.Q<GraphView>();
             _inspectorView = rootVisualElement.Q<InspectorView>();
         }
         #endregion
@@ -72,9 +73,10 @@ namespace SingleUseWorld.StateMachine.Windows
             FindOrCreateEditorWindow();
         }
 
-        public static StateGraphEditorWindow FindOrCreateEditorWindow()
+        public static GraphEditorWindow FindOrCreateEditorWindow()
         {
-            return GetWindow<StateGraphEditorWindow>("StateGraphEditor");
+            var window =  GetWindow<GraphEditorWindow>("StateGraphEditor");
+            return window;
         }
         #endregion
     }

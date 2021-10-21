@@ -5,7 +5,7 @@
             <SingleUseWorld.StateMachine.Views.InspectorView style="flex-grow: 1;" />
         </ui:VisualElement>
         <ui:VisualElement name="right-pane">
-            <SingleUseWorld.StateMachine.Views.StateGraphView focusable="true" style="flex-grow: 1;" />
+            <SingleUseWorld.StateMachine.Views.GraphView focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
     </SingleUseWorld.StateMachine.Views.SplitView>
 </ui:UXML>
