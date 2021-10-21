@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 using System.Linq;
 using SingleUseWorld.StateMachine.Views;
 using SingleUseWorld.StateMachine.Models;
+using UnityEditor.Callbacks;
 
 namespace SingleUseWorld.StateMachine.Windows
 {
@@ -77,6 +78,17 @@ namespace SingleUseWorld.StateMachine.Windows
         {
             var window =  GetWindow<GraphEditorWindow>("StateGraphEditor");
             return window;
+        }
+
+        [OnOpenAsset]
+        public static bool OnOpenAsset(int instanceId, int line)
+        {
+            if(Selection.activeObject is GraphModel)
+            {
+                ShowEditorWindow();
+                return true;
+            }
+            return false;
         }
         #endregion
     }

@@ -208,20 +208,5 @@ namespace SingleUseWorld.StateMachine.Models
             AssetDatabase.SaveAssets();
         }
         #endregion
-
-        //#region Static Methods
-        //[OnOpenAsset(1)]
-        //public static bool OpenAsset(int instanceId, int line)
-        //{
-        //    var obj = EditorUtility.InstanceIDToObject(instanceId);
-        //    if (obj is GraphModel graphModel)
-        //    {
-        //        var graphEditorWindow = StateGraphEditorWindow.FindOrCreateEditorWindow();
-        //        graphEditorWindow.SetCurrentSelection(graphModel);
-        //        return graphEditorWindow != null;
-        //    }
-        //    return false;
-        //}
-        //#endregion
     }
 }
