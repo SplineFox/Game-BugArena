@@ -148,11 +148,13 @@ namespace SingleUseWorld.StateMachine.Models
         private void DestroyMasterNode(MasterNodeModel master)
         {
             // Destroy slaves
-            foreach (var slave in master.Slaves)
+            var slavesToRemove = new List<SlaveNodeModel>(master.Slaves);
+            foreach (var slave in slavesToRemove)
                 DestroySlaveNode(slave);
 
             // Destroy edges
-            foreach (var edge in master.Outputs)
+            var edgesToRemove = new List<EdgeModel>(master.Outputs);
+            foreach (var edge in edgesToRemove)
                 DestroyEdge(edge);
 
             // Notify
@@ -175,7 +177,8 @@ namespace SingleUseWorld.StateMachine.Models
         private void DestroySlaveNode(SlaveNodeModel slave)
         {
             // Destroy edges
-            foreach (var edge in slave.Inputs)
+            var edgesToRemove = new List<EdgeModel>(slave.Inputs);
+            foreach (var edge in edgesToRemove)
                 DestroyEdge(edge);
 
             // Notify
