@@ -62,6 +62,9 @@ namespace SingleUseWorld.StateMachine.Models
             // Notify
             master.OnAfterAddedToGraph();
             AfterNodeCreated.Invoke(master);
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
         }
 
         /// <summary>
@@ -81,6 +84,9 @@ namespace SingleUseWorld.StateMachine.Models
             // Notify
             slave.OnAfterAddedToGraph();
             AfterNodeCreated.Invoke(slave);
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
         }
 
         /// <summary>
@@ -107,6 +113,9 @@ namespace SingleUseWorld.StateMachine.Models
             // Notify
             edge.OnAfterAddedToGraph();
             AfterEdgeCreated.Invoke(edge);
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
         }
 
         /// <summary>
@@ -138,6 +147,9 @@ namespace SingleUseWorld.StateMachine.Models
             _transitions.Remove(edge.Transition);
             RemoveObj(edge.Transition);
             TransitionModel.Delete(edge.Transition);
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
         }
         #endregion
 
@@ -169,6 +181,9 @@ namespace SingleUseWorld.StateMachine.Models
             _states.Remove(master.State);
             RemoveObj(master.State);
             StateModel.Delete(master.State);
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
         }
 
         /// <summary>
@@ -188,6 +203,9 @@ namespace SingleUseWorld.StateMachine.Models
             // Destroy node
             _nodes.Remove(slave);
             slave.Graph = null;
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
         }
 
         /// <summary>
