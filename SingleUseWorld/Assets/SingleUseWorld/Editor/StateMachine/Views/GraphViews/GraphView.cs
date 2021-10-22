@@ -17,12 +17,12 @@ namespace SingleUseWorld.StateMachine.Views
         #endregion
 
         #region Fields
-        private GraphModel _model;
+        private GraphModel _graphModel;
         private Vector2 _lastMousePosition;
         #endregion
 
         #region Properties
-        public GraphModel Model { get => _model; }
+        public GraphModel Model { get => _graphModel; }
         #endregion
 
         #region Constructors
@@ -35,16 +35,18 @@ namespace SingleUseWorld.StateMachine.Views
         #endregion
 
         #region Public Methods
-        public void SetModel(GraphModel model)
+        public void LoadGraphModel(GraphModel graphModel)
         {
-            if (_model != null)
-            {
-                UnsubscribeFromModel(_model);
-                DepopulateGraphView();
-            }
-            _model = model;
-            SubscribeToModel(_model);
+            _graphModel = graphModel;
+            SubscribeToGraphModel();
             PopulateGraphView();
+        }
+
+        public void UnloadGraphModel()
+        {
+            DepopulateGraphView();
+            UnsubscribeFromGraphModel();
+            _graphModel = null;
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -56,6 +58,7 @@ namespace SingleUseWorld.StateMachine.Views
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
+            if (_graphModel == null) return;
             evt.menu.AppendAction($"Create master state", (action) => RequestToCreateMasterNode());
         }
         #endregion
@@ -80,34 +83,40 @@ namespace SingleUseWorld.StateMachine.Views
             this.AddManipulator(new RectangleSelector());
         }
 
-        private void SubscribeToModel(GraphModel model)
+        private void SubscribeToGraphModel()
         {
-            model.AfterNodeCreated      += OnAfterNodeCreated;
-            model.AfterEdgeCreated      += OnAfterEdgeCreated;
-            model.BeforeNodeDestroyed   += OnBeforeNodeDestroyed;
-            model.BeforeEdgeDestroyed   += OnBeforeEdgeDestroyed;
-            this.graphViewChanged       += OnGraphViewChanged;
-
+            if (_graphModel != null)
+            {
+                _graphModel.AfterNodeCreated += OnAfterNodeCreated;
+                _graphModel.AfterEdgeCreated += OnAfterEdgeCreated;
+                _graphModel.BeforeNodeDestroyed += OnBeforeNodeDestroyed;
+                _graphModel.BeforeEdgeDestroyed += OnBeforeEdgeDestroyed;
+            }
+            
+            this.graphViewChanged += OnGraphViewChanged;
             this.RegisterCallback<MouseMoveEvent>(OnGraphMouseMove);
         }
 
-        private void UnsubscribeFromModel(GraphModel model)
+        private void UnsubscribeFromGraphModel()
         {
-            model.AfterNodeCreated      -= OnAfterNodeCreated;
-            model.AfterEdgeCreated      -= OnAfterEdgeCreated;
-            model.BeforeNodeDestroyed   -= OnBeforeNodeDestroyed;
-            model.BeforeEdgeDestroyed   -= OnBeforeEdgeDestroyed;
-            this.graphViewChanged       -= OnGraphViewChanged;
-
+            if (_graphModel != null)
+            {
+                _graphModel.AfterNodeCreated -= OnAfterNodeCreated;
+                _graphModel.AfterEdgeCreated -= OnAfterEdgeCreated;
+                _graphModel.BeforeNodeDestroyed -= OnBeforeNodeDestroyed;
+                _graphModel.BeforeEdgeDestroyed -= OnBeforeEdgeDestroyed;
+            }
+            
+            this.graphViewChanged -= OnGraphViewChanged;
             this.UnregisterCallback<MouseMoveEvent>(OnGraphMouseMove);
         }
 
         private void PopulateGraphView()
         {
-            foreach (var node in _model.Nodes)
+            foreach (var node in _graphModel.Nodes)
                 CreateNodeView(node);
 
-            foreach (var edge in _model.Edges)
+            foreach (var edge in _graphModel.Edges)
                 CreateEdgeView(edge);
         }
 
@@ -121,7 +130,7 @@ namespace SingleUseWorld.StateMachine.Views
         private void CreateNodeView(NodeModel node)
         {
             var view = new NodeView();
-            view.SetModel(this, node);
+            view.LoadNodeModel(this, node);
             
             this.graphViewChanged -= OnGraphViewChanged;
             this.AddElement(view);
@@ -131,7 +140,7 @@ namespace SingleUseWorld.StateMachine.Views
         private void CreateEdgeView(EdgeModel edge)
         {
             var view = ConnectEdge(edge);
-            view.SetModel(this, edge);
+            view.LoadEdgeModel(this, edge);
 
             this.graphViewChanged -= OnGraphViewChanged;
             this.AddElement(view);
@@ -259,31 +268,31 @@ namespace SingleUseWorld.StateMachine.Views
         internal void RequestToCreateMasterNode()
         {
             Vector2 position = this.contentViewContainer.WorldToLocal(_lastMousePosition);
-            _model.CreateMasterNode(position);
+            _graphModel.CreateMasterNode(position);
         }
 
         internal void RequestToCreateSlaveNode(NodeView nodeView)
         {
             Rect nodeViewRect = nodeView.GetPosition();
             Vector2 position = new Vector2(nodeViewRect.xMin + 20, nodeViewRect.yMin + 20);
-            _model.CreateSlaveNode(position, nodeView.Model);
+            _graphModel.CreateSlaveNode(position, nodeView.Model);
         }
 
         internal void RequestToCreateEdge(Edge edge)
         {
             var sourceView = edge.output.node as NodeView;
             var targetView = edge.input.node as NodeView;
-            _model.CreateEdge(sourceView.Model, targetView.Model);
+            _graphModel.CreateEdge(sourceView.Model, targetView.Model);
         }
 
         internal void RequestToDestroyNode(NodeView nodeView)
         {
-            _model.DestroyNode(nodeView.Model);
+            _graphModel.DestroyNode(nodeView.Model);
         }
 
         internal void RequestToDestroyEdge(EdgeView edgeView)
         {
-            _model.DestroyEdge(edgeView.Model);
+            _graphModel.DestroyEdge(edgeView.Model);
         }
         #endregion
     }

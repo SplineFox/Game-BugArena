@@ -6,45 +6,31 @@ using System.Linq;
 using SingleUseWorld.StateMachine.Views;
 using SingleUseWorld.StateMachine.Models;
 using UnityEditor.Callbacks;
+using System;
 
 namespace SingleUseWorld.StateMachine.Windows
 {
     public sealed class GraphEditorWindow : EditorWindow
     {
         #region Fields
-        private GraphModel _graphModel;
+        private GraphModel _graphAsset;
 
         private GraphView _graphView;
         private InspectorView _inspectorView;
         #endregion
 
-        #region Public Methods
-        public void SetCurrentSelection(GraphModel graphModel)
-        {
-            if (_graphModel != graphModel)
-            {
-                _graphModel = graphModel;
-                _graphView.SetModel(_graphModel);
-            }
-        }
-        #endregion
-
         #region Private Methods
+        private void OnDisable()
+        {
+            UnloadGraphAsset();
+        }
+
         private void CreateGUI()
         {
             InitUxml();
             InitUss();
             InitElements();
             OnSelectionChange();
-        }
-
-        private void OnSelectionChange()
-        {
-            GraphModel selectedAsset = Selection.activeObject as GraphModel;
-            if (selectedAsset != null)
-            {
-                SetCurrentSelection(selectedAsset);
-            }
         }
 
         private void InitUss()
@@ -63,6 +49,40 @@ namespace SingleUseWorld.StateMachine.Windows
         {
             _graphView = rootVisualElement.Q<GraphView>();
             _inspectorView = rootVisualElement.Q<InspectorView>();
+        }
+
+        private void LoadGraphAsset(GraphModel graphAsset)
+        {
+            if (_graphAsset != graphAsset)
+            {
+                _graphView.UnloadGraphModel();
+                _graphAsset = graphAsset;
+                _graphView.LoadGraphModel(_graphAsset);
+            }
+        }
+        private void UnloadGraphAsset()
+        {
+            _graphView.UnloadGraphModel();
+            _graphAsset = null;
+        }
+
+        private void UnloadGraphAssetIfDeleted()
+        {
+            if (_graphAsset == null)
+            {
+                UnloadGraphAsset();
+            }
+        }
+
+        private void OnSelectionChange()
+        {
+            UnloadGraphAssetIfDeleted();
+
+            GraphModel selectedAsset = Selection.activeObject as GraphModel;
+            if (selectedAsset != null)
+            {
+                LoadGraphAsset(selectedAsset);
+            }
         }
         #endregion
 

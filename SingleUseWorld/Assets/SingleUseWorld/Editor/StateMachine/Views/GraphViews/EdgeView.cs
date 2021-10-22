@@ -18,7 +18,7 @@ namespace SingleUseWorld.StateMachine.Views
         #endregion
 
         #region Public Methods
-        public void SetModel(GraphView graph, EdgeModel model)
+        public void LoadEdgeModel(GraphView graph, EdgeModel model)
         {
             _graph = graph;
             _model = model;

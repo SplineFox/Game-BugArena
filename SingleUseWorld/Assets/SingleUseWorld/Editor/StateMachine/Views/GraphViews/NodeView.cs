@@ -11,25 +11,25 @@ namespace SingleUseWorld.StateMachine.Views
     {
         #region Fields
         private GraphView _graph;
-        private NodeModel _model;
+        private NodeModel _nodeModel;
         private Port _input;
         private Port _output;
         #endregion
 
         #region Properties
-        public NodeModel Model { get => _model; }
+        public NodeModel Model { get => _nodeModel; }
         public Port Input { get => _input; }
         public Port Output { get => _output; }
         #endregion
 
         #region Public Methods
-        public void SetModel(GraphView graph, NodeModel model)
+        public void LoadNodeModel(GraphView graph, NodeModel nodeModel)
         {
             _graph = graph;
-            _model = model;
-            viewDataKey = _model.Guid;
+            _nodeModel = nodeModel;
+            viewDataKey = _nodeModel.Guid;
 
-            SetPosition(new Rect(_model.Position, Vector2.one));
+            SetPosition(new Rect(_nodeModel.Position, Vector2.one));
 
             CreatePort();
 
@@ -41,17 +41,17 @@ namespace SingleUseWorld.StateMachine.Views
         public override void SetPosition(Rect newPosition)
         {
             base.SetPosition(newPosition);
-            _model.Position = newPosition.position;
+            _nodeModel.Position = newPosition.position;
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            if (_model is MasterNodeModel)
+            if (_nodeModel is MasterNodeModel)
             {
                 evt.menu.AppendAction($"Create slave state", (action) => RequestToCreateSlaveNode());
             }
 
-            if (_model is SlaveNodeModel)
+            if (_nodeModel is SlaveNodeModel)
             {
                 evt.menu.AppendAction($"Go to master state", (action) => RequestToGoToMasterNode());
             }
@@ -63,26 +63,42 @@ namespace SingleUseWorld.StateMachine.Views
         #region Private Methods
         private void OnEnableView(AttachToPanelEvent evt)
         {
-            Model.State.Validated += OnValidateView;
+            SubscribeToNodeModel();
         }
 
         private void OnDisableView(DetachFromPanelEvent evt)
         {
-            Model.State.Validated -= OnValidateView;
+            UnsubscribeFromNodeModel();
         }
 
         private void OnValidateView()
         {
-            title = Model.State.name;
-            titleContainer.style.backgroundColor = Model.State.Color;
+            title = _nodeModel.State.name;
+            titleContainer.style.backgroundColor = _nodeModel.State.Color;
+        }
+
+        private void SubscribeToNodeModel()
+        {
+            if (_nodeModel != null)
+            {
+                _nodeModel.State.Validated += OnValidateView;
+            }
+        }
+
+        private void UnsubscribeFromNodeModel()
+        {
+            if (_nodeModel != null)
+            {
+                _nodeModel.State.Validated -= OnValidateView;
+            }
         }
 
         private void CreatePort()
         {
-            if (_model is MasterNodeModel)
+            if (_nodeModel is MasterNodeModel)
                 CreateOutputPort();
 
-            if (_model is SlaveNodeModel)
+            if (_nodeModel is SlaveNodeModel)
                 CreateInputPort();
         }
 
@@ -96,7 +112,6 @@ namespace SingleUseWorld.StateMachine.Views
                 _output = outputPort;
             }
         }
-
         private void CreateInputPort()
         {
             Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
@@ -115,7 +130,7 @@ namespace SingleUseWorld.StateMachine.Views
 
         private void RequestToGoToMasterNode()
         {
-            var slave = _model as SlaveNodeModel;
+            var slave = _nodeModel as SlaveNodeModel;
             _graph.MoveViewpointTo(slave.Master.Position);
         }
         #endregion
