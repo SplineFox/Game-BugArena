@@ -49,19 +49,23 @@ namespace SingleUseWorld.StateMachine.Windows
         {
             _graphView = rootVisualElement.Q<GraphView>();
             _inspectorView = rootVisualElement.Q<InspectorView>();
+
+            _graphView.OnObjectSelected = OnObjectSelectionChange;
         }
 
         private void LoadGraphAsset(GraphModel graphAsset)
         {
             if (_graphAsset != graphAsset)
             {
-                _graphView.UnloadGraphModel();
+                UnloadGraphAsset();
+
                 _graphAsset = graphAsset;
                 _graphView.LoadGraphModel(_graphAsset);
             }
         }
         private void UnloadGraphAsset()
         {
+            _inspectorView.UnloadSelection();
             _graphView.UnloadGraphModel();
             _graphAsset = null;
         }
@@ -83,6 +87,11 @@ namespace SingleUseWorld.StateMachine.Windows
             {
                 LoadGraphAsset(selectedAsset);
             }
+        }
+
+        private void OnObjectSelectionChange(ScriptableObject scriptableObject)
+        {
+            _inspectorView.LoadSelection(scriptableObject);
         }
         #endregion
 

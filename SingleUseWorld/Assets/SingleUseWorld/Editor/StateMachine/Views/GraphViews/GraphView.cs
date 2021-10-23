@@ -17,6 +17,8 @@ namespace SingleUseWorld.StateMachine.Views
         #endregion
 
         #region Fields
+        public Action<ScriptableObject> OnObjectSelected;
+
         private GraphModel _graphModel;
         private Vector2 _lastMousePosition;
         #endregion
@@ -131,7 +133,8 @@ namespace SingleUseWorld.StateMachine.Views
         {
             var view = new NodeView();
             view.LoadNodeModel(this, node);
-            
+            view.OnNodeSelected = OnObjectSelected;
+
             this.graphViewChanged -= OnGraphViewChanged;
             this.AddElement(view);
             this.graphViewChanged += OnGraphViewChanged;
@@ -141,6 +144,7 @@ namespace SingleUseWorld.StateMachine.Views
         {
             var view = ConnectEdge(edge);
             view.LoadEdgeModel(this, edge);
+            view.OnEdgeSelected = OnObjectSelected;
 
             this.graphViewChanged -= OnGraphViewChanged;
             this.AddElement(view);

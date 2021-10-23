@@ -10,6 +10,8 @@ namespace SingleUseWorld.StateMachine.Views
     public sealed class NodeView : Node
     {
         #region Fields
+        public Action<ScriptableObject> OnNodeSelected;
+
         private GraphView _graph;
         private NodeModel _nodeModel;
         private Port _input;
@@ -57,6 +59,12 @@ namespace SingleUseWorld.StateMachine.Views
             }
 
             evt.menu.AppendSeparator();
+        }
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            OnNodeSelected?.Invoke(_nodeModel.State);
         }
         #endregion
 
