@@ -104,7 +104,7 @@ namespace SingleUseWorld.StateMachine.Models
             if (master.State == slave.State || source.HasOutputWithState(target.State)) return;
 
             // Create transition
-            var transition = TransitionModel.New(target.State);
+            var transition = TransitionModel.New(source.State, target.State);
             AddObj(transition);
             _transitions.Add(transition);
 
