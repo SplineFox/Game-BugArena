@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -52,6 +54,7 @@ namespace SingleUseWorld.StateMachine.Models
             // Create state
             var state = StateModel.New();
             AddObj(state);
+            SetUniqueNameFor(state);
             _states.Add(state);
             
             // Create node
@@ -224,6 +227,14 @@ namespace SingleUseWorld.StateMachine.Models
         {
             AssetDatabase.RemoveObjectFromAsset(obj);
             AssetDatabase.SaveAssets();
+        }
+
+        private void SetUniqueNameFor(StateModel state)
+        {
+            var existingNames = _states.Select(stateModel => stateModel.Name).ToArray();
+            var baseName = state.Name;
+            var uniqueName = ObjectNames.GetUniqueName(existingNames, baseName);
+            state.Name = uniqueName;
         }
         #endregion
     }

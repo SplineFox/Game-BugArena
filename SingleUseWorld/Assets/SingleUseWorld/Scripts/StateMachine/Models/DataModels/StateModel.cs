@@ -8,7 +8,12 @@ namespace SingleUseWorld.StateMachine.Models
     /// </summary>
     public sealed class StateModel : ScriptableObject
     {
+        #region Constants
+        private const string DEFAULT_NAME = "State";
+        #endregion
+
         #region Fields
+        [SerializeField] private string _name;
         [SerializeField] private Color _color;
         [SerializeField] private List<ActionModel> _actions;
         [SerializeField] private List<TransitionModel> _transitions;
@@ -18,6 +23,7 @@ namespace SingleUseWorld.StateMachine.Models
         #endregion
 
         #region Properties
+        public string Name { get => _name; internal set => _name = value; }
         public Color Color { get => _color; }
         public IReadOnlyCollection<ActionModel> Actions { get => _actions; }
         public IReadOnlyCollection<TransitionModel> Transitions { get => _transitions; }
@@ -26,6 +32,7 @@ namespace SingleUseWorld.StateMachine.Models
         #region Constructors
         private void Constructor()
         {
+            _name = DEFAULT_NAME;
             _color = Color.gray;
             _actions = new List<ActionModel>();
             _transitions = new List<TransitionModel>();

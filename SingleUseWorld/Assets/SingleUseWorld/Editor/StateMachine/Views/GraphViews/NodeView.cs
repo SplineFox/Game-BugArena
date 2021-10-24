@@ -81,7 +81,7 @@ namespace SingleUseWorld.StateMachine.Views
 
         private void OnValidateView()
         {
-            title = _nodeModel.State.name;
+            title = _nodeModel.State.Name;
             titleContainer.style.backgroundColor = _nodeModel.State.Color;
         }
 
