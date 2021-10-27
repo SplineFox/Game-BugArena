@@ -53,6 +53,47 @@ namespace SingleUseWorld.StateMachine.Models
         #endregion
 
         #region Internal Methods
+        /// <summary>
+        /// Get an existing state instance or create a new one
+        /// and recursively instantiate its internal models.
+        /// </summary>
+        internal State GetStateInstance(StateMachine stateMachine, Dictionary<ScriptableObject, object> createdInstances)
+        {
+            if (createdInstances.TryGetValue(this, out var obj))
+                return (State)obj;
+
+            var state = new State();
+            state._stateMachine = stateMachine;
+            createdInstances.Add(this, state);
+
+            state._actions = GetActionInstances(stateMachine, createdInstances);
+            state._transitions = GetTransitionInstances(stateMachine, createdInstances);
+
+            return state;
+        }
+
+        private Action[] GetActionInstances(StateMachine stateMachine, Dictionary<ScriptableObject, object> createdInstances)
+        {
+            var count = _actions.Count;
+            var actions = new Action[count];
+            for (int index = 0; index < count; index++)
+            {
+                actions[index] = _actions[index].GetActionInstance(stateMachine, createdInstances);
+            }
+            return actions;
+        }
+
+        private Transition[] GetTransitionInstances(StateMachine stateMachine, Dictionary<ScriptableObject, object> createdInstances)
+        {
+            var count = _transitions.Count;
+            var transitions = new Transition[count];
+            for (int index = 0; index < count; index++)
+            {
+                transitions[index] = _transitions[index].GetTransitionInstance(stateMachine, createdInstances);
+            }
+            return transitions;
+        }
+
         internal void AddTransition(TransitionModel transition)
         {
             _transitions.Add(transition);

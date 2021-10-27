@@ -38,6 +38,32 @@ namespace SingleUseWorld.StateMachine.Models
         }
         #endregion
 
+        #region Internal Methods
+        internal Transition GetTransitionInstance(StateMachine stateMachine, Dictionary<ScriptableObject, object> createdInstances)
+        {
+            if (createdInstances.TryGetValue(this, out var obj))
+                return (Transition)obj;
+
+            var target = _target.GetStateInstance(stateMachine, createdInstances);
+            var conditions = GetConditionInstances(stateMachine, createdInstances);
+
+            var transition = new Transition(target, conditions);
+            createdInstances.Add(this, transition);
+            return transition;
+        }
+
+        private Condition[] GetConditionInstances(StateMachine stateMachine, Dictionary<ScriptableObject, object> createdInstances)
+        {
+            var count = _conditions.Count;
+            var conditions = new Condition[count];
+            for (int index = 0; index < count; index++)
+            {
+                conditions[index] = _conditions[index].GetConditionInstance(stateMachine, createdInstances);
+            }
+            return conditions;
+        }
+        #endregion
+
         #region Static Methods
         public static TransitionModel New(StateModel source, StateModel target)
         {
