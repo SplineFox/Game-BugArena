@@ -17,6 +17,7 @@ namespace SingleUseWorld.StateMachine.Models
 
         #region Properties
         public string DisplayName { get => _source.Name + "->" + _target.Name; }
+        public StateModel Source { get => _source; }
         public StateModel Target { get => _target; }
         public IReadOnlyCollection<ConditionModel> Conditions { get => _conditions; }
         #endregion
