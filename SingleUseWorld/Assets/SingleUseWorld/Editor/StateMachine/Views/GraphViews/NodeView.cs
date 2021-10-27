@@ -63,6 +63,9 @@ namespace SingleUseWorld.StateMachine.Views
 
         public override void OnSelected()
         {
+            if (_nodeModel is InitialNodeModel)
+                return;
+
             base.OnSelected();
             OnNodeSelected?.Invoke(_nodeModel.State);
         }
@@ -103,6 +106,12 @@ namespace SingleUseWorld.StateMachine.Views
 
         private void CreatePort()
         {
+            if (_nodeModel is InitialNodeModel)
+            {
+                CreateOutputPort(Port.Capacity.Single, "Initial");
+                Output.portColor = _nodeModel.State.Color;
+            }
+
             if (_nodeModel is MasterNodeModel)
             {
                 CreateOutputPort(Port.Capacity.Multi, "Source");

@@ -115,6 +115,9 @@ namespace SingleUseWorld.StateMachine.Views
 
         private void PopulateGraphView()
         {
+            var initialNode = _graphModel.InitialNode;
+            CreateNodeView(initialNode);
+
             foreach (var node in _graphModel.Nodes)
                 CreateNodeView(node);
 

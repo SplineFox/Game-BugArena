@@ -30,6 +30,9 @@ namespace SingleUseWorld.StateMachine.Views
 
         public override void OnSelected()
         {
+            if (_edgeModel.Source is InitialNodeModel)
+                return;
+
             base.OnSelected();
             OnEdgeSelected?.Invoke(_edgeModel.Transition);
         }

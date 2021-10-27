@@ -19,11 +19,14 @@ namespace SingleUseWorld.StateMachine.Models
         [SerializeField] private List<StateModel> _states = new List<StateModel>();
         [SerializeField] private List<TransitionModel> _transitions = new List<TransitionModel>();
 
+        [SerializeReference] private NodeModel _initialNode = null;
         [SerializeReference] private List<NodeModel> _nodes = new List<NodeModel>();
         [SerializeReference] private List<EdgeModel> _edges = new List<EdgeModel>();
         #endregion
 
         #region Properties
+        public StateModel InitialState { get => InitialNode.State; }
+        public NodeModel InitialNode { get => GetOrCreateInitialNode(); }
         public IReadOnlyList<StateModel> States { get => _states; }
         public IReadOnlyList<TransitionModel> Transitions { get => _transitions; }
         public IReadOnlyList<NodeModel> Nodes { get => _nodes; }
@@ -36,7 +39,7 @@ namespace SingleUseWorld.StateMachine.Models
 
         public delegate void AfterEdgeCreatedDelegate(EdgeModel edge);
         public delegate void BeforeEdgeDestroyedDelegate(EdgeModel edge);
-
+        
         public event AfterNodeCreatedDelegate AfterNodeCreated = delegate { };
         public event BeforeNodeDestroyedDelegate BeforeNodeDestroyed = delegate { };
 
@@ -98,10 +101,18 @@ namespace SingleUseWorld.StateMachine.Models
         public void CreateEdge(NodeModel source, NodeModel target)
         {
             // Check conditions
+            var initial = source as InitialNodeModel;
             var master = source as MasterNodeModel;
             var slave = target as SlaveNodeModel;
-            if (master == null || slave == null ) return;
-            if (master.State == slave.State || source.HasOutputWithState(target.State)) return;
+
+            // If not "intial -> slave" situation
+            if (initial == null || slave == null)
+            {
+                // If not "master -> slave" situation
+                if (master == null || slave == null) return;
+                // If "master -> slave" situation but with same state or nodes already have an edge
+                if (master.State == slave.State || source.HasOutputWithState(target.State)) return;
+            }
 
             // Create transition
             var transition = TransitionModel.New(source.State, target.State);
@@ -157,6 +168,32 @@ namespace SingleUseWorld.StateMachine.Models
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Creates initial node as well as its state.
+        /// </summary>
+        private NodeModel GetOrCreateInitialNode()
+        {
+            // If we already created initial node
+            if (_initialNode != null)
+                return _initialNode;
+
+            // Create state
+            var state = StateModel.New();
+            AddObj(state);
+
+            // Create node
+            _initialNode = new InitialNodeModel(state, Vector2.zero);
+            _initialNode.Graph = this;
+
+            // Notify
+            _initialNode.OnAfterAddedToGraph();
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
+
+            return _initialNode;
+        }
+
         /// <summary>
         /// Destroys master node as well as its slaves, edges and state.
         /// </summary>
