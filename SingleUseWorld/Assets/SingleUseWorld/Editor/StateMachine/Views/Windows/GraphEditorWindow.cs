@@ -83,7 +83,7 @@ namespace SingleUseWorld.StateMachine.Windows
             UnloadGraphAssetIfDeleted();
 
             GraphModel selectedAsset = Selection.activeObject as GraphModel;
-            if (selectedAsset != null)
+            if (selectedAsset != null && AssetDatabase.GetAssetPath(selectedAsset) != "")
             {
                 LoadGraphAsset(selectedAsset);
             }
