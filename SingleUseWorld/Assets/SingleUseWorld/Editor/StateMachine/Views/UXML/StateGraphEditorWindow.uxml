@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="/Assets/SingleUseWorld/Editor/StateMachine/Views/USS/StateGraphEditorWindow.uss" />
-    <SingleUseWorld.StateMachine.Views.SplitView fixed-pane-initial-dimension="200">
+    <SingleUseWorld.StateMachine.Views.SplitView fixed-pane-initial-dimension="250">
         <ui:VisualElement name="left-pane">
             <SingleUseWorld.StateMachine.Views.InspectorView style="flex-grow: 1;" />
         </ui:VisualElement>
