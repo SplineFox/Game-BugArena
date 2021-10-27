@@ -24,7 +24,7 @@ namespace SingleUseWorld.StateMachine.Models
 
         #region Properties
         public string Name { get => _name; internal set => _name = value; }
-        public Color Color { get => _color; }
+        public Color Color { get => _color; internal set => _color = value; }
         public IReadOnlyCollection<ActionModel> Actions { get => _actions; }
         public IReadOnlyCollection<TransitionModel> Transitions { get => _transitions; }
         #endregion
