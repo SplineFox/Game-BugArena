@@ -104,28 +104,32 @@ namespace SingleUseWorld.StateMachine.Views
         private void CreatePort()
         {
             if (_nodeModel is MasterNodeModel)
-                CreateOutputPort();
+            {
+                CreateOutputPort(Port.Capacity.Multi, "Source");
+            }
 
             if (_nodeModel is SlaveNodeModel)
-                CreateInputPort();
+            {
+                CreateInputPort(Port.Capacity.Single, "Target");
+            }
         }
 
-        private void CreateOutputPort()
+        private void CreateOutputPort(Port.Capacity capacity, string name)
         {
-            Port outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
+            Port outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, capacity, typeof(bool));
             if (outputPort != null)
             {
-                outputPort.portName = "Source";
+                outputPort.portName = name;
                 outputContainer.Add(outputPort);
                 _output = outputPort;
             }
         }
-        private void CreateInputPort()
+        private void CreateInputPort(Port.Capacity capacity, string name)
         {
-            Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+            Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, capacity, typeof(bool));
             if (inputPort != null)
             {
-                inputPort.portName = "Target";
+                inputPort.portName = name;
                 inputContainer.Add(inputPort);
                 _input = inputPort;
             }
