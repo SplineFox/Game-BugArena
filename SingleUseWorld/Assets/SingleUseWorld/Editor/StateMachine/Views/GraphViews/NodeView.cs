@@ -112,6 +112,9 @@ namespace SingleUseWorld.StateMachine.Views
             {
                 CreateInputPort(Port.Capacity.Single, "Target");
             }
+
+            RefreshExpandedState();
+            RefreshPorts();
         }
 
         private void CreateOutputPort(Port.Capacity capacity, string name)
