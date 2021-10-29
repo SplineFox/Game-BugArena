@@ -23,14 +23,25 @@ namespace SingleUseWorld.StateMachine
 
         #region Public Methods
         /// <inheritdoc/>
-        public void OnInitState() { }
+        public void OnInitState()
+        {
+            foreach (var condition in _conditions)
+                condition._statement.OnInitState();
+        }
 
         /// <inheritdoc/>
-        public void OnEnterState() { }
+        public void OnEnterState() 
+        {
+            foreach (var condition in _conditions)
+                condition._statement.OnEnterState();
+        }
 
         /// <inheritdoc/>
-        public void OnExitState() { }
-
+        public void OnExitState()
+        {
+            foreach (var condition in _conditions)
+                condition._statement.OnExitState();
+        }
         #endregion
 
         #region Internal Methods

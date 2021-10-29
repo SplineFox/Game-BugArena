@@ -8,13 +8,24 @@ namespace SingleUseWorld.StateMachine
     /// <remarks>
     /// This is the base class all custom statement must inherit from.
     /// </remarks>
-    public abstract class Statement
+    public abstract class Statement : IStateComponent
     {
         #region Fields
         internal StateMachine _stateMachine;
 
         private bool _evaluationIsCached = false;
         private bool _cachedEvaluation = default;
+        #endregion
+
+        #region Public Methods
+        /// <inheritdoc/>
+        public virtual void OnInitState() { }
+
+        /// <inheritdoc/>
+        public virtual void OnEnterState() { }
+
+        /// <inheritdoc/>
+        public virtual void OnExitState() { }
         #endregion
 
         #region Internal Methods
