@@ -6,7 +6,7 @@ using UnityEditor.ProjectWindowCallback;
 
 namespace SingleUseWorld.StateMachine.EditorTime
 {
-    internal class ScriptTemplates
+    internal class ScriptsCreationUtility
     {
         #region Nested Classes
         private class DoCreateStateMachineScriptAsset : EndNameEditAction

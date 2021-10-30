@@ -10,7 +10,6 @@ namespace SingleUseWorld.StateMachine.EditorTime
     /// that represent states and transitions respectively
     /// and used as a blueprints for runtime state machine.
     /// </summary>
-    [CreateAssetMenu(fileName = "New StateGraph",menuName = "SingleUseWorld/StateMachine/Create StateGraph")]
     public class GraphModel : ScriptableObject
     {
         #region Fields
@@ -23,8 +22,8 @@ namespace SingleUseWorld.StateMachine.EditorTime
         #endregion
 
         #region Properties
-        public StateModel InitialState { get => InitialNode.State; }
-        public NodeModel InitialNode { get => GetOrCreateInitialNode(); }
+        public StateModel InitialState { get => _initialNode.State; }
+        public NodeModel InitialNode { get => _initialNode; }
         public IReadOnlyList<StateModel> States { get => _states; }
         public IReadOnlyList<TransitionModel> Transitions { get => _transitions; }
         public IReadOnlyList<NodeModel> Nodes { get => _nodes; }
@@ -47,6 +46,30 @@ namespace SingleUseWorld.StateMachine.EditorTime
         #endregion
 
         #region Public Methods
+        /// <summary>
+        /// Creates initial node as well as its state.
+        /// </summary>
+        public void CreateInitialNode()
+        {
+            // If we already created initial node
+            if (_initialNode != null)
+                return;
+
+            // Create state
+            var state = StateModel.New();
+            AddObj(state);
+
+            // Create node
+            _initialNode = new InitialNodeModel(state, Vector2.zero);
+            _initialNode.Graph = this;
+
+            // Notify
+            _initialNode.OnAfterAddedToGraph();
+
+            // Force Unity save changes
+            EditorUtility.SetDirty(this);
+        }
+
         /// <summary>
         /// Creates master node as well as its state.
         /// </summary>
@@ -166,32 +189,6 @@ namespace SingleUseWorld.StateMachine.EditorTime
         #endregion
 
         #region Private Methods
-        /// <summary>
-        /// Creates initial node as well as its state.
-        /// </summary>
-        private NodeModel GetOrCreateInitialNode()
-        {
-            // If we already created initial node
-            if (_initialNode != null)
-                return _initialNode;
-
-            // Create state
-            var state = StateModel.New();
-            AddObj(state);
-
-            // Create node
-            _initialNode = new InitialNodeModel(state, Vector2.zero);
-            _initialNode.Graph = this;
-
-            // Notify
-            _initialNode.OnAfterAddedToGraph();
-
-            // Force Unity save changes
-            EditorUtility.SetDirty(this);
-
-            return _initialNode;
-        }
-
         /// <summary>
         /// Destroys master node as well as its slaves, edges and state.
         /// </summary>
