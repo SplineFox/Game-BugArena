@@ -91,7 +91,7 @@ namespace SingleUseWorld.StateMachine.EditorTime
         #endregion
 
         #region Static Methods
-        [MenuItem("SingleUseWorld/Window/StateGraphEditor")]
+        [MenuItem("Window/State Machine/Graph Editor")]
         public static void ShowEditorWindow()
         {
             FindOrCreateEditorWindow();
