@@ -4,7 +4,7 @@ using SingleUseWorld.StateMachine.EditorTime;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "New #RUN_TIME_NAME#", menuName = "SingleUseWorld/StateMachine/Actions/Create #RUN_TIME_NAME_WITH_SPACES#")]
+    [CreateAssetMenu(fileName = "New #RUN_TIME_NAME#", menuName = "SingleUseWorld/StateMachine/Statements/Create #RUN_TIME_NAME_WITH_SPACES#")]
     public class #SCRIPT_NAME# : StatementModel<#RUN_TIME_NAME#> { }
 
     public class #RUN_TIME_NAME# : Statement
