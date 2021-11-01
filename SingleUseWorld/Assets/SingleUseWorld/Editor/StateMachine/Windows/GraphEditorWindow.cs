@@ -15,32 +15,45 @@ namespace SingleUseWorld.StateMachine.EditorTime
         #endregion
 
         #region Private Methods
+        private void OnEnable()
+        {
+            InitializeWindow();
+            ReloadGraphAsset();
+        }
+
         private void OnDisable()
         {
             UnloadGraphAsset();
+            DeinitializeWindow();
         }
 
-        private void CreateGUI()
+        private void InitializeWindow()
         {
-            InitUxml();
-            InitUss();
-            InitElements();
-            OnSelectionChange();
+            InitializeUxml();
+            InitializeUss();
+            InitializeElements();
         }
 
-        private void InitUss()
+        private void DeinitializeWindow()
+        {
+            rootVisualElement.Clear();
+            _graphView = null;
+            _inspectorView = null;
+        }
+
+        private void InitializeUss()
         {
             var uss = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/SingleUseWorld/Editor/StateMachine/USS/StateGraphEditorWindow.uss");
             rootVisualElement.styleSheets.Add(uss);
         }
 
-        private void InitUxml()
+        private void InitializeUxml()
         {
             var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/SingleUseWorld/Editor/StateMachine/UXML/StateGraphEditorWindow.uxml");
             uxml.CloneTree(rootVisualElement);
         }
 
-        private void InitElements()
+        private void InitializeElements()
         {
             _graphView = rootVisualElement.Q<GraphView>();
             _inspectorView = rootVisualElement.Q<InspectorView>();
@@ -50,19 +63,30 @@ namespace SingleUseWorld.StateMachine.EditorTime
 
         private void LoadGraphAsset(GraphModel graphAsset)
         {
-            if (_graphAsset != graphAsset)
+            if(_graphAsset != graphAsset)
             {
                 UnloadGraphAsset();
-
                 _graphAsset = graphAsset;
                 _graphView.LoadGraphModel(_graphAsset);
             }
         }
+
+        private void ReloadGraphAsset()
+        {
+            // Try to restore an already opened graph after a reload of assemblies.
+            if (_graphAsset != null)
+            {
+                _graphView.LoadGraphModel(_graphAsset);
+                return;
+            }
+            // Try to get graph asset from currently selected item.
+            OnSelectionChange();
+        }
+
         private void UnloadGraphAsset()
         {
             _inspectorView.UnloadSelection();
             _graphView.UnloadGraphModel();
-            _graphAsset = null;
         }
 
         private void UnloadGraphAssetIfDeleted()
