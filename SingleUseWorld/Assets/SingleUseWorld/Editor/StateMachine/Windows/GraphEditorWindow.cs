@@ -27,6 +27,12 @@ namespace SingleUseWorld.StateMachine.EditorTime
             DeinitializeWindow();
         }
 
+        private void OnFocus()
+        {
+            // Selection may have changed while editor window was out of focus.
+            OnSelectionChange();
+        }
+
         private void InitializeWindow()
         {
             InitializeUxml();
