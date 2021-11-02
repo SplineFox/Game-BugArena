@@ -85,39 +85,39 @@ namespace SingleUseWorld.StateMachine.EditorTime
         /// Get an existing state instance or create a new one
         /// and recursively instantiate its internal models.
         /// </summary>
-        internal State GetStateInstance(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        internal State GetStateInstance(Dictionary<ScriptableObject, object> createdInstances)
         {
             if (createdInstances.TryGetValue(this, out var obj))
                 return (State)obj;
 
             var state = new State();
-            state._stateRunner = stateRunner;
+            state._originModel = this;
             createdInstances.Add(this, state);
 
-            state._actions = GetActionInstances(stateRunner, createdInstances);
-            state._transitions = GetTransitionInstances(stateRunner, createdInstances);
+            state._actions = GetActionInstances(createdInstances);
+            state._transitions = GetTransitionInstances(createdInstances);
 
             return state;
         }
 
-        private Action[] GetActionInstances(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        private Action[] GetActionInstances(Dictionary<ScriptableObject, object> createdInstances)
         {
             var count = _actions.Count;
             var actions = new Action[count];
             for (int index = 0; index < count; index++)
             {
-                actions[index] = _actions[index].GetActionInstance(stateRunner, createdInstances);
+                actions[index] = _actions[index].GetActionInstance(createdInstances);
             }
             return actions;
         }
 
-        private Transition[] GetTransitionInstances(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        private Transition[] GetTransitionInstances(Dictionary<ScriptableObject, object> createdInstances)
         {
             var count = _transitions.Count;
             var transitions = new Transition[count];
             for (int index = 0; index < count; index++)
             {
-                transitions[index] = _transitions[index].GetTransitionInstance(stateRunner, createdInstances);
+                transitions[index] = _transitions[index].GetTransitionInstance(createdInstances);
             }
             return transitions;
         }

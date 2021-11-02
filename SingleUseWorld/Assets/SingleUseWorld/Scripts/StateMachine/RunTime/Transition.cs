@@ -4,7 +4,7 @@
     /// Represents a transition to a target state
     /// to be performed when conditions are met.
     /// </summary>
-    public class Transition : IStateComponent
+    public class Transition : IStateLifecycle
     {
         #region Fields
         private State _target;
@@ -21,10 +21,10 @@
 
         #region Public Methods
         /// <inheritdoc/>
-        public void OnInitState()
+        public void OnInitState(StateRunner stateRunner)
         {
             foreach (var condition in _conditions)
-                condition._statement.OnInitState();
+                condition._statement.OnInitState(stateRunner);
         }
 
         /// <inheritdoc/>

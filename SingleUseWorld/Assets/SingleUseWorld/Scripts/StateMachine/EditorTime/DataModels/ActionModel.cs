@@ -24,13 +24,13 @@ namespace SingleUseWorld.StateMachine.EditorTime
         /// <returns>
         /// Action instance of this model.
         /// </returns>
-        internal Action GetActionInstance(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        internal Action GetActionInstance(Dictionary<ScriptableObject, object> createdInstances)
         {
             if (createdInstances.TryGetValue(this, out var obj))
                 return (Action)obj;
 
             var action = this.CreateActionInstance();
-            action._stateRunner = stateRunner;
+            action._originModel = this;
             createdInstances.Add(this, action);
             return action;
         }

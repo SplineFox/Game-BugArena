@@ -4,21 +4,21 @@
     /// Represents an interface of a component participating
     /// in a state lifecycle it belongs to.
     /// </summary>
-    public interface IStateComponent
+    public interface IStateLifecycle
     {
         #region Public Methods
         /// <summary>
-        /// Called by <see cref="State"/> when initializing state.
+        /// Called when initializing state.
         /// </summary>
-        public void OnInitState();
+        public void OnInitState(StateRunner stateRunner);
 
         /// <summary>
-        /// Called by <see cref="State"/> when entering state.
+        /// Called when entering state.
         /// </summary>
         public void OnEnterState();
 
         /// <summary>
-        /// Called by <see cref="State"/> when leaving state.
+        /// Called  when leaving state.
         /// </summary>
         public void OnExitState();
         #endregion

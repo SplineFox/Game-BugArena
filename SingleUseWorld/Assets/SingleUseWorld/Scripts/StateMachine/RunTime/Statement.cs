@@ -1,4 +1,6 @@
-﻿namespace SingleUseWorld.StateMachine.RunTime
+﻿using SingleUseWorld.StateMachine.EditorTime;
+
+namespace SingleUseWorld.StateMachine.RunTime
 {
     /// <summary>
     /// Represents a statement to be evaluated in a transition condition.
@@ -6,10 +8,10 @@
     /// <remarks>
     /// This is the base class all custom statement must inherit from.
     /// </remarks>
-    public abstract class Statement : IStateComponent
+    public abstract class Statement : IStateLifecycle
     {
         #region Fields
-        internal StateRunner _stateRunner;
+        internal StatementModel _originModel;
 
         private bool _evaluationIsCached = false;
         private bool _cachedEvaluation = default;
@@ -17,7 +19,7 @@
 
         #region Public Methods
         /// <inheritdoc/>
-        public virtual void OnInitState() { }
+        public virtual void OnInitState(StateRunner stateRunner) { }
 
         /// <inheritdoc/>
         public virtual void OnEnterState() { }

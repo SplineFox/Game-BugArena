@@ -22,7 +22,7 @@ namespace SingleUseWorld.StateMachine.RunTime
             InstantiateStates();
 
             foreach (var state in _states)
-                state.OnInitState();
+                state.OnInitState(this);
         }
 
         private void Start()
@@ -86,7 +86,7 @@ namespace SingleUseWorld.StateMachine.RunTime
             var states = new List<State>();
             foreach (var stateModel in _graphModel.States)
             {
-                var state = stateModel.GetStateInstance(this, createdInstances);
+                var state = stateModel.GetStateInstance(createdInstances);
                 states.Add(state);
             }
             return states.ToArray();
@@ -94,7 +94,7 @@ namespace SingleUseWorld.StateMachine.RunTime
 
         private State GetInitialStateInstance(Dictionary<ScriptableObject, object> createdInstances)
         {
-            return _graphModel.InitialState.GetStateInstance(this, createdInstances);
+            return _graphModel.InitialState.GetStateInstance(createdInstances);
         }
 
         private void Transit(State transitionState)

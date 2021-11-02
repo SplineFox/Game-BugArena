@@ -18,9 +18,9 @@ namespace SingleUseWorld.StateMachine.EditorTime
         #endregion
 
         #region Instantiating Methods
-        internal Condition GetConditionInstance(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        internal Condition GetConditionInstance(Dictionary<ScriptableObject, object> createdInstances)
         {
-            var statement = Statement.GetStatementInstance(stateRunner, createdInstances);
+            var statement = Statement.GetStatementInstance(createdInstances);
             var expectedResult = ExpectedResult == ResultModel.True;
             var condition = new Condition(statement, expectedResult);
 

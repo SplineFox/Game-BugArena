@@ -24,13 +24,13 @@ namespace SingleUseWorld.StateMachine.EditorTime
         /// <returns>
         /// Statement instance of this model.
         /// </returns>
-        internal Statement GetStatementInstance(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        internal Statement GetStatementInstance(Dictionary<ScriptableObject, object> createdInstances)
         {
             if (createdInstances.TryGetValue(this, out var obj))
                 return (Statement)obj;
 
             var statement = this.CreateStatementInstance();
-            statement._stateRunner = stateRunner;
+            statement._originModel = this;
             createdInstances.Add(this, statement);
             return statement;
         }

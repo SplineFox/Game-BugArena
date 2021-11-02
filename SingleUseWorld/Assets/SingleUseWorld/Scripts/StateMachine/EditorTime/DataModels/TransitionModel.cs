@@ -54,26 +54,26 @@ namespace SingleUseWorld.StateMachine.EditorTime
         #endregion
 
         #region Instantiating Methods
-        internal Transition GetTransitionInstance(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        internal Transition GetTransitionInstance(Dictionary<ScriptableObject, object> createdInstances)
         {
             if (createdInstances.TryGetValue(this, out var obj))
                 return (Transition)obj;
 
-            var target = _target.GetStateInstance(stateRunner, createdInstances);
-            var conditions = GetConditionInstances(stateRunner, createdInstances);
+            var target = _target.GetStateInstance(createdInstances);
+            var conditions = GetConditionInstances(createdInstances);
 
             var transition = new Transition(target, conditions);
             createdInstances.Add(this, transition);
             return transition;
         }
 
-        private Condition[] GetConditionInstances(StateRunner stateRunner, Dictionary<ScriptableObject, object> createdInstances)
+        private Condition[] GetConditionInstances(Dictionary<ScriptableObject, object> createdInstances)
         {
             var count = _conditions.Count;
             var conditions = new Condition[count];
             for (int index = 0; index < count; index++)
             {
-                conditions[index] = _conditions[index].GetConditionInstance(stateRunner, createdInstances);
+                conditions[index] = _conditions[index].GetConditionInstance(createdInstances);
             }
             return conditions;
         }

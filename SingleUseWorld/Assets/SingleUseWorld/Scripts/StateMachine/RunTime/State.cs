@@ -1,12 +1,14 @@
-﻿namespace SingleUseWorld.StateMachine.RunTime
+﻿using SingleUseWorld.StateMachine.EditorTime;
+
+namespace SingleUseWorld.StateMachine.RunTime
 {
     /// <summary>
     /// Represents the implementation of the State pattern.
     /// </summary>
-    public class State
+    public class State : IStateLifecycle
     {
         #region Fields
-        internal StateRunner _stateRunner;
+        internal StateModel _originModel;
 
         internal Action[] _actions;
         internal Transition[] _transitions;
@@ -29,12 +31,12 @@
         /// <param name="stateRunner">
         /// State machine this instance belongs to.
         /// </param>
-        internal void OnInitState()
+        public void OnInitState(StateRunner stateRunner)
         {
-            void OnInitStateComponent(IStateComponent[] components)
+            void OnInitStateComponent(IStateLifecycle[] components)
             {
                 foreach (var component in components)
-                    component.OnInitState();
+                    component.OnInitState(stateRunner);
             }
             OnInitStateComponent(_actions);
             OnInitStateComponent(_transitions);
@@ -43,9 +45,9 @@
         /// <summary>
         /// Called by <see cref="StateRunner"/> when entering state.
         /// </summary>
-        internal void OnEnterState()
+        public void OnEnterState()
         {
-            void OnEnterStateComponent(IStateComponent[] components)
+            void OnEnterStateComponent(IStateLifecycle[] components)
             {
                 foreach (var component in components)
                     component.OnEnterState();
@@ -57,9 +59,9 @@
         /// <summary>
         /// Called by <see cref="StateRunner"/> when leaving state.
         /// </summary>
-        internal void OnExitState()
+        public void OnExitState()
         {
-            void OnExitStateComponent(IStateComponent[] components)
+            void OnExitStateComponent(IStateLifecycle[] components)
             {
                 foreach (var component in components)
                     component.OnExitState();
@@ -71,7 +73,7 @@
         /// <summary>
         /// Called every frame by <see cref="StateRunner"/> when updating state.
         /// </summary>
-        internal void OnUpdateState()
+        public void OnUpdateState()
         {
             foreach (var action in _actions)
                 action.Perform();
