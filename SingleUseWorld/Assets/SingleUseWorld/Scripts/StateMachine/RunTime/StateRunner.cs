@@ -104,5 +104,18 @@ namespace SingleUseWorld.StateMachine.RunTime
             _currentState.OnEnterState();
         }
         #endregion
+
+#if UNITY_EDITOR
+        private void OnGUI()
+        {
+            var contentText = (_currentState != null) ? _currentState._originModel.Name : "(no current state)";
+            var contentStyle = GUI.skin.GetStyle("label");
+            contentStyle.fontSize = 16;
+            contentStyle.contentOffset = new Vector2(16, 16);
+            contentStyle.normal.textColor = (_currentState != null) ? _currentState._originModel.Color : Color.white;
+
+            GUILayout.Label(contentText, contentStyle);
+        }
+#endif
     }
 }
