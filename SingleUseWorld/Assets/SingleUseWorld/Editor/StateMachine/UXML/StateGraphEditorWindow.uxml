@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="/Assets/SingleUseWorld/Editor/StateMachine/USS/StateGraphEditorWindow.uss" />
-    <SingleUseWorld.StateMachine.EditorTime.SplitView fixed-pane-initial-dimension="250">
-        <ui:VisualElement name="left-pane" style="flex-grow: 1;">
-            <SingleUseWorld.StateMachine.EditorTime.InspectorView style="flex-grow: 1;" />
+    <SingleUseWorld.StateMachine.Edittime.SplitView fixed-pane-initial-dimension="250">
+        <ui:VisualElement name="left-pane">
+            <SingleUseWorld.StateMachine.Edittime.InspectorView style="flex-grow: 1;" />
         </ui:VisualElement>
-        <ui:VisualElement name="right-pane" style="flex-grow: 1;">
-            <SingleUseWorld.StateMachine.EditorTime.GraphView focusable="true" style="flex-grow: 1;" />
+        <ui:VisualElement name="right-pane">
+            <SingleUseWorld.StateMachine.Edittime.GraphView focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
-    </SingleUseWorld.StateMachine.EditorTime.SplitView>
+    </SingleUseWorld.StateMachine.Edittime.SplitView>
 </ui:UXML>
