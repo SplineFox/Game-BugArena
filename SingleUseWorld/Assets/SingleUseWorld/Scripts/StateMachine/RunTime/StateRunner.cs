@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SingleUseWorld.StateMachine.EditorTime;
+using SingleUseWorld.StateMachine.Edittime;
 
-namespace SingleUseWorld.StateMachine.RunTime
+namespace SingleUseWorld.StateMachine.Runtime
 {
     public class StateRunner : MonoBehaviour
     {

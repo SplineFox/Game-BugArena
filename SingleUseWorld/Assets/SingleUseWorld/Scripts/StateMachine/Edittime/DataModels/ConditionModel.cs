@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SingleUseWorld.StateMachine.RunTime;
+using SingleUseWorld.StateMachine.Runtime;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     [Serializable]
     public struct ConditionModel

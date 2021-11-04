@@ -1,6 +1,6 @@
-﻿using SingleUseWorld.StateMachine.EditorTime;
+﻿using SingleUseWorld.StateMachine.Edittime;
 
-namespace SingleUseWorld.StateMachine.RunTime
+namespace SingleUseWorld.StateMachine.Runtime
 {
     /// <summary>
     /// Represents an action to be performed in a state.

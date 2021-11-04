@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     internal class ScriptsCreationUtility
     {

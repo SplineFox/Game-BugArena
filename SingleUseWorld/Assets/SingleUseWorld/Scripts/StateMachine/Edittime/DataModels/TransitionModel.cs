@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using SingleUseWorld.StateMachine.RunTime;
+using SingleUseWorld.StateMachine.Runtime;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     /// <summary>
     /// The data container for transition.

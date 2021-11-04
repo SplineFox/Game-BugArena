@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     /// <summary>
     /// Data container for nodes and edges

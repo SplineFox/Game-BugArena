@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     [Serializable]
     public abstract class GraphElementModel

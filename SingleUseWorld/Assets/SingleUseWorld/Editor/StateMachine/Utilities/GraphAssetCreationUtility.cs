@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
-using SingleUseWorld.StateMachine.EditorTime;
+using SingleUseWorld.StateMachine.Edittime;
 
 namespace SingleUseWorld
 {

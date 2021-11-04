@@ -1,6 +1,6 @@
-﻿using SingleUseWorld.StateMachine.EditorTime;
+﻿using SingleUseWorld.StateMachine.Edittime;
 
-namespace SingleUseWorld.StateMachine.RunTime
+namespace SingleUseWorld.StateMachine.Runtime
 {
     /// <summary>
     /// Represents a statement to be evaluated in a transition condition.

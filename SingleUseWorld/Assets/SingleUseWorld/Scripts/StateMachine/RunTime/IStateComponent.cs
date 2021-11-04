@@ -1,4 +1,4 @@
-﻿namespace SingleUseWorld.StateMachine.RunTime
+﻿namespace SingleUseWorld.StateMachine.Runtime
 {
     /// <summary>
     /// Represents an interface of a component participating

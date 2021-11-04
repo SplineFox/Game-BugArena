@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     [CustomEditor(typeof(TransitionModel))]
     public class TransitionModelEditor : Editor

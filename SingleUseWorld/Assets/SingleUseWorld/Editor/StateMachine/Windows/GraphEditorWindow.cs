@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     public sealed class GraphEditorWindow : EditorWindow
     {

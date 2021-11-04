@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     public class InitialNodeModel : NodeModel
     {

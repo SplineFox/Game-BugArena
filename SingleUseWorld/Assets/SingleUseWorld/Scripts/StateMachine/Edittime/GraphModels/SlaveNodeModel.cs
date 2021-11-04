@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     [Serializable]
     public sealed class SlaveNodeModel : NodeModel

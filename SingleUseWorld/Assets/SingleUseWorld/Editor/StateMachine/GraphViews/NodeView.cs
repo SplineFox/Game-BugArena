@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using Node = UnityEditor.Experimental.GraphView.Node;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     public sealed class NodeView : Node
     {

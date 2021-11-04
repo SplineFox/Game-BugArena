@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
 
-namespace SingleUseWorld.StateMachine.EditorTime
+namespace SingleUseWorld.StateMachine.Edittime
 {
     public sealed class EdgeView : Edge
     {
