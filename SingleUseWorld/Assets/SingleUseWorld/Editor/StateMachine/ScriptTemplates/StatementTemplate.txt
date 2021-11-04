@@ -1,0 +1,29 @@
+﻿using UnityEngine;
+using SingleUseWorld.StateMachine.RunTime;
+using SingleUseWorld.StateMachine.EditorTime;
+
+namespace SingleUseWorld
+{
+    [CreateAssetMenu(fileName = "New #RUN_TIME_NAME#", menuName = "SingleUseWorld/StateMachine/Statements/Create #RUN_TIME_NAME_WITH_SPACES#")]
+    public class #SCRIPT_NAME# : StatementModel<#RUN_TIME_NAME#> { }
+
+    public class #RUN_TIME_NAME# : Statement
+    {
+        public override void OnInitState()
+        {
+        }
+
+        public override void OnEnterState()
+        {
+        }
+
+        public override void OnExitState()
+        {
+        }
+
+        protected override bool Evaluate()
+        {
+            return true;
+        }
+    }
+}
