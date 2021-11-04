@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 323126543}
   - component: {fileID: 323126542}
   - component: {fileID: 323126544}
+  - component: {fileID: 323126545}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -271,6 +272,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputReaderSO: {fileID: 11400000, guid: e95297650140b564582663923e41846b, type: 2}
   _moveInput: {x: 0, y: 0}
+--- !u!114 &323126545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323126540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb861181e848744eb24b1e346b3cdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animatorLayer: 0
+  _idleAnimationName: Character_Idle1
+  _moveAnimationName: Character_Move
+  _idleCarryAnimationName: Character_IdleCarry
+  _moveCarryAnimationName: Character_MoveCarry
+  _throwAnimationName: Character_Throw
 --- !u!1 &466600658
 GameObject:
   m_ObjectHideFlags: 0
