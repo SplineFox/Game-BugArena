@@ -15,7 +15,9 @@ namespace SingleUseWorld
         public override void OnInitState(StateRunner stateRunner)
         {
             _characterInput = stateRunner.GetComponent<CharacterInput>();
-            _spriteRenderer = stateRunner.GetComponent<SpriteRenderer>();
+
+            var character = stateRunner.GetComponent<Character>();
+            _spriteRenderer = character.View.GetComponent<SpriteRenderer>();
         }
 
         public override void Perform()

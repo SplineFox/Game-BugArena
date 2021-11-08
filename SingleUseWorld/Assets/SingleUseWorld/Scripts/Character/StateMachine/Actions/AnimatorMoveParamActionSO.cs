@@ -22,7 +22,9 @@ namespace SingleUseWorld
         public override void OnInitState(StateRunner stateRunner)
         {
             _characterInput = stateRunner.GetComponent<CharacterInput>();
-            _animator = stateRunner.GetComponent<Animator>();
+
+            var character = stateRunner.GetComponent<Character>();
+            _animator = character.View.GetComponent<Animator>();
 
             var originSO = (AnimatorMoveParamActionSO) base.OriginModel;
             _moveXParamHash = Animator.StringToHash(originSO.MoveXParamName);

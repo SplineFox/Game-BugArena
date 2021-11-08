@@ -59,7 +59,10 @@ namespace SingleUseWorld
         #region Private Methods
         private void CacheComponents()
         {
-            _animator = GetComponent<Animator>();
+            var character = GetComponent<Character>();
+            Assert.IsNotNull(character, "\"Character\" is required.");
+
+            _animator = character.View.GetComponent<Animator>();
             Assert.IsNotNull(_animator, "\"Animator\" is required.");
         }
 
