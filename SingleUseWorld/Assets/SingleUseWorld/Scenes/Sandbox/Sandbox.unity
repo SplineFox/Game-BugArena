@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 323126541}
   - component: {fileID: 323126548}
+  - component: {fileID: 323126543}
   - component: {fileID: 323126542}
   - component: {fileID: 323126544}
   - component: {fileID: 323126545}
@@ -204,6 +205,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 1800198469}
+--- !u!210 &323126543
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323126540}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!114 &323126544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +678,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800198469}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 323126541}
