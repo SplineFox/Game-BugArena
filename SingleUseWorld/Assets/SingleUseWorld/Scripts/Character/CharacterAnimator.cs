@@ -15,11 +15,11 @@ namespace SingleUseWorld
         private Animator _animator = default;
 
         [SerializeField] int _animatorLayer = 0;
-        [SerializeField] string _idleAnimationName      = "Character_Idle";
-        [SerializeField] string _moveAnimationName      = "Character_Move";
-        [SerializeField] string _idleCarryAnimationName = "Character_IdleCarry";
-        [SerializeField] string _moveCarryAnimationName = "Character_MoveCarry";
-        [SerializeField] string _throwAnimationName     = "Character_Throw";
+        [SerializeField] string _idleAnimationName      = "Idle";
+        [SerializeField] string _idleCarryAnimationName = "IdleCarry";
+        [SerializeField] string _moveAnimationName      = "Move";
+        [SerializeField] string _moveCarryAnimationName = "MoveCarry";
+        [SerializeField] string _throwAnimationName     = "Throw";
         #endregion
 
         #region LifeCycle Methods
@@ -32,22 +32,22 @@ namespace SingleUseWorld
         #region Public Methods
         public void PlayIdle()
         {
-            PlaySyncWithCurrent(_idleAnimationName);
+            Play(_idleAnimationName, CurrentNameIs(_idleCarryAnimationName));
         }
 
         public void PlayIdleCarry()
         {
-            PlaySyncWithCurrent(_idleCarryAnimationName);
+            Play(_idleCarryAnimationName, CurrentNameIs(_idleAnimationName));
         }
 
         public void PlayMove()
         {
-            PlaySyncWithCurrent(_moveAnimationName);
+            Play(_moveAnimationName, CurrentNameIs(_moveCarryAnimationName));
         }
 
         public void PlayMoveCarry()
         {
-            PlaySyncWithCurrent(_moveCarryAnimationName);
+            Play(_moveCarryAnimationName, CurrentNameIs(_moveAnimationName));
         }
 
         public void PlayThrow()
@@ -63,10 +63,20 @@ namespace SingleUseWorld
             Assert.IsNotNull(_animator, "\"Animator\" is required.");
         }
 
-        private void PlaySyncWithCurrent(string stateName)
+        private void Play(string stateName, bool syncWithCurrent = false)
         {
-            var currentNormalizedTime = _animator.GetCurrentAnimatorStateInfo(_animatorLayer).normalizedTime;
-            _animator.Play(stateName, _animatorLayer, currentNormalizedTime);
+            float normalizedTime = syncWithCurrent ? CurrentNormalizedTime() : 0f;
+            _animator.Play(stateName, _animatorLayer, normalizedTime);
+        }
+
+        private bool CurrentNameIs(string stateName)
+        {
+            return _animator.GetCurrentAnimatorStateInfo(_animatorLayer).IsName(stateName);
+        }
+
+        private float CurrentNormalizedTime()
+        {
+            return _animator.GetCurrentAnimatorStateInfo(_animatorLayer).normalizedTime;
         }
         #endregion
     }
