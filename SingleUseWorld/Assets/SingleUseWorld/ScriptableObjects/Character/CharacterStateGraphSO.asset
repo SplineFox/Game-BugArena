@@ -1,0 +1,240 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5778762855667818162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0248c0be411c7f4c8866776a0487f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _source: {fileID: 4768464609564010747}
+  _target: {fileID: 3563518250477493767}
+  _conditions: []
+--- !u!114 &-881233697600718055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9165a65d092643a4abe0d4ceac92b180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Move
+  _color: {r: 0.4705884, g: 0.21176471, b: 0.6, a: 1}
+  _actions:
+  - {fileID: 11400000, guid: bffadba798fc9cd4098225edf0e599a7, type: 2}
+  - {fileID: 11400000, guid: 10aa4640d082ace49973c31bc7ba3655, type: 2}
+  - {fileID: 11400000, guid: 6bfe7294272c51b428bb3efde86045a1, type: 2}
+  _transitions:
+  - {fileID: 8559249098404227264}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc91505c216db384e9b22664c30b368c, type: 3}
+  m_Name: CharacterStateGraphSO
+  m_EditorClassIdentifier: 
+  _states:
+  - {fileID: 3563518250477493767}
+  - {fileID: -881233697600718055}
+  _transitions:
+  - {fileID: -5778762855667818162}
+  - {fileID: 2874108998143768297}
+  - {fileID: 8559249098404227264}
+  _initialNode:
+    id: 0
+  _nodes:
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  _edges:
+  - id: 6
+  - id: 7
+  - id: 8
+  references:
+    version: 1
+    00000000:
+      type: {class: InitialNodeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 40c0f9e8d393ae14198535bbecc1490b
+        _graph: {fileID: 11400000}
+        _state: {fileID: 4768464609564010747}
+        _position: {x: 0, y: 0}
+        _inputs: []
+        _outputs:
+        - id: 6
+    00000001:
+      type: {class: MasterNodeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 1a6059f742f023948ab64930e161dfdd
+        _graph: {fileID: 11400000}
+        _state: {fileID: 3563518250477493767}
+        _position: {x: -1, y: 154}
+        _inputs: []
+        _outputs:
+        - id: 7
+        _slaves:
+        - id: 4
+        - id: 5
+    00000002:
+      type: {class: MasterNodeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: f8b84def8034cd641808420fb7d67ee2
+        _graph: {fileID: 11400000}
+        _state: {fileID: -881233697600718055}
+        _position: {x: -3, y: 231}
+        _inputs: []
+        _outputs:
+        - id: 8
+        _slaves:
+        - id: 3
+    00000003:
+      type: {class: SlaveNodeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 28e34727112fea749847675b5e218ee4
+        _graph: {fileID: 11400000}
+        _state: {fileID: -881233697600718055}
+        _position: {x: 221, y: 154}
+        _inputs:
+        - id: 7
+        _outputs: []
+        _master:
+          id: 2
+    00000004:
+      type: {class: SlaveNodeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 75560370e43887648885d26c636d050d
+        _graph: {fileID: 11400000}
+        _state: {fileID: 3563518250477493767}
+        _position: {x: 221, y: 231}
+        _inputs:
+        - id: 8
+        _outputs: []
+        _master:
+          id: 1
+    00000005:
+      type: {class: SlaveNodeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 6732ade1e868f824aa430bb26b48dc91
+        _graph: {fileID: 11400000}
+        _state: {fileID: 3563518250477493767}
+        _position: {x: 221, y: 0}
+        _inputs:
+        - id: 6
+        _outputs: []
+        _master:
+          id: 1
+    00000006:
+      type: {class: EdgeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 2b91774949defa443a1617bc9a171685
+        _graph: {fileID: 11400000}
+        _transition: {fileID: -5778762855667818162}
+        _source:
+          id: 0
+        _target:
+          id: 5
+    00000007:
+      type: {class: EdgeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 689e843129298ab4085860f60c84c59c
+        _graph: {fileID: 11400000}
+        _transition: {fileID: 2874108998143768297}
+        _source:
+          id: 1
+        _target:
+          id: 3
+    00000008:
+      type: {class: EdgeModel, ns: SingleUseWorld.StateMachine.Edittime, asm: Assembly-CSharp}
+      data:
+        _guid: 34056e89e56db424d93ed72a280cdea8
+        _graph: {fileID: 11400000}
+        _transition: {fileID: 8559249098404227264}
+        _source:
+          id: 2
+        _target:
+          id: 4
+--- !u!114 &2874108998143768297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0248c0be411c7f4c8866776a0487f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _source: {fileID: 3563518250477493767}
+  _target: {fileID: -881233697600718055}
+  _conditions:
+  - Statement: {fileID: 11400000, guid: a6e73c8c0ac0efa4b9f518bceec09850, type: 2}
+    ExpectedResult: 0
+--- !u!114 &3563518250477493767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9165a65d092643a4abe0d4ceac92b180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Idle
+  _color: {r: 0.21176471, g: 0.47058818, b: 0.6, a: 1}
+  _actions:
+  - {fileID: 11400000, guid: 61d81729fcfa28f48b97f8973f3d8e02, type: 2}
+  _transitions:
+  - {fileID: 2874108998143768297}
+--- !u!114 &4768464609564010747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9165a65d092643a4abe0d4ceac92b180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Entry
+  _color: {r: 0.15686275, g: 0.4862745, b: 0.23529412, a: 1}
+  _actions: []
+  _transitions:
+  - {fileID: -5778762855667818162}
+--- !u!114 &8559249098404227264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0248c0be411c7f4c8866776a0487f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _source: {fileID: -881233697600718055}
+  _target: {fileID: 3563518250477493767}
+  _conditions:
+  - Statement: {fileID: 11400000, guid: a6e73c8c0ac0efa4b9f518bceec09850, type: 2}
+    ExpectedResult: 1
