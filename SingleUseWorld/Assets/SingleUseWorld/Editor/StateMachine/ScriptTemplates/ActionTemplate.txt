@@ -1,6 +1,6 @@
 using UnityEngine;
-using SingleUseWorld.StateMachine.RunTime;
-using SingleUseWorld.StateMachine.EditorTime;
+using SingleUseWorld.StateMachine.Runtime;
+using SingleUseWorld.StateMachine.Edittime;
 
 namespace SingleUseWorld
 {
@@ -9,7 +9,7 @@ namespace SingleUseWorld
 
     public class #RUN_TIME_NAME# : Action
     {
-        public override void OnInitState()
+        public override void OnInitState(StateRunner stateRunner)
         {
         }
 

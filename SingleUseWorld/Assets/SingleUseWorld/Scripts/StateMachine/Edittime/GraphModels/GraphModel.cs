@@ -13,12 +13,12 @@ namespace SingleUseWorld.StateMachine.Edittime
     public class GraphModel : ScriptableObject
     {
         #region Fields
-        [SerializeField] private List<StateModel> _states = new List<StateModel>();
-        [SerializeField] private List<TransitionModel> _transitions = new List<TransitionModel>();
+        [SerializeField, HideInInspector] private List<StateModel> _states = new List<StateModel>();
+        [SerializeField, HideInInspector] private List<TransitionModel> _transitions = new List<TransitionModel>();
 
-        [SerializeReference] private NodeModel _initialNode = null;
-        [SerializeReference] private List<NodeModel> _nodes = new List<NodeModel>();
-        [SerializeReference] private List<EdgeModel> _edges = new List<EdgeModel>();
+        [SerializeReference, HideInInspector] private NodeModel _initialNode = null;
+        [SerializeReference, HideInInspector] private List<NodeModel> _nodes = new List<NodeModel>();
+        [SerializeReference, HideInInspector] private List<EdgeModel> _edges = new List<EdgeModel>();
         #endregion
 
         #region Properties
@@ -248,6 +248,7 @@ namespace SingleUseWorld.StateMachine.Edittime
         /// </summary>
         private void AddObj(ScriptableObject obj)
         {
+            obj.hideFlags = HideFlags.HideInHierarchy;
             AssetDatabase.AddObjectToAsset(obj, this);
             AssetDatabase.SaveAssets();
         }
