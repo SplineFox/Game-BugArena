@@ -27,7 +27,7 @@ namespace SingleUseWorld
         #region Private Methods
         private void CacheComponents()
         {
-            _view = transform.Find(VIEW_NAME).gameObject;
+            _view = transform.Find(VIEW_NAME)?.gameObject;
             Assert.IsNotNull(_view, "\"View GameObject\" is required.");
         }
         #endregion
