@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/SingleUseWorld/Settings/Input/GameInputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/SingleUseWorld/Settings/Input/PlayerInputActions.inputactions'
 
 using System;
 using System.Collections;
@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class @GameInputActions : IInputActionCollection, IDisposable
+public class @PlayerInputActions : IInputActionCollection, IDisposable
 {
     public InputActionAsset asset { get; }
-    public @GameInputActions()
+    public @PlayerInputActions()
     {
         asset = InputActionAsset.FromJson(@"{
-    ""name"": ""GameInputActions"",
+    ""name"": ""PlayerInputActions"",
     ""maps"": [
         {
             ""name"": ""Gameplay"",
@@ -27,7 +27,7 @@ public class @GameInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Look"",
+                    ""name"": ""MouseMove"",
                     ""type"": ""PassThrough"",
                     ""id"": ""624154bd-d415-4b3e-b4c5-1605a4d6355a"",
                     ""expectedControlType"": ""Vector2"",
@@ -177,7 +177,7 @@ public class @GameInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""Look"",
+                    ""action"": ""MouseMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -323,7 +323,7 @@ public class @GameInputActions : IInputActionCollection, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
-        m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
+        m_Gameplay_MouseMove = m_Gameplay.FindAction("MouseMove", throwIfNotFound: true);
         m_Gameplay_Use = m_Gameplay.FindAction("Use", throwIfNotFound: true);
         m_Gameplay_Drop = m_Gameplay.FindAction("Drop", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
@@ -383,16 +383,16 @@ public class @GameInputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Move;
-    private readonly InputAction m_Gameplay_Look;
+    private readonly InputAction m_Gameplay_MouseMove;
     private readonly InputAction m_Gameplay_Use;
     private readonly InputAction m_Gameplay_Drop;
     private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
-        private @GameInputActions m_Wrapper;
-        public GameplayActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
+        private @PlayerInputActions m_Wrapper;
+        public GameplayActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
-        public InputAction @Look => m_Wrapper.m_Gameplay_Look;
+        public InputAction @MouseMove => m_Wrapper.m_Gameplay_MouseMove;
         public InputAction @Use => m_Wrapper.m_Gameplay_Use;
         public InputAction @Drop => m_Wrapper.m_Gameplay_Drop;
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
@@ -408,9 +408,9 @@ public class @GameInputActions : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Look.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
-                @Look.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
-                @Look.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
+                @MouseMove.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseMove;
+                @MouseMove.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseMove;
+                @MouseMove.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseMove;
                 @Use.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUse;
                 @Use.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUse;
                 @Use.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUse;
@@ -427,9 +427,9 @@ public class @GameInputActions : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Look.started += instance.OnLook;
-                @Look.performed += instance.OnLook;
-                @Look.canceled += instance.OnLook;
+                @MouseMove.started += instance.OnMouseMove;
+                @MouseMove.performed += instance.OnMouseMove;
+                @MouseMove.canceled += instance.OnMouseMove;
                 @Use.started += instance.OnUse;
                 @Use.performed += instance.OnUse;
                 @Use.canceled += instance.OnUse;
@@ -453,8 +453,8 @@ public class @GameInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Menu_Unpause;
     public struct MenuActions
     {
-        private @GameInputActions m_Wrapper;
-        public MenuActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
+        private @PlayerInputActions m_Wrapper;
+        public MenuActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseMove => m_Wrapper.m_Menu_MouseMove;
         public InputAction @Confirm => m_Wrapper.m_Menu_Confirm;
         public InputAction @Cancel => m_Wrapper.m_Menu_Cancel;
@@ -512,7 +512,7 @@ public class @GameInputActions : IInputActionCollection, IDisposable
     public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnLook(InputAction.CallbackContext context);
+        void OnMouseMove(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
