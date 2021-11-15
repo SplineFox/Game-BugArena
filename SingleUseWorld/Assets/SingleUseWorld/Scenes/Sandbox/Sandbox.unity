@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 323126549}
   - component: {fileID: 323126543}
   - component: {fileID: 323126542}
+  - component: {fileID: 323126544}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -295,6 +296,20 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &323126544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323126540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01010be5ed468724eb70ea01c9f679e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveInput: {fileID: 11400000, guid: 04d292501f4a49b44bd5eb323ff249ba, type: 2}
+  _moveSpeed: {fileID: 11400000, guid: 7115f0e34f8a6e740a891143ddba4685, type: 2}
 --- !u!50 &323126548
 Rigidbody2D:
   serializedVersion: 4
