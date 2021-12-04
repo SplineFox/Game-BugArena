@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _developerDescription: Used to componentify the Move Input Action.
   _started: {fileID: 0}
-  _performed: {fileID: 0}
-  _canceled: {fileID: 0}
+  _performed: {fileID: 11400000, guid: 857bdc26ff581714ba62b83fe1defef2, type: 2}
+  _canceled: {fileID: 11400000, guid: cf063287fddf43446bd865da7d8eced5, type: 2}
   _waiting: {fileID: 0}
   _disabled: {fileID: 0}
   _value: {fileID: 11400000, guid: 04d292501f4a49b44bd5eb323ff249ba, type: 2}

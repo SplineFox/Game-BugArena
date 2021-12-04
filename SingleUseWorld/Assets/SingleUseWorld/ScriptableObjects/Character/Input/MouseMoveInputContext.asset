@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _developerDescription: Used to componentify the Mouse Move Input Action.
   _started: {fileID: 0}
-  _performed: {fileID: 0}
+  _performed: {fileID: 11400000, guid: 5e2ddca91812ae3419486d4d2ac9e7c9, type: 2}
   _canceled: {fileID: 0}
   _waiting: {fileID: 0}
   _disabled: {fileID: 0}

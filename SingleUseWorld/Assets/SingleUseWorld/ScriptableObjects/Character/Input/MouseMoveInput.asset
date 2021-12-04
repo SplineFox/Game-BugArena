@@ -15,7 +15,7 @@ MonoBehaviour:
   _developerDescription: Represents player's mouse movement input vector.
   _id: 
   _value: {x: 0, y: 0}
-  _changed: {fileID: 0}
+  _changed: {fileID: 11400000, guid: 04179f40fbb59a14cac800c67a7dd9c1, type: 2}
   _changedWithHistory: {fileID: 0}
   _triggerChangedOnOnEnable: 0
   _triggerChangedWithHistoryOnOnEnable: 0
