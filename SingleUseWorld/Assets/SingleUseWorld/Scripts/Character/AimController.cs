@@ -8,7 +8,7 @@ using UnityAtoms.BaseAtoms;
 
 namespace SingleUseWorld
 {
-    public class CharacterAiming : MonoBehaviour
+    public class AimController : MonoBehaviour
     {
         #region Constants
         private string CAMERA_TARGET_NAME = "CameraTarget";
@@ -17,8 +17,10 @@ namespace SingleUseWorld
         #region Fields
         [SerializeField]
         private Vector2Variable _mouseMoveInput;
+        
         [SerializeField]
         private GameObject _crosshairPrefab;
+
         [SerializeField, Range(0f, 5f)]
         private float _cameraTargetMaxDistance = 1f;
 

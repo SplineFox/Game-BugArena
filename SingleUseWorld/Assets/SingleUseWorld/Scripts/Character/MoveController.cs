@@ -5,13 +5,13 @@ using UnityAtoms.BaseAtoms;
 namespace SingleUseWorld
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class CharacterMovement : MonoBehaviour
+    public class MoveController : MonoBehaviour
     {
         #region Fields
+        [SerializeField] private FloatConstant _moveSpeed;
+
         private Rigidbody2D _rigidbody2D;
         private Vector2 _velocity;
-
-        [SerializeField] private FloatConstant _moveSpeed;
         #endregion
 
         #region LifeCycle Methods
