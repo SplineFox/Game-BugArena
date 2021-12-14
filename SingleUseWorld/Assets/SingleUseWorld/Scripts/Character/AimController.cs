@@ -4,7 +4,6 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityAtoms.BaseAtoms;
 
 namespace SingleUseWorld
 {
@@ -16,7 +15,7 @@ namespace SingleUseWorld
 
         #region Fields
         [SerializeField]
-        private Vector2Variable _mouseMoveInput;
+        private Vector2 _mouseMoveInput;
         
         [SerializeField]
         private GameObject _crosshairPrefab;
@@ -38,7 +37,7 @@ namespace SingleUseWorld
 
         private void FixedUpdate()
         {
-            Vector3 mouseWorldPosition = GetMouseWorldPosition(_mouseMoveInput.Value);
+            Vector3 mouseWorldPosition = GetMouseWorldPosition(_mouseMoveInput);
             MoveCrosshair(mouseWorldPosition);
             MoveCameraTarget(mouseWorldPosition);
         }
@@ -49,7 +48,6 @@ namespace SingleUseWorld
         {
             _mainCamera = Camera.main;
             Assert.IsNotNull(_mainCamera, "\"Main Camera\" is required.");
-            Assert.IsNotNull(_mouseMoveInput, "\"MouseMoveInput Variable\" is required.");
         }
 
         private void Initialize()

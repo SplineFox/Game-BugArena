@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityAtoms.BaseAtoms;
 
 namespace SingleUseWorld
 {
@@ -8,7 +7,7 @@ namespace SingleUseWorld
     public class MoveController : MonoBehaviour
     {
         #region Fields
-        [SerializeField] private FloatConstant _moveSpeed;
+        [SerializeField] private float _moveSpeed;
 
         private Rigidbody2D _rigidbody2D;
         private Vector2 _velocity;
@@ -32,7 +31,7 @@ namespace SingleUseWorld
         public void CalculateVelocity(Vector2 moveInput)
         {
             Vector2 direction = moveInput;
-            _velocity = direction * _moveSpeed.Value;
+            _velocity = direction * _moveSpeed;
         }
         #endregion
 
@@ -41,7 +40,6 @@ namespace SingleUseWorld
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             Assert.IsNotNull(_rigidbody2D, "\"Rigidbody2D\" is required.");
-            Assert.IsNotNull(_moveSpeed, "\"MoveSpeed Constant\" is required.");
         }
         #endregion
     }
