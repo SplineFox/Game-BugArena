@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5696049503357007841}
+  - component: {fileID: 1317420301318728545}
   - component: {fileID: 5696049503357007855}
   - component: {fileID: 5696049503357007840}
   m_Layer: 0
@@ -32,6 +33,25 @@ Transform:
   m_Father: {fileID: 5696049504297167786}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1317420301318728545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696049503357007842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1eae3b64b0272141a68d9bd8dc7b52a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _directionXParamName: MoveX
+  _directionYParamName: MoveY
+  _idleAnimName: Idle
+  _moveAnimName: Move
+  _idleCarryAnimName: IdleCarry
+  _moveCarryAnimName: MoveCarry
+  _throwAnimName: Throw
 --- !u!95 &5696049503357007855
 Animator:
   serializedVersion: 3
@@ -111,11 +131,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5696049504297167786}
+  - component: {fileID: 4588744630975874919}
+  - component: {fileID: 8478764904173034992}
+  - component: {fileID: 3053667374207406911}
   - component: {fileID: 5696049504297167795}
   - component: {fileID: 5696049504297167794}
   - component: {fileID: 5696049504297167784}
   m_Layer: 0
-  m_Name: PlayerCharacter
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -136,6 +159,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4588744630975874919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696049504297167787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9da88f135fcebb4e8ed9dcfcecc65ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInput: {fileID: 11400000, guid: ff6b5116997c8054facb194057e926d3, type: 2}
+  _player: {fileID: 8478764904173034992}
+--- !u!114 &8478764904173034992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696049504297167787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efad542d06f3bf743bc9720e7d01d908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actorView: {fileID: 1317420301318728545}
+--- !u!114 &3053667374207406911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696049504297167787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8862cdf7056e7de41ac537caed6f6ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &5696049504297167795
 Rigidbody2D:
   serializedVersion: 4
