@@ -27,7 +27,7 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        private void Start()
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
 
