@@ -6,6 +6,7 @@ namespace SingleUseWorld
     {
         #region Fields
         private Animator _animator;
+        private SpriteRenderer _spriteRenderer;
 
         [SerializeField] private string _directionXParamName = "MoveX";
         [SerializeField] private string _directionYParamName = "MoveY";
@@ -30,6 +31,7 @@ namespace SingleUseWorld
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
 
             _directionXParamId = Animator.StringToHash(_directionXParamName);
             _directionYParamId = Animator.StringToHash(_directionYParamName);
@@ -47,6 +49,7 @@ namespace SingleUseWorld
         {
             _animator.SetFloat(_directionXParamId, direction.x);
             _animator.SetFloat(_directionYParamId, direction.y);
+            _spriteRenderer.flipX = direction.x < 0;
         }
 
         public void PlayIdleAnimation()
