@@ -18,7 +18,7 @@ namespace UnityEngine
             Vector2 serifDirection = Vector2.Perpendicular(lineDirection);
             Vector2 serifOffset = serifDirection * serifLength / 2;
             
-            Gizmos.DrawRay(from, to);
+            Gizmos.DrawLine(from, to);
             Gizmos.DrawRay(from - serifOffset, serifDirection * serifLength);
             Gizmos.DrawRay(to - serifOffset, serifDirection * serifLength);
         }
