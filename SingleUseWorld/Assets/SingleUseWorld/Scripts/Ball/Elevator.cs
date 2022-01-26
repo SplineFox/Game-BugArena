@@ -10,18 +10,29 @@ namespace SingleUseWorld
     {
         #region Fields
         [SerializeField][Min(0f)] private float _height = 0f;
+        private bool _hasChanged = false;
         #endregion
 
         #region Properties
         public float height
         {
             get => _height;
-            set => _height = Mathf.Max(value, 0f);
+            set
+            {
+                _height = Mathf.Max(value, 0f);
+                _hasChanged = true;
+            }
         }
 
         public bool grounded
         {
             get => _height == 0f;
+        }
+
+        public bool hasChanged
+        {
+            get => _hasChanged;
+            set => _hasChanged = value;
         }
 
         public Vector3 position
