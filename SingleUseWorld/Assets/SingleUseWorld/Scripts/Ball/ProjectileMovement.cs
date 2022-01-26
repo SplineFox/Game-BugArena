@@ -141,7 +141,7 @@ namespace SingleUseWorld
 
         private void HandleImpact(Vector2 collisionNormal)
         {
-            _horizontalVelocity *= collisionNormal;
+            _horizontalVelocity = Vector2.Reflect(_horizontalVelocity, collisionNormal);
             _horizontalVelocity *= BounceScale;
         }
 
