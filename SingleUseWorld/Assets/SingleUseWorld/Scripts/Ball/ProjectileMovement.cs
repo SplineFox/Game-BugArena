@@ -61,6 +61,12 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var collisionNormal = collision.GetContact(0).normal;
+            HandleImpact(collisionNormal);
+        }
+
         public override void OnInitialize()
         {
             _elevator = GetComponent<Elevator>();
@@ -88,7 +94,7 @@ namespace SingleUseWorld
 
             if (!wasGrounded && grounded)
             {
-                HandleImpact(fixedDeltaTime);
+                HandleBounce();
             }
         }
         #endregion
@@ -133,7 +139,13 @@ namespace SingleUseWorld
             _verticalVelocity -= gravityForce;
         }
 
-        private void HandleImpact(float fixedDeltaTime)
+        private void HandleImpact(Vector2 collisionNormal)
+        {
+            _horizontalVelocity *= collisionNormal;
+            _horizontalVelocity *= BounceScale;
+        }
+
+        private void HandleBounce()
         {
             if(ShouldBounce)
             {
