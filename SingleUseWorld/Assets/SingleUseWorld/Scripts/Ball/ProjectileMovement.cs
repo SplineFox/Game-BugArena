@@ -61,7 +61,7 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        public void Start()
+        private void Start()
         {
             _elevator = GetComponent<Elevator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -70,7 +70,7 @@ namespace SingleUseWorld
             wasGrounded = grounded;
         }
 
-        public void FixedUpdate()
+        private void FixedUpdate()
         {
             var fixedDeltaTime = Time.fixedDeltaTime;
 
