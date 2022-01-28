@@ -8,7 +8,7 @@ using UnityEngine;
 namespace SingleUseWorld
 {
     [RequireComponent(typeof(Elevator), typeof(Rigidbody2D))]
-    public class ProjectileMovement : ActorComponent
+    public class ProjectileMovement : MonoBehaviour
     {
         #region Fields
         private Elevator _elevator = default;
@@ -61,13 +61,7 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            var collisionNormal = collision.GetContact(0).normal;
-            HandleImpact(collisionNormal);
-        }
-
-        public override void OnInitialize()
+        public void Start()
         {
             _elevator = GetComponent<Elevator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -76,9 +70,11 @@ namespace SingleUseWorld
             wasGrounded = grounded;
         }
 
-        public override void OnFixedUpdate(float fixedDeltaTime)
+        public void FixedUpdate()
         {
-            if(grounded)
+            var fixedDeltaTime = Time.fixedDeltaTime;
+
+            if (grounded)
             {
                 HandleSliding(fixedDeltaTime);
             }
@@ -96,6 +92,12 @@ namespace SingleUseWorld
             {
                 HandleBounce();
             }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var collisionNormal = collision.GetContact(0).normal;
+            HandleImpact(collisionNormal);
         }
         #endregion
 
