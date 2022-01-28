@@ -6,9 +6,9 @@ namespace SingleUseWorld
     public class ShadowSubview : MonoBehaviour
     {
         #region Fields
-        private SpriteRenderer _spriteRenderer;
+        private SpriteRenderer _spriteRenderer = default;
         
-        [Min(0f)] [SerializeField] private float _maxVisibleHeight = 1f;
+        [Min(0f)]       [SerializeField] private float _maxVisibleHeight = 1f;
         [Range(0f, 1f)] [SerializeField] private float _minTransparency = 1f;
         [Range(0f, 1f)] [SerializeField] private float _maxTransparency = 0.2f;
         #endregion
