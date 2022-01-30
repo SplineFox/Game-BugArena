@@ -17,8 +17,11 @@ namespace SingleUseWorld
         private Vector2 _horizontalVelocity = Vector2.zero;
         private float _verticalVelocity = 0f;
 
-        private bool wasGrounded = false;
-        private bool grounded = false;
+        private bool _wasGrounded = false;
+        private bool _grounded = false;
+
+        [SerializeField]
+        private bool _isKinematic = false;
 
         [SerializeField]
         [Min(0f)]
@@ -54,6 +57,7 @@ namespace SingleUseWorld
         public bool ShouldBounce { get => _shouldBounce; set => _shouldBounce = value; }
         public float BounceVelocityThreshold { get => _bounceVelocityThreshold; set => _bounceVelocityThreshold = Mathf.Max(0f, value); }
         public float MoveVelocityThreshold { get => _moveVelocityThreshold; set => _moveVelocityThreshold = Mathf.Max(0f, value); }
+        public bool IsKinematic { get => _isKinematic; set => _isKinematic = value; }
         #endregion
 
         #region Delegates & Events
@@ -66,15 +70,47 @@ namespace SingleUseWorld
             _elevator = GetComponent<Elevator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
 
-            grounded = _elevator.grounded;
-            wasGrounded = grounded;
+            _grounded = _elevator.grounded;
+            _wasGrounded = _grounded;
         }
 
         private void FixedUpdate()
         {
             var fixedDeltaTime = Time.fixedDeltaTime;
+            
+            HandlePhysics(fixedDeltaTime);
+            ApplyMovement(fixedDeltaTime);
+            CheckGroundCollision();
+        }
 
-            if (grounded)
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var collisionNormal = collision.GetContact(0).normal;
+            HandleWallCollision(collisionNormal);
+        }
+        #endregion
+
+        #region Public Methods
+        public void SetVelocity(Vector2 horizontalVelocity, float verticalVelocity = 0f)
+        {
+            _horizontalVelocity = horizontalVelocity;
+            _verticalVelocity = verticalVelocity;
+
+            if(!_isKinematic)
+            {
+                _grounded = false;
+                _wasGrounded = _grounded;
+            }
+        }
+        #endregion
+
+        #region Private Methods
+        private void HandlePhysics(float fixedDeltaTime)
+        {
+            if (_isKinematic)
+                return;
+
+            if (_grounded)
             {
                 HandleSliding(fixedDeltaTime);
             }
@@ -82,37 +118,8 @@ namespace SingleUseWorld
             {
                 HandleFlying(fixedDeltaTime);
             }
-
-            ApplyMovement(fixedDeltaTime);
-
-            wasGrounded = grounded;
-            grounded = _elevator.grounded;
-
-            if (!wasGrounded && grounded)
-            {
-                HandleBounce();
-            }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            var collisionNormal = collision.GetContact(0).normal;
-            HandleImpact(collisionNormal);
-        }
-        #endregion
-
-        #region Public Methods
-        public void Launch(Vector2 horizontalVelocity, float verticalVelocity = 0f)
-        {
-            _horizontalVelocity = horizontalVelocity;
-            _verticalVelocity = verticalVelocity;
-
-            grounded = false;
-            wasGrounded = grounded;
-        }
-        #endregion
-
-        #region Private Methods
         private void HandleSliding(float fixedDeltaTime)
         {
             ApplyFriction(fixedDeltaTime);
@@ -141,40 +148,6 @@ namespace SingleUseWorld
             _verticalVelocity -= gravityForce;
         }
 
-        private void HandleImpact(Vector2 collisionNormal)
-        {
-            _horizontalVelocity = Vector2.Reflect(_horizontalVelocity, collisionNormal);
-            _horizontalVelocity *= BounceScale;
-        }
-
-        private void HandleBounce()
-        {
-            if(ShouldBounce)
-            {
-                var newVerticalVelocity = -VerticalVelocity * BounceScale;
-                var newHorizontalVelocity = HorizontalVelocity * (1f - FrictionScale);
-
-                if (IsHorizontalVelocityUnderThreshold())
-                {
-                    _horizontalVelocity = Vector2.zero;
-                }
-                if(IsVerticalVelocityUnderThreshold())
-                {
-                    _verticalVelocity = 0f;
-                    return;
-                }
-
-                Launch(newHorizontalVelocity, newVerticalVelocity);
-
-                Bounced.Invoke();
-            }
-            else
-            {
-                _verticalVelocity = 0f;
-                _horizontalVelocity = Vector2.zero;
-            }
-        }
-
         private bool IsVerticalVelocityUnderThreshold()
         {
             var verticalVelocitySqr = VerticalVelocity * VerticalVelocity;
@@ -187,6 +160,60 @@ namespace SingleUseWorld
             var horizontalVelocitySqr = HorizontalVelocity.sqrMagnitude;
             var moveVelocitySqr = MoveVelocityThreshold * MoveVelocityThreshold;
             return horizontalVelocitySqr < moveVelocitySqr;
+        }
+
+        private void CheckGroundCollision()
+        {
+            _wasGrounded = _grounded;
+            _grounded = _elevator.grounded;
+
+            if (!_wasGrounded && _grounded)
+            {
+                HandleGroundCollision();
+            }
+        }
+
+        private void HandleWallCollision(Vector2 collisionNormal)
+        {
+            if (_isKinematic)
+                return;
+
+            if (ShouldBounce)
+            {
+                _horizontalVelocity = Vector2.Reflect(_horizontalVelocity, collisionNormal);
+                _horizontalVelocity *= BounceScale;
+            }
+        }
+
+        private void HandleGroundCollision()
+        {
+            if (_isKinematic)
+                return;
+
+            if (ShouldBounce)
+            {
+                var newVerticalVelocity = -VerticalVelocity * BounceScale;
+                var newHorizontalVelocity = HorizontalVelocity * (1f - FrictionScale);
+
+                if (IsHorizontalVelocityUnderThreshold())
+                {
+                    _horizontalVelocity = Vector2.zero;
+                }
+                if (IsVerticalVelocityUnderThreshold())
+                {
+                    _verticalVelocity = 0f;
+                    return;
+                }
+
+                SetVelocity(newHorizontalVelocity, newVerticalVelocity);
+
+                Bounced.Invoke();
+            }
+            else
+            {
+                _verticalVelocity = 0f;
+                _horizontalVelocity = Vector2.zero;
+            }
         }
 
         private void ApplyMovement(float fixedDeltaTime)
