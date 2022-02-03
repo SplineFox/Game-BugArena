@@ -4,39 +4,42 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class Player : MonoBehaviour
+    public sealed class Player : Projectile
     {
         #region Fields
-        [SerializeField] private PlayerView _actorView = default;
-
+        [SerializeField] private PlayerView _playerView = default;
         private StateMachine<Player, PlayerEvents> _stateMachine = default;
-        private RigidbodyMovementComponent _movementComponent = default;
         #endregion
 
-        #region LifeCycle Methods
-        private void Start()
-        {
-            _movementComponent = GetComponent<RigidbodyMovementComponent>();
-            _movementComponent.OnInitialize();
+        #region Properties
+        protected override ProjectileView _projectileView => _playerView;
+        #endregion
 
-            var idleState = new IdleState(_movementComponent, _actorView);
-            var moveState = new MoveState(_movementComponent, _actorView);
+        #region Protected Methods
+        protected override void Start()
+        {
+            base.Start();
+
+            var idleState = new IdleState(_playerView);
+            var moveState = new MoveState(_playerView);
 
             _stateMachine = new StateMachine<Player, PlayerEvents>(this, idleState);
             _stateMachine.AddState(moveState);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+
             var deltaTime = Time.deltaTime;
-            _movementComponent.OnUpdate(deltaTime);
             _stateMachine.OnUpdate(deltaTime);
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
+
             var fixedDeltaTime = Time.fixedDeltaTime;
-            _movementComponent.OnFixedUpdate(fixedDeltaTime);
             _stateMachine.OnFixedUpdate(fixedDeltaTime);
         }
         #endregion
@@ -49,17 +52,16 @@ namespace SingleUseWorld
 
         public void SetMovementDirection(Vector2 direction)
         {
-            _movementComponent.SetDirection(direction);
-            _actorView.SetDirectionParameter(direction);
+            var speed = 5;
+            _movement.SetVelocity(direction * speed);
+            _playerView.SetDirectionParameter(direction);
         }
 
         public void StopMovement()
         {
+            _movement.SetVelocity(Vector2.zero);
             _stateMachine.Trigger(PlayerEvents.MovementStopped);
         }
-        #endregion
-
-        #region Private Methods
         #endregion
 
 #if UNITY_EDITOR

@@ -2,83 +2,48 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class PlayerView : MonoBehaviour
+    public class PlayerView : ProjectileView
     {
         #region Fields
-        private Animator _animator;
-        private SpriteRenderer _spriteRenderer;
-
-        [SerializeField] private string _directionXParamName = "MoveX";
-        [SerializeField] private string _directionYParamName = "MoveY";
-
-        [SerializeField] private string _idleAnimName = "Idle";
-        [SerializeField] private string _moveAnimName = "Move";
-        [SerializeField] private string _idleCarryAnimName = "IdleCarry";
-        [SerializeField] private string _moveCarryAnimName = "MoveCarry";
-        [SerializeField] private string _throwAnimName = "Throw";
-
-        private int _directionXParamId = 0;
-        private int _directionYParamId = 0;
-
-        private int _idleAnimId = 0;
-        private int _moveAnimId = 0;
-        private int _idleCarryAnimId = 0;
-        private int _moveCarryAnimId = 0;
-        private int _throwAnimId = 0;
+        [SerializeField] private PlayerBodySubview _playerBody = default;
+        [SerializeField] private ShadowSubview _playerShadow = default;
         #endregion
 
-        #region LifeCycle Methods
-        private void Awake()
-        {
-            _animator = GetComponent<Animator>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+        #region Properties
+        protected override IBodySubview _body => _playerBody;
 
-            _directionXParamId = Animator.StringToHash(_directionXParamName);
-            _directionYParamId = Animator.StringToHash(_directionYParamName);
-
-            _idleAnimId = Animator.StringToHash(_idleAnimName);
-            _moveAnimId = Animator.StringToHash(_moveAnimName);
-            _idleCarryAnimId = Animator.StringToHash(_idleCarryAnimName);
-            _moveCarryAnimId = Animator.StringToHash(_moveCarryAnimName);
-            _throwAnimId = Animator.StringToHash(_throwAnimName);
-        }
+        protected override IShadowSubview _shadow => _playerShadow;
         #endregion
 
         #region Public Methods
         public void SetDirectionParameter(Vector2 direction)
         {
-            _animator.SetFloat(_directionXParamId, direction.x);
-            _animator.SetFloat(_directionYParamId, direction.y);
-            _spriteRenderer.flipX = direction.x < 0;
+            _playerBody.SetDirectionParameter(direction);
         }
 
         public void PlayIdleAnimation()
         {
-            bool shouldSync = _animator.CurrentStateIs(_idleCarryAnimId);
-            _animator.Play(_idleAnimId, shouldSync);
+            _playerBody.PlayIdleAnimation();
         }
 
         public void PlayMoveAnimation()
         {
-            bool shouldSync = _animator.CurrentStateIs(_moveCarryAnimId);
-            _animator.Play(_moveAnimId, shouldSync);
+            _playerBody.PlayMoveAnimation();
         }
 
         public void PlayIdleCarryAnimation()
         {
-            bool shouldSync = _animator.CurrentStateIs(_idleAnimId);
-            _animator.Play(_idleCarryAnimId, shouldSync);
+            _playerBody.PlayIdleCarryAnimation();
         }
 
         public void PlayMoveCarryAnimation()
         {
-            bool shouldSync = _animator.CurrentStateIs(_moveAnimId);
-            _animator.Play(_moveCarryAnimId, shouldSync);
+            _playerBody.PlayMoveCarryAnimation();
         }
 
         public void PlayThrowAnimation()
         {
-            _animator.Play(_throwAnimId);
+            _playerBody.PlayThrowAnimation();
         }
         #endregion
     }

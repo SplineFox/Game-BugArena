@@ -6,15 +6,13 @@ namespace SingleUseWorld
     public class IdleState : State<Player, PlayerEvents>
     {
         #region Fields
-        private RigidbodyMovementComponent _movementComponent = default;
         private PlayerView _playerView = default;
         private float idleSpeed = 0;
         #endregion
 
         #region Constructors
-        public IdleState(RigidbodyMovementComponent movementComponent, PlayerView playerView)
+        public IdleState(PlayerView playerView)
         {
-            _movementComponent = movementComponent;
             _playerView = playerView;
         }
         #endregion
@@ -22,7 +20,6 @@ namespace SingleUseWorld
         #region Public Methods
         public override void OnEnter()
         {
-            _movementComponent.SetSpeed(idleSpeed);
             _playerView.PlayIdleAnimation();
         }
 
