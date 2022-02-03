@@ -2,15 +2,15 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class ProjectileView : MonoBehaviour
+    public abstract class ProjectileView : MonoBehaviour
     {
-        #region Fields
-        [SerializeField] private BodySubview _body = default;
-        [SerializeField] private ShadowSubview _shadow = default;
+        #region Properties
+        protected abstract IBodySubview _body { get; }
+        protected abstract IShadowSubview _shadow { get; }
         #endregion
 
         #region Public Methods
-        public void UpdateHeightPresentation(float height)
+        public virtual void UpdateHeightPresentation(float height)
         {
             _body.UpdateHeightPresentation(height);
             _shadow.UpdateHeightPresentation(height);

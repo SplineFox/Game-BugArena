@@ -3,24 +3,32 @@ using UnityEngine;
 namespace SingleUseWorld
 {
     [RequireComponent(typeof(Elevator), typeof (ProjectileMovement))]
-    public class Projectile : MonoBehaviour
+    public abstract class Projectile: MonoBehaviour
     {
-        #region Fields
-        private Elevator _elevator = default;
-        private ProjectileMovement _movement = default;
-        [SerializeField] private ProjectileView _view = default;
+        #region Properties
+        protected Elevator _elevator { get; private set; }
+        protected ProjectileMovement _movement { get; private set; }
         #endregion
 
-        #region LifeCycle Methods
-        private void Start()
+        #region Protected Methods
+        /// <summary>
+        /// Derived classes must provide their own Projectile-based view.
+        /// </summary>
+        protected abstract ProjectileView _projectileView { get; }
+
+        protected virtual void Start()
         {
             _elevator = GetComponent<Elevator>();
             _movement = GetComponent<ProjectileMovement>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
-            _view.UpdateHeightPresentation(_elevator.height);
+            _projectileView.UpdateHeightPresentation(_elevator.height);
+        }
+
+        protected virtual void FixedUpdate()
+        {
         }
         #endregion
     }
