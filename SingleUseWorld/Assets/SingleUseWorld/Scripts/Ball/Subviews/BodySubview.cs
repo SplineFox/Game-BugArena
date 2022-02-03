@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class BodySubview : MonoBehaviour
+    public class BodySubview : MonoBehaviour, IBodySubview
     {
         #region Public Methods
         public void UpdateHeightPresentation(float height)

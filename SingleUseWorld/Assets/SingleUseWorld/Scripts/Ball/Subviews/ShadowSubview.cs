@@ -3,7 +3,7 @@ using UnityEngine;
 namespace SingleUseWorld
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ShadowSubview : MonoBehaviour
+    public class ShadowSubview : MonoBehaviour, IShadowSubview
     {
         #region Fields
         private SpriteRenderer _spriteRenderer = default;
