@@ -102,6 +102,11 @@ namespace SingleUseWorld
                 _wasGrounded = _grounded;
             }
         }
+
+        public void ResetVelocity()
+        {
+            SetVelocity(Vector2.zero, 0f);
+        }
         #endregion
 
         #region Private Methods
