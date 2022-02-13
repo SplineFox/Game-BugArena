@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4716870576536901480}
+  - component: {fileID: 7408850113645729279}
   - component: {fileID: 8800776525561534631}
   - component: {fileID: 9049982827118718069}
+  - component: {fileID: 4548313463613321232}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -33,6 +35,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7408850113645729279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075020013546109213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c9a71563bbbb44da12c3eaec338f73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _height: 0
 --- !u!50 &8800776525561534631
 Rigidbody2D:
   serializedVersion: 4
@@ -80,6 +95,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.375}
   m_EdgeRadius: 0
+--- !u!114 &4548313463613321232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075020013546109213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dbdf72512e3d654ba058f4807ce5a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isKinematic: 0
+  _gravityScale: 0.5
+  _frictionScale: 0.5
+  _bounceScale: 0.6
+  _shouldBounce: 1
+  _bounceVelocityThreshold: 0.08
+  _moveVelocityThreshold: 0.08
 --- !u!1 &6647988898491620613
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,6 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1215584209897791146}
+  - component: {fileID: 1307348857249567241}
   - component: {fileID: 5634142923635994261}
   m_Layer: 0
   m_Name: Shadow
@@ -111,6 +146,21 @@ Transform:
   m_Father: {fileID: 6562205942989406202}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1307348857249567241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6647988898491620613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ec639c5db942249b7fea1f4e1f59c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxVisibleHeight: 1
+  _minTransparency: 1
+  _maxTransparency: 0.2
 --- !u!212 &5634142923635994261
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -171,6 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2956708348045561545}
+  - component: {fileID: 6121349220422499148}
   - component: {fileID: 6204014854560065201}
   m_Layer: 0
   m_Name: Body
@@ -193,6 +244,18 @@ Transform:
   m_Father: {fileID: 6562205942989406202}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6121349220422499148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8893776824908493499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05db0f63003f2874ab8444e0af497933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &6204014854560065201
 SpriteRenderer:
   m_ObjectHideFlags: 0
