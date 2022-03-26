@@ -8,7 +8,7 @@ using UnityEngine;
 namespace SingleUseWorld
 {
     [RequireComponent(typeof(Elevator), typeof(Rigidbody2D))]
-    public class ProjectileMovement : MonoBehaviour
+    public class Projectile2D : MonoBehaviour
     {
         #region Fields
         private Elevator _elevator = default;
@@ -26,11 +26,11 @@ namespace SingleUseWorld
         [SerializeField]
         [Min(0f)]
         private float _gravityScale = 10f;
-        
+
         [SerializeField]
         [Range(0f, 1f)]
         private float _frictionScale = 0.4f;
-        
+
         [SerializeField]
         [Range(0f, 1f)]
         private float _bounceScale = 0.6f;
@@ -42,7 +42,7 @@ namespace SingleUseWorld
         [SerializeField]
         [Min(0f)]
         private float _bounceVelocityThreshold = 0.08f;
-        
+
         [SerializeField]
         [Min(0f)]
         private float _moveVelocityThreshold = 0.08f;
@@ -77,7 +77,7 @@ namespace SingleUseWorld
         private void FixedUpdate()
         {
             var fixedDeltaTime = Time.fixedDeltaTime;
-            
+
             HandlePhysics(fixedDeltaTime);
             ApplyMovement(fixedDeltaTime);
             CheckGroundCollision();
@@ -96,7 +96,7 @@ namespace SingleUseWorld
             _horizontalVelocity = horizontalVelocity;
             _verticalVelocity = verticalVelocity;
 
-            if(!_isKinematic)
+            if (!_isKinematic)
             {
                 _grounded = false;
                 _wasGrounded = _grounded;
@@ -129,7 +129,7 @@ namespace SingleUseWorld
         {
             ApplyFriction(fixedDeltaTime);
 
-            if(IsHorizontalVelocityUnderThreshold())
+            if (IsHorizontalVelocityUnderThreshold())
             {
                 _horizontalVelocity = Vector2.zero;
             }
