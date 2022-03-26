@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using UnityEditor;
 #endif
 
@@ -9,7 +10,12 @@ namespace SingleUseWorld
     public class Elevator : MonoBehaviour
     {
         #region Fields
-        [SerializeField][Min(0f)] private float _height = 0f;
+        [SerializeField]
+        private List<ElevatorObserver> _observers = new List<ElevatorObserver>(2);
+
+        [SerializeField]
+        [Min(0f)]
+        private float _height = 0f;
         private bool _hasChanged = false;
         #endregion
 
@@ -21,6 +27,7 @@ namespace SingleUseWorld
             {
                 _height = Mathf.Max(value, 0f);
                 _hasChanged = true;
+                NotifyHeightChanged();
             }
         }
 
@@ -45,6 +52,14 @@ namespace SingleUseWorld
         public void Translate(float translation)
         {
             height += translation;
+        }
+        #endregion
+
+        #region Private Methods
+        public void NotifyHeightChanged()
+        {
+            foreach (var observer in _observers)
+                observer.UpdateHeight(_height);
         }
         #endregion
 
