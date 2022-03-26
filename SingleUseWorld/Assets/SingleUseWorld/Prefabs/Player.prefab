@@ -239,7 +239,6 @@ GameObject:
   - component: {fileID: 5696049504297167786}
   - component: {fileID: 8490760906072763881}
   - component: {fileID: 3204014717791785790}
-  - component: {fileID: 4588744630975874919}
   - component: {fileID: 8478764904173034992}
   - component: {fileID: 5696049504297167795}
   - component: {fileID: 5696049504297167794}
@@ -278,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c9a71563bbbb44da12c3eaec338f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _observers: []
   _height: 0
 --- !u!114 &3204014717791785790
 MonoBehaviour:
@@ -298,20 +298,6 @@ MonoBehaviour:
   _shouldBounce: 1
   _bounceVelocityThreshold: 0.08
   _moveVelocityThreshold: 0.08
---- !u!114 &4588744630975874919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696049504297167787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9da88f135fcebb4e8ed9dcfcecc65ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerInput: {fileID: 11400000, guid: ff6b5116997c8054facb194057e926d3, type: 2}
-  _player: {fileID: 8478764904173034992}
 --- !u!114 &8478764904173034992
 MonoBehaviour:
   m_ObjectHideFlags: 0

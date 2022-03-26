@@ -2,26 +2,46 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController
     {
         #region Fields
-        [SerializeField] private PlayerInput _playerInput;
-        [SerializeField] private Player _player;
+        private PlayerInput _playerInput;
+        private IControllable _player;
         #endregion
 
-        #region LifeCycle Methods
-        private void OnEnable()
+        #region Public Methods
+        public void Initialize(PlayerInput playerInput, IControllable player)
         {
-            _playerInput.MoveStarted    += _player.StartMovement;
-            _playerInput.MovePerformed  += _player.SetMovementDirection;
-            _playerInput.MoveCanceled   += _player.StopMovement;
+            _playerInput = playerInput;
+            _player = player;
+            Subscribe();
         }
 
-        private void OnDisable()
+        public void Deinitialize()
         {
-            _playerInput.MoveStarted    -= _player.StartMovement;
-            _playerInput.MovePerformed  -= _player.SetMovementDirection;
-            _playerInput.MoveCanceled   -= _player.StopMovement;
+            Unsubscribe();
+        }
+        #endregion
+
+        #region Private Methods
+        private void Subscribe()
+        {
+            _playerInput.MoveStarted += _player.StartMovement;
+            _playerInput.MovePerformed += _player.SetMovementDirection;
+            _playerInput.MoveCanceled += _player.StopMovement;
+
+            _playerInput.UsePerformed += _player.Use;
+            _playerInput.DropPerformed += _player.Drop;
+        }
+
+        private void Unsubscribe()
+        {
+            _playerInput.MoveStarted -= _player.StartMovement;
+            _playerInput.MovePerformed -= _player.SetMovementDirection;
+            _playerInput.MoveCanceled -= _player.StopMovement;
+
+            _playerInput.UsePerformed -= _player.Use;
+            _playerInput.DropPerformed -= _player.Drop;
         }
         #endregion
     }
