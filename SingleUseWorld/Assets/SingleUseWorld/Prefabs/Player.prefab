@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6586122800537328036}
-  - component: {fileID: 254005030304392688}
   - component: {fileID: 6844996599176899992}
+  - component: {fileID: 2725432087566407369}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -32,21 +32,6 @@ Transform:
   m_Father: {fileID: 5696049503357007841}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &254005030304392688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2593407396187785368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69ec639c5db942249b7fea1f4e1f59c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxVisibleHeight: 1
-  _minTransparency: 1
-  _maxTransparency: 0.2
 --- !u!212 &6844996599176899992
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -98,6 +83,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2725432087566407369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2593407396187785368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355b61d6d891fa746aa7586b975c70ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxVisibleHeight: 1
+  _minTransparency: 1
+  _maxTransparency: 0.2
 --- !u!1 &3743817033405480477
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,9 +107,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8894646190247381435}
-  - component: {fileID: 4152650490054846431}
   - component: {fileID: 145573734218187308}
   - component: {fileID: 7050612121159901281}
+  - component: {fileID: 7364524128247438948}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -131,25 +131,6 @@ Transform:
   m_Father: {fileID: 5696049503357007841}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4152650490054846431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3743817033405480477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec48afa32b69241408562c11f10442f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _directionXParamName: MoveX
-  _directionYParamName: MoveY
-  _idleAnimName: Idle
-  _moveAnimName: Move
-  _idleCarryAnimName: IdleCarry
-  _moveCarryAnimName: MoveCarry
-  _throwAnimName: Throw
 --- !u!95 &145573734218187308
 Animator:
   serializedVersion: 3
@@ -220,6 +201,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7364524128247438948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743817033405480477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21156dc204e17df45855148b07e79217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _directionXParamName: MoveX
+  _directionYParamName: MoveY
+  _idleUnarmedAnimName: IdleUnarmed
+  _moveUnarmedAnimName: MoveUnarmed
+  _idleArmedAnimName: IdleArmed
+  _moveArmedAnimName: MoveArmed
+  _throwAnimName: Throw
 --- !u!1 &5696049503357007842
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +229,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5696049503357007841}
-  - component: {fileID: 1317420301318728545}
   - component: {fileID: 2429098985990888996}
   m_Layer: 0
   m_Name: View
@@ -254,20 +253,6 @@ Transform:
   m_Father: {fileID: 5696049504297167786}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1317420301318728545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696049503357007842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1eae3b64b0272141a68d9bd8dc7b52a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerBody: {fileID: 4152650490054846431}
-  _playerShadow: {fileID: 254005030304392688}
 --- !u!210 &2429098985990888996
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -290,7 +275,6 @@ GameObject:
   - component: {fileID: 5696049504297167786}
   - component: {fileID: 8490760906072763881}
   - component: {fileID: 3204014717791785790}
-  - component: {fileID: 4588744630975874919}
   - component: {fileID: 8478764904173034992}
   - component: {fileID: 5696049504297167795}
   - component: {fileID: 5696049504297167794}
@@ -329,6 +313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c9a71563bbbb44da12c3eaec338f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _observers:
+  - {fileID: 7364524128247438948}
+  - {fileID: 2725432087566407369}
   _height: 0
 --- !u!114 &3204014717791785790
 MonoBehaviour:
@@ -349,20 +336,6 @@ MonoBehaviour:
   _shouldBounce: 1
   _bounceVelocityThreshold: 0.08
   _moveVelocityThreshold: 0.08
---- !u!114 &4588744630975874919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696049504297167787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9da88f135fcebb4e8ed9dcfcecc65ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerInput: {fileID: 11400000, guid: ff6b5116997c8054facb194057e926d3, type: 2}
-  _player: {fileID: 8478764904173034992}
 --- !u!114 &8478764904173034992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efad542d06f3bf743bc9720e7d01d908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerView: {fileID: 1317420301318728545}
+  _body: {fileID: 7364524128247438948}
+  _shadow: {fileID: 2725432087566407369}
 --- !u!50 &5696049504297167795
 Rigidbody2D:
   serializedVersion: 4
