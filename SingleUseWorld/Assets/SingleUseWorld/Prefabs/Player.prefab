@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6586122800537328036}
   - component: {fileID: 6844996599176899992}
+  - component: {fileID: 2725432087566407369}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -82,6 +83,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2725432087566407369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2593407396187785368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355b61d6d891fa746aa7586b975c70ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxVisibleHeight: 1
+  _minTransparency: 1
+  _maxTransparency: 0.2
 --- !u!1 &3743817033405480477
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,6 +109,7 @@ GameObject:
   - component: {fileID: 8894646190247381435}
   - component: {fileID: 145573734218187308}
   - component: {fileID: 7050612121159901281}
+  - component: {fileID: 7364524128247438948}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -184,6 +201,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7364524128247438948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743817033405480477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21156dc204e17df45855148b07e79217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _directionXParamName: MoveX
+  _directionYParamName: MoveY
+  _idleUnarmedAnimName: IdleUnarmed
+  _moveUnarmedAnimName: MoveUnarmed
+  _idleArmedAnimName: IdleArmed
+  _moveArmedAnimName: MoveArmed
+  _throwAnimName: Throw
 --- !u!1 &5696049503357007842
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c9a71563bbbb44da12c3eaec338f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _observers: []
+  _observers:
+  - {fileID: 7364524128247438948}
+  - {fileID: 2725432087566407369}
   _height: 0
 --- !u!114 &3204014717791785790
 MonoBehaviour:
@@ -310,6 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efad542d06f3bf743bc9720e7d01d908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _body: {fileID: 0}
+  _shadow: {fileID: 0}
 --- !u!50 &5696049504297167795
 Rigidbody2D:
   serializedVersion: 4
