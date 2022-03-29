@@ -70,6 +70,9 @@ namespace SingleUseWorld
             _elevator = GetComponent<Elevator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
 
+            _rigidbody2D.isKinematic = true;
+            _rigidbody2D.freezeRotation = true;
+
             _grounded = _elevator.grounded;
             _wasGrounded = _grounded;
         }
