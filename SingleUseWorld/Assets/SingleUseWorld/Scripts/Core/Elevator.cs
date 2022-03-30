@@ -56,7 +56,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        public void NotifyHeightChanged()
+        private void NotifyHeightChanged()
         {
             foreach (var observer in _observers)
                 observer.UpdateHeight(_height);
