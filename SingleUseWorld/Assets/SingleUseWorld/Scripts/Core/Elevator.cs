@@ -11,12 +11,12 @@ namespace SingleUseWorld
     {
         #region Fields
         [SerializeField]
-        private List<ElevatorObserver> _observers = new List<ElevatorObserver>(2);
-
-        [SerializeField]
         [Min(0f)]
         private float _height = 0f;
         private bool _hasChanged = false;
+
+        [SerializeField]
+        private List<ElevatorObserver> _observers = new List<ElevatorObserver>(2);
         #endregion
 
         #region Properties
