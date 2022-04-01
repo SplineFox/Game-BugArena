@@ -11,12 +11,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Item
+  - Enemy
+  - PlayerTrigger
+  - ItemTrigger
+  - EnemyTrigger
   - 
   - 
   - 
