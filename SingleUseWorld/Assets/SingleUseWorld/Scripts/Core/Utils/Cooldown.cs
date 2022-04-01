@@ -28,7 +28,7 @@ namespace SingleUseWorld
         {
             _isActive = false;
             _durationTime = durationTime;
-            _remainingTime = _durationTime;
+            _remainingTime = 0f;
         }
         #endregion
 
