@@ -16,6 +16,7 @@ namespace SingleUseWorld
         [SerializeField] private string _moveUnarmedAnimName = "MoveUnarmed";
         [SerializeField] private string _idleArmedAnimName = "IdleArmed";
         [SerializeField] private string _moveArmedAnimName = "MoveArmed";
+        [SerializeField] private string _knockedAnimName = "Knocked";
         [SerializeField] private string _throwAnimName = "Throw";
 
         private int _directionXParamId = 0;
@@ -25,6 +26,7 @@ namespace SingleUseWorld
         private int _moveUnarmedAnimId = 0;
         private int _idleArmedAnimId = 0;
         private int _moveArmedAnimId = 0;
+        private int _knockedAnimId = 0;
         private int _throwAnimId = 0;
         #endregion
 
@@ -70,6 +72,11 @@ namespace SingleUseWorld
             _animator.Play(_moveArmedAnimId, shouldSync);
         }
 
+        public void PlayKnockedAnimation()
+        {
+            _animator.Play(_knockedAnimId);
+        }
+
         public void PlayThrowAnimation()
         {
             _animator.Play(_throwAnimId);
@@ -86,6 +93,7 @@ namespace SingleUseWorld
             _moveUnarmedAnimId = Animator.StringToHash(_moveUnarmedAnimName);
             _idleArmedAnimId = Animator.StringToHash(_idleArmedAnimName);
             _moveArmedAnimId = Animator.StringToHash(_moveArmedAnimName);
+            _knockedAnimId = Animator.StringToHash(_knockedAnimName);
             _throwAnimId = Animator.StringToHash(_throwAnimName);
         }
         #endregion
