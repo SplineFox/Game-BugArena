@@ -10,47 +10,62 @@ namespace SingleUseWorld
         Knocked
     }
 
-    public class PlayerMovement
+    [RequireComponent(typeof(Projectile2D))]
+    public sealed class PlayerMovement : MonoBehaviour
     {
         #region Fields
+        [SerializeField]
+        private bool _movementAllowed = true;
+
         private MovementState _state = default;
         private MovementState _previousState = default;
 
+        private Player _player = default;
         private Projectile2D _projectile2D = default;
-        private Vector2 _direction = Vector2.zero;
+        private Vector2 _direction = Vector2.right;
         private float _speed = 0f;
         #endregion
 
         #region Properties
         public MovementState State { get => _state; }
         public MovementState PreviousState { get => _previousState; }
+        public bool MovementAllowed 
+        { 
+            get => _movementAllowed;
+            set
+            {
+                _movementAllowed = value;
+                if (!_movementAllowed)
+                    StopMovement();
+            }
+        }
         #endregion
 
         #region Delegates & Events
         public Action<MovementState> StateChanged = delegate { };
         #endregion
 
-        #region Constructors
-        public PlayerMovement(Projectile2D projectile2D)
+        #region Public Methods
+        public void Initialize(Player player)
         {
-            _projectile2D = projectile2D;
+            _player = player;
+
+            _projectile2D = GetComponent<Projectile2D>();
             _projectile2D.IsKinematic = true;
 
             _previousState = MovementState.Idling;
             _state = MovementState.Idling;
         }
-        #endregion
 
-        #region Public Methods
-        public void Start()
+        public void StartMovement()
         {
-            if (_state == MovementState.Idling)
+            if (_state == MovementState.Idling && _movementAllowed)
             {
                 SetState(MovementState.Moving);
             }
         }
 
-        public void Stop()
+        public void StopMovement()
         {
             if (_state == MovementState.Moving)
             {
