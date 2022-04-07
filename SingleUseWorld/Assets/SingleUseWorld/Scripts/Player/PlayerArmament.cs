@@ -6,7 +6,8 @@ namespace SingleUseWorld
     public enum ArmamentState
     {
         Unarmed,
-        Armed
+        Armed,
+        Throwed
     }
 
     [RequireComponent(typeof(Collider2D))]
@@ -97,6 +98,17 @@ namespace SingleUseWorld
 
             _item.Use(_direction);
             _item = null;
+
+            _pickupAllowed = false;
+            SetState(ArmamentState.Throwed);
+        }
+
+        public void FinishThrowedState()
+        {
+            if (_state != ArmamentState.Throwed)
+                return;
+
+            _pickupAllowed = true;
             SetState(ArmamentState.Unarmed);
         }
         #endregion
