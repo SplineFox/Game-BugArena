@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SingleUseWorld
@@ -28,6 +29,11 @@ namespace SingleUseWorld
         private int _moveArmedAnimId = 0;
         private int _knockedAnimId = 0;
         private int _throwAnimId = 0;
+        #endregion
+
+        #region Delegates & Events
+        public Action ThrowStartFrameReached = delegate { };
+        public Action ThrowEndFrameReached = delegate { };
         #endregion
 
         #region LifeCycle Methods
@@ -80,6 +86,16 @@ namespace SingleUseWorld
         public void PlayThrowAnimation()
         {
             _animator.Play(_throwAnimId);
+        }
+
+        private void OnThrowStartFrame()
+        {
+            ThrowStartFrameReached.Invoke();
+        }
+
+        private void OnThrowEndFrame()
+        {
+            ThrowEndFrameReached.Invoke();
         }
         #endregion
 
