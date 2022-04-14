@@ -10,6 +10,8 @@ namespace SingleUseWorld
 
         void StopMovement();
 
+        void SetArmamentDirection(Vector2 direction);
+
         void Use();
 
         void Drop();

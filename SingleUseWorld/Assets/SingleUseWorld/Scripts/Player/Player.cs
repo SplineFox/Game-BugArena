@@ -51,6 +51,11 @@ namespace SingleUseWorld
             _movement.StopMovement();
         }
 
+        void IControllable.SetArmamentDirection(Vector2 direction)
+        {
+            _armament.SetDirection(direction);
+        }
+
         void IControllable.Use()
         {
             if (_armament.State == ArmamentState.Unarmed)
