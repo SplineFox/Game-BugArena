@@ -62,6 +62,9 @@ namespace SingleUseWorld
 
         public void SetAimDirectionParameter(Vector2 aimDirection)
         {
+            if (!_animator.CurrentStateIs(_throwAnimId))
+                return;
+
             _animator.SetFloat(_aimDirectionXParamId, aimDirection.x);
             _animator.SetFloat(_aimDirectionYParamId, aimDirection.y);
             _spriteRenderer.flipX = aimDirection.x < 0;
