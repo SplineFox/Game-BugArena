@@ -10,8 +10,11 @@ namespace SingleUseWorld
         private Animator _animator = default;
         private SpriteRenderer _spriteRenderer = default;
 
-        [SerializeField] private string _directionXParamName = "MoveX";
-        [SerializeField] private string _directionYParamName = "MoveY";
+        [SerializeField] private string _moveDirectionXParamName = "MoveX";
+        [SerializeField] private string _moveDirectionYParamName = "MoveY";
+
+        [SerializeField] private string _aimDirectionXParamName = "AimX";
+        [SerializeField] private string _aimDirectionYParamName = "AimY";
 
         [SerializeField] private string _idleUnarmedAnimName = "IdleUnarmed";
         [SerializeField] private string _moveUnarmedAnimName = "MoveUnarmed";
@@ -20,8 +23,11 @@ namespace SingleUseWorld
         [SerializeField] private string _knockedAnimName = "Knocked";
         [SerializeField] private string _throwAnimName = "Throw";
 
-        private int _directionXParamId = 0;
-        private int _directionYParamId = 0;
+        private int _moveDirectionXParamId = 0;
+        private int _moveDirectionYParamId = 0;
+
+        private int _aimDirectionXParamId = 0;
+        private int _aimDirectionYParamId = 0;
 
         private int _idleUnarmedAnimId = 0;
         private int _moveUnarmedAnimId = 0;
@@ -47,11 +53,18 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void SetDirectionParameter(Vector2 direction)
+        public void SetMoveDirectionParameter(Vector2 moveDirection)
         {
-            _animator.SetFloat(_directionXParamId, direction.x);
-            _animator.SetFloat(_directionYParamId, direction.y);
-            _spriteRenderer.flipX = direction.x < 0;
+            _animator.SetFloat(_moveDirectionXParamId, moveDirection.x);
+            _animator.SetFloat(_moveDirectionYParamId, moveDirection.y);
+            _spriteRenderer.flipX = moveDirection.x < 0;
+        }
+
+        public void SetAimDirectionParameter(Vector2 aimDirection)
+        {
+            _animator.SetFloat(_aimDirectionXParamId, aimDirection.x);
+            _animator.SetFloat(_aimDirectionYParamId, aimDirection.y);
+            _spriteRenderer.flipX = aimDirection.x < 0;
         }
 
         public void PlayIdleUnarmedAnimation()
@@ -88,11 +101,17 @@ namespace SingleUseWorld
             _animator.Play(_throwAnimId);
         }
 
+        /// <summary>
+        /// Called externally by the animation event.
+        /// </summary>
         private void OnThrowStartFrame()
         {
             ThrowStartFrameReached.Invoke();
         }
 
+        /// <summary>
+        /// Called externally by the animation event.
+        /// </summary>
         private void OnThrowEndFrame()
         {
             ThrowEndFrameReached.Invoke();
@@ -102,8 +121,11 @@ namespace SingleUseWorld
         #region Private Methods
         private void CacheAnimatorParameters()
         {
-            _directionXParamId = Animator.StringToHash(_directionXParamName);
-            _directionYParamId = Animator.StringToHash(_directionYParamName);
+            _moveDirectionXParamId = Animator.StringToHash(_moveDirectionXParamName);
+            _moveDirectionYParamId = Animator.StringToHash(_moveDirectionYParamName);
+
+            _aimDirectionXParamId = Animator.StringToHash(_aimDirectionXParamName);
+            _aimDirectionYParamId = Animator.StringToHash(_aimDirectionYParamName);
 
             _idleUnarmedAnimId = Animator.StringToHash(_idleUnarmedAnimName);
             _moveUnarmedAnimId = Animator.StringToHash(_moveUnarmedAnimName);
