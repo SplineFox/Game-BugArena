@@ -10,7 +10,7 @@ namespace SingleUseWorld
 
         // Imitates the physical boundary of a thumbstick
         // within which the value is normalized.
-        private float _virtualMovementBoundary = 3f;
+        private float _virtualMovementBoundary = 1.5f;
 
         private Vector3 _mouseWorldPosition = Vector3.zero;
         private Vector2 _aimValue = Vector2.zero;

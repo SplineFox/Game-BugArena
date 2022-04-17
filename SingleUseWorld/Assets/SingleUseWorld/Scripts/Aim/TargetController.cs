@@ -13,7 +13,7 @@ namespace SingleUseWorld
         private GameObject _target;
 
         private CameraController _cameraController;
-        private float _offset = 3f;
+        private float _offset = 1.5f;
         #endregion
 
         #region Constructors
