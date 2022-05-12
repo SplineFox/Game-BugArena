@@ -71,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c9887c79f2f41d14c94826bc5e2bb21c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -3968182364789597635, guid: 10f1d08e05e7d9546b30669edebd9938, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -200,7 +200,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &7364524128247438948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,13 +213,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21156dc204e17df45855148b07e79217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _directionXParamName: MoveX
-  _directionYParamName: MoveY
+  _moveDirectionXParamName: MoveX
+  _moveDirectionYParamName: MoveY
+  _aimDirectionXParamName: AimX
+  _aimDirectionYParamName: AimY
   _idleUnarmedAnimName: IdleUnarmed
   _moveUnarmedAnimName: MoveUnarmed
   _idleArmedAnimName: IdleArmed
   _moveArmedAnimName: MoveArmed
+  _knockedAnimName: Knocked
   _throwAnimName: Throw
+  _stepDustView: {fileID: 0}
 --- !u!1 &5696049504297167787
 GameObject:
   m_ObjectHideFlags: 0

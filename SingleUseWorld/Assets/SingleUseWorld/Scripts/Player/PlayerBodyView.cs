@@ -35,6 +35,9 @@ namespace SingleUseWorld
         private int _moveArmedAnimId = 0;
         private int _knockedAnimId = 0;
         private int _throwAnimId = 0;
+
+        [SerializeField]
+        private StepDustView _stepDustView = default;
         #endregion
 
         #region Delegates & Events
@@ -118,6 +121,17 @@ namespace SingleUseWorld
         private void OnThrowEndFrame()
         {
             ThrowEndFrameReached.Invoke();
+        }
+
+        /// <summary>
+        /// Called externally by the animation event.
+        /// </summary>
+        private void OnStepFrame(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                GameObject.Instantiate(_stepDustView, transform.position, Quaternion.identity);
+            }
         }
         #endregion
 
