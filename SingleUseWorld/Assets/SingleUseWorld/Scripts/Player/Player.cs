@@ -62,6 +62,8 @@ namespace SingleUseWorld
                 return;
 
             _movement.MovementAllowed = false;
+
+            _body.SetFacingDirectionParameter(_armament.AimDirection);
             _body.PlayThrowAnimation();
         }
 
@@ -81,6 +83,9 @@ namespace SingleUseWorld
         {
             _movement.MovementAllowed = true;
             _armament.FinishThrowedState();
+
+            if (_movement.MovementDirection.magnitude != 0f)
+                _body.SetFacingDirectionParameter(_movement.FacingDirection);
         }
 
         private void OnMovementStateChanged(MovementState movementState)
