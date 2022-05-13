@@ -42,7 +42,7 @@ namespace SingleUseWorld
         void IControllable.SetMovementDirection(Vector2 direction)
         {
             _movement.SetDirection(direction);
-            _body.SetMoveDirectionParameter(direction);
+            _body.SetFacingDirectionParameter(direction);
         }
 
         void IControllable.StopMovement()
@@ -54,7 +54,6 @@ namespace SingleUseWorld
         void IControllable.SetArmamentDirection(Vector2 direction)
         {
             _armament.SetDirection(direction);
-            _body.SetAimDirectionParameter(direction);
         }
 
         void IControllable.Use()
