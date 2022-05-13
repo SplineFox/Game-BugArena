@@ -28,6 +28,7 @@ namespace SingleUseWorld
 
         #region Properties
         public ArmamentState State { get => _state; }
+        public Vector2 AimDirection { get => _direction; }
         public bool PickupAllowed { get => _pickupAllowed; set => _pickupAllowed = value; }
         #endregion
 
