@@ -61,8 +61,8 @@ namespace SingleUseWorld
         {
             if (IsCompleted)
             {
-                Completed.Invoke();
                 Stop();
+                Completed.Invoke();
             }
         }
         #endregion
