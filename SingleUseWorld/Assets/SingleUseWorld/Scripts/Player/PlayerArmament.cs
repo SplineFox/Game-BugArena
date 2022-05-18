@@ -57,7 +57,7 @@ namespace SingleUseWorld
 
             _collider2D = GetComponent<Collider2D>();
 
-            _pickupCooldown = new Cooldown(2f);
+            _pickupCooldown = new Cooldown(0.5f);
             _pickupCooldown.Completed += CheckTrigger2D;
         }
 
