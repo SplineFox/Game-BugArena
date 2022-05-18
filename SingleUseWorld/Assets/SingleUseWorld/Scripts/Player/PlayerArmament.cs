@@ -72,7 +72,10 @@ namespace SingleUseWorld
                 return;
 
             if (_item != null)
-                Drop();
+            {
+                Switch(item);
+                return;
+            }
 
             _item = item;
             _item.Attach(transform, 1.8f);
@@ -115,6 +118,14 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
+        private void Switch(Item item)
+        {
+            _item.Detach();
+            _item = item;
+            _item.Attach(transform, 1.8f);
+            _pickupCooldown.Start();
+        }
+
         private void SetState(ArmamentState state)
         {
             if (_state == state)
