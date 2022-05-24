@@ -12,7 +12,7 @@ namespace SingleUseWorld
         protected Projectile2D _projectile2D = default;
 
         protected float _bobbingHeight = 0.0625f;
-        protected float _bobbingSpeed = 10f;
+        protected float _bobbingSpeed = 8f;
         #endregion
 
         #region LifeCycle Methods
