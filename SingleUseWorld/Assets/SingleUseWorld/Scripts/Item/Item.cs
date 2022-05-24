@@ -10,6 +10,9 @@ namespace SingleUseWorld
         protected Collider2D _collider2D = default;
         protected Rigidbody2D _rigidbody2D = default;
         protected Projectile2D _projectile2D = default;
+
+        protected float _bobbingHeight = 0.0625f;
+        protected float _bobbingSpeed = 10f;
         #endregion
 
         #region LifeCycle Methods
@@ -74,6 +77,12 @@ namespace SingleUseWorld
                 yield return null;
             }
             _elevator.height = targetHeight;
+
+            // if item became detached
+            if (transform.parent == null)
+            {
+                StartCoroutine(Bob());
+            }
         }
 
         private IEnumerator MoveTo(Vector3 targetPosition)
@@ -84,6 +93,18 @@ namespace SingleUseWorld
                 yield return null;
             }
             transform.localPosition = targetPosition;
+        }
+
+        private IEnumerator Bob()
+        {
+            float bobbingProgress = 0f;
+            float sinShift = Mathf.PI / 2;
+            while (true)
+            {
+                bobbingProgress += _bobbingSpeed * Time.deltaTime;
+                _elevator.height = Mathf.Sin(bobbingProgress - sinShift) * _bobbingHeight + _bobbingHeight;
+                yield return null;
+            }
         }
         #endregion
     }
