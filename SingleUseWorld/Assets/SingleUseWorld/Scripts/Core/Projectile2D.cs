@@ -70,6 +70,9 @@ namespace SingleUseWorld
             _elevator = GetComponent<Elevator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
 
+            _rigidbody2D.isKinematic = false;
+            _rigidbody2D.freezeRotation = true;
+
             _grounded = _elevator.grounded;
             _wasGrounded = _grounded;
         }
@@ -183,7 +186,7 @@ namespace SingleUseWorld
             if (_isKinematic)
                 return;
 
-            if (ShouldBounce)
+            if (_shouldBounce)
             {
                 _horizontalVelocity = Vector2.Reflect(_horizontalVelocity, collisionNormal);
                 _horizontalVelocity *= BounceScale;
@@ -195,7 +198,7 @@ namespace SingleUseWorld
             if (_isKinematic)
                 return;
 
-            if (ShouldBounce)
+            if (_shouldBounce)
             {
                 var newVerticalVelocity = -VerticalVelocity * BounceScale;
                 var newHorizontalVelocity = HorizontalVelocity * (1f - FrictionScale);
@@ -216,8 +219,8 @@ namespace SingleUseWorld
             }
             else
             {
-                _verticalVelocity = 0f;
                 _horizontalVelocity = Vector2.zero;
+                _verticalVelocity = 0f;
             }
         }
 

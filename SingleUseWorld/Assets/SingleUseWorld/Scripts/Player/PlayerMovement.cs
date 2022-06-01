@@ -10,47 +10,69 @@ namespace SingleUseWorld
         Knocked
     }
 
-    public class PlayerMovement
+    [RequireComponent(typeof(Projectile2D))]
+    public sealed class PlayerMovement : MonoBehaviour
     {
         #region Fields
+        [SerializeField]
+        private bool _movementAllowed = true;
+
         private MovementState _state = default;
         private MovementState _previousState = default;
 
+        private Player _player = default;
         private Projectile2D _projectile2D = default;
-        private Vector2 _direction = Vector2.zero;
+
+        private Vector2 _facingDirection = Vector2.right;
+        private Vector2 _movementDirection = Vector2.zero;
         private float _speed = 0f;
         #endregion
 
         #region Properties
         public MovementState State { get => _state; }
         public MovementState PreviousState { get => _previousState; }
+        public Vector2 FacingDirection { get => _facingDirection; }
+        public Vector2 MovementDirection { get => _movementDirection; }
+        public bool MovementAllowed 
+        { 
+            get => _movementAllowed;
+            set
+            {
+                _movementAllowed = value;
+                if (_movementAllowed)
+                    TryContinueMovement();
+                else
+                    StopMovement();
+            }
+        }
         #endregion
 
         #region Delegates & Events
         public Action<MovementState> StateChanged = delegate { };
         #endregion
 
-        #region Constructors
-        public PlayerMovement(Projectile2D projectile2D)
+        #region Public Methods
+        public void Initialize(Player player)
         {
-            _projectile2D = projectile2D;
+            _player = player;
+
+            _projectile2D = GetComponent<Projectile2D>();
             _projectile2D.IsKinematic = true;
 
-            _previousState = MovementState.Idling;
             _state = MovementState.Idling;
+            _previousState = _state;
         }
-        #endregion
 
-        #region Public Methods
-        public void Start()
+        public void StartMovement()
         {
-            if (_state == MovementState.Idling)
+            if (_state == MovementState.Idling && _movementAllowed)
             {
+                UpdateVelocity();
                 SetState(MovementState.Moving);
             }
         }
 
-        public void Stop()
+        public void StopMovement()
         {
             if (_state == MovementState.Moving)
             {
@@ -79,7 +101,8 @@ namespace SingleUseWorld
 
         public void SetDirection(Vector2 direction)
         {
-            _direction = direction;
+            _movementDirection = direction;
+            UpdateFacingDirection();
 
             if (_state == MovementState.Moving)
                 UpdateVelocity();
@@ -97,10 +120,27 @@ namespace SingleUseWorld
             StateChanged.Invoke(state);
         }
 
+        private void TryContinueMovement()
+        {
+            if (HasMovementDirection())
+                StartMovement();
+        }
+
+        private void UpdateFacingDirection()
+        {
+            if (HasMovementDirection())
+                _facingDirection = MovementDirection;
+        }
+
         private void UpdateVelocity()
         {
-            var velocity = _direction * _speed;
+            var velocity = MovementDirection * _speed;
             _projectile2D.SetVelocity(velocity);
+        }
+
+        private bool HasMovementDirection()
+        {
+            return MovementDirection.magnitude > 0f;
         }
         #endregion
     }

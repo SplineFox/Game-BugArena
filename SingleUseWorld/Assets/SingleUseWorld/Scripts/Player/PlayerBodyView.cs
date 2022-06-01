@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SingleUseWorld
@@ -9,23 +10,33 @@ namespace SingleUseWorld
         private Animator _animator = default;
         private SpriteRenderer _spriteRenderer = default;
 
-        [SerializeField] private string _directionXParamName = "MoveX";
-        [SerializeField] private string _directionYParamName = "MoveY";
+        [SerializeField] private string _facingDirectionXParamName = "FacingX";
+        [SerializeField] private string _facingDirectionYParamName = "FacingY";
 
         [SerializeField] private string _idleUnarmedAnimName = "IdleUnarmed";
         [SerializeField] private string _moveUnarmedAnimName = "MoveUnarmed";
         [SerializeField] private string _idleArmedAnimName = "IdleArmed";
         [SerializeField] private string _moveArmedAnimName = "MoveArmed";
+        [SerializeField] private string _knockedAnimName = "Knocked";
         [SerializeField] private string _throwAnimName = "Throw";
 
-        private int _directionXParamId = 0;
-        private int _directionYParamId = 0;
+        private int _facingDirectionXParamId = 0;
+        private int _facingDirectionYParamId = 0;
 
         private int _idleUnarmedAnimId = 0;
         private int _moveUnarmedAnimId = 0;
         private int _idleArmedAnimId = 0;
         private int _moveArmedAnimId = 0;
+        private int _knockedAnimId = 0;
         private int _throwAnimId = 0;
+
+        [SerializeField]
+        private StepDustView _stepDustView = default;
+        #endregion
+
+        #region Delegates & Events
+        public Action ThrowStartFrameReached = delegate { };
+        public Action ThrowEndFrameReached = delegate { };
         #endregion
 
         #region LifeCycle Methods
@@ -39,11 +50,11 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void SetDirectionParameter(Vector2 direction)
+        public void SetFacingDirectionParameter(Vector2 facingDirection)
         {
-            _animator.SetFloat(_directionXParamId, direction.x);
-            _animator.SetFloat(_directionYParamId, direction.y);
-            _spriteRenderer.flipX = direction.x < 0;
+            _animator.SetFloat(_facingDirectionXParamId, facingDirection.x);
+            _animator.SetFloat(_facingDirectionYParamId, facingDirection.y);
+            _spriteRenderer.flipX = facingDirection.x < 0;
         }
 
         public void PlayIdleUnarmedAnimation()
@@ -70,22 +81,55 @@ namespace SingleUseWorld
             _animator.Play(_moveArmedAnimId, shouldSync);
         }
 
+        public void PlayKnockedAnimation()
+        {
+            _animator.Play(_knockedAnimId);
+        }
+
         public void PlayThrowAnimation()
         {
             _animator.Play(_throwAnimId);
+        }
+
+        /// <summary>
+        /// Called externally by the animation event.
+        /// </summary>
+        private void OnThrowStartFrame()
+        {
+            ThrowStartFrameReached.Invoke();
+        }
+
+        /// <summary>
+        /// Called externally by the animation event.
+        /// </summary>
+        private void OnThrowEndFrame()
+        {
+            ThrowEndFrameReached.Invoke();
+        }
+
+        /// <summary>
+        /// Called externally by the animation event.
+        /// </summary>
+        private void OnStepFrame(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                GameObject.Instantiate(_stepDustView, transform.position, Quaternion.identity);
+            }
         }
         #endregion
 
         #region Private Methods
         private void CacheAnimatorParameters()
         {
-            _directionXParamId = Animator.StringToHash(_directionXParamName);
-            _directionYParamId = Animator.StringToHash(_directionYParamName);
+            _facingDirectionXParamId = Animator.StringToHash(_facingDirectionXParamName);
+            _facingDirectionYParamId = Animator.StringToHash(_facingDirectionYParamName);
 
             _idleUnarmedAnimId = Animator.StringToHash(_idleUnarmedAnimName);
             _moveUnarmedAnimId = Animator.StringToHash(_moveUnarmedAnimName);
             _idleArmedAnimId = Animator.StringToHash(_idleArmedAnimName);
             _moveArmedAnimId = Animator.StringToHash(_moveArmedAnimName);
+            _knockedAnimId = Animator.StringToHash(_knockedAnimName);
             _throwAnimId = Animator.StringToHash(_throwAnimName);
         }
         #endregion
