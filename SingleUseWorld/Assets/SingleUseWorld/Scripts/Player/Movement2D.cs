@@ -11,7 +11,7 @@ namespace SingleUseWorld
     }
 
     [RequireComponent(typeof(Projectile2D))]
-    public sealed class PlayerMovement : MonoBehaviour
+    public sealed class Movement2D : MonoBehaviour
     {
         #region Fields
         [SerializeField]
@@ -20,7 +20,6 @@ namespace SingleUseWorld
         private MovementState _state = default;
         private MovementState _previousState = default;
 
-        private Player _player = default;
         private Projectile2D _projectile2D = default;
 
         private Vector2 _facingDirection = Vector2.right;
@@ -52,10 +51,8 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize(Player player)
+        public void Initialize()
         {
-            _player = player;
-
             _projectile2D = GetComponent<Projectile2D>();
             _projectile2D.IsKinematic = true;
 
