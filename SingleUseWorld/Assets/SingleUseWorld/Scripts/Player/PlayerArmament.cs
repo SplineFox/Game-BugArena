@@ -22,7 +22,6 @@ namespace SingleUseWorld
         private Vector2 _direction = Vector2.right;
 
         private Collider2D _collider2D = default;
-        private Player _player = default;
         private Item _item = default;
         #endregion
 
@@ -50,9 +49,8 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize(Player player)
+        public void Initialize()
         {
-            _player = player;
             _state = ArmamentState.Unarmed;
 
             _collider2D = GetComponent<Collider2D>();
