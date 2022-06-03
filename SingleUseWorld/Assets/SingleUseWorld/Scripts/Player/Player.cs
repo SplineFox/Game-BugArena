@@ -12,7 +12,7 @@ namespace SingleUseWorld
         [SerializeField] private ShadowView _shadow = default;
         
         [SerializeField] private PlayerArmament _armament = default;
-        [SerializeField] private PlayerMovement _movement = default;
+        [SerializeField] private Movement2D _movement = default;
 
         private Projectile2D _projectile2D = default;
         #endregion
@@ -22,10 +22,10 @@ namespace SingleUseWorld
         {
             _projectile2D = GetComponent<Projectile2D>();
 
-            _armament.Initialize(this);
+            _armament.Initialize();
             _armament.StateChanged += OnArmamentStateChanged;
 
-            _movement.Initialize(this);
+            _movement.Initialize();
             _movement.StateChanged += OnMovementStateChanged;
             
             _movement.SetSpeed(4f);
