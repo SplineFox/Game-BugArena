@@ -11,7 +11,7 @@ namespace SingleUseWorld
     }
 
     [RequireComponent(typeof(Projectile2D))]
-    public sealed class Movement2D : MonoBehaviour
+    public sealed class ProjectileMovement2D : MonoBehaviour
     {
         #region Fields
         [SerializeField]
