@@ -3,26 +3,11 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public abstract class Item : MonoBehaviour
+    public abstract class Item : BaseProjectile
     {
         #region Fields
-        protected Elevator _elevator = default;
-        protected Collider2D _collider2D = default;
-        protected Rigidbody2D _rigidbody2D = default;
-        protected Projectile2D _projectile2D = default;
-
         protected float _bobbingHeight = 0.0625f;
         protected float _bobbingSpeed = 8f;
-        #endregion
-
-        #region LifeCycle Methods
-        private void Start()
-        {
-            _elevator = GetComponent<Elevator>();
-            _collider2D = GetComponent<Collider2D>();
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            _projectile2D = GetComponent<Projectile2D>();
-        }
         #endregion
 
         #region Public Methods
@@ -37,13 +22,13 @@ namespace SingleUseWorld
             StartCoroutine(ElevateTo(height));
 
             // disable physics
-            _projectile2D.ResetVelocity();
-            _projectile2D.IsKinematic = true;
-            _projectile2D.enabled = false;
+            _projectile.ResetVelocity();
+            _projectile.IsKinematic = true;
+            _projectile.enabled = false;
 
             // disable collisions
-            _collider2D.enabled = false;
-            _rigidbody2D.isKinematic = true;
+            _collider.enabled = false;
+            _rigidbody.isKinematic = true;
         }
 
         public void Detach()
@@ -56,12 +41,12 @@ namespace SingleUseWorld
             StartCoroutine(ElevateTo(0f));
 
             // enable physics
-            _projectile2D.IsKinematic = false;
-            _projectile2D.enabled = true;
+            _projectile.IsKinematic = false;
+            _projectile.enabled = true;
 
             // enable collisions
-            _collider2D.enabled = true;
-            _rigidbody2D.isKinematic = false;
+            _collider.enabled = true;
+            _rigidbody.isKinematic = false;
         }
 
         public abstract void Use(Vector2 direction);
@@ -71,12 +56,12 @@ namespace SingleUseWorld
         private IEnumerator ElevateTo(float targetHeight)
         {
             targetHeight = Mathf.Max(targetHeight, 0f);
-            while(Mathf.Abs(_elevator.height - targetHeight) > 0.05f)
+            while(Mathf.Abs(elevator.height - targetHeight) > 0.05f)
             {
-                _elevator.height = Mathf.Lerp(_elevator.height, targetHeight, Time.deltaTime * 10f);
+                elevator.height = Mathf.Lerp(elevator.height, targetHeight, Time.deltaTime * 10f);
                 yield return null;
             }
-            _elevator.height = targetHeight;
+            elevator.height = targetHeight;
 
             // if item became detached
             if (transform.parent == null)
@@ -102,7 +87,7 @@ namespace SingleUseWorld
             while (true)
             {
                 bobbingProgress += _bobbingSpeed * Time.deltaTime;
-                _elevator.height = Mathf.Sin(bobbingProgress - sinShift) * _bobbingHeight + _bobbingHeight;
+                elevator.height = Mathf.Sin(bobbingProgress - sinShift) * _bobbingHeight + _bobbingHeight;
                 yield return null;
             }
         }
