@@ -5,30 +5,26 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public sealed class Player : MonoBehaviour, IControllable
+    public sealed class Player : BaseCharacter, IControllable
     {
         #region Fields
+        [SerializeField] private PlayerArmament _armament = default;
         [SerializeField] private PlayerBodyView _body = default;
         [SerializeField] private ShadowView _shadow = default;
-        
-        [SerializeField] private PlayerArmament _armament = default;
-        [SerializeField] private Movement2D _movement = default;
 
-        private Projectile2D _projectile2D = default;
+        private float _movementSpeed = 4f;
         #endregion
 
         #region Public Methods
-        public void Initialize()
+        public override void Initialize()
         {
-            _projectile2D = GetComponent<Projectile2D>();
+            base.Initialize();
 
             _armament.Initialize();
             _armament.StateChanged += OnArmamentStateChanged;
 
-            _movement.Initialize();
             _movement.StateChanged += OnMovementStateChanged;
-            
-            _movement.SetSpeed(4f);
+            _movement.SetSpeed(_movementSpeed);
 
             _body.ThrowStartFrameReached += OnThrowStartFrameReached;
             _body.ThrowEndFrameReached += OnThrowEndFrameReached;
