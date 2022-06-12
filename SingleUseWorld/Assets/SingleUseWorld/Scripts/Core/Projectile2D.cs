@@ -4,15 +4,33 @@ using UnityEditor;
 
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace SingleUseWorld
 {
-    [RequireComponent(typeof(Elevator), typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Elevator), typeof(Rigidbody2D), typeof(CircleCollider2D))]
     public class Projectile2D : MonoBehaviour
     {
+        #region Constants
+        // Specifies a small offset from colliders to ensure we don't try to get too close.
+        // Moving too close can mean we get hits when moving tangential to a surface which results
+        // in the object not being able to move.
+        private const float HIT_OFFSET = 0.05f;
+        
+        // Specifies the number of iterations to detect and resolve physical collisions.
+        private const int DETECTION_ITERATIONS = 2;
+
+        // Specifies the epsilon value under which any movement distance or direction will be considered zero.
+        private const float MOVEMENT_THRESHOLD = 0.005f;
+        
+        // Specifies the threshold under which velocity will not be taken into account.
+        private const float VELOCITY_THRESHOLD = 0.0064f;
+        #endregion
+
         #region Fields
         private Elevator _elevator = default;
         private Rigidbody2D _rigidbody2D = default;
+        private CircleCollider2D _circleCollider2D = default;
 
         private Vector2 _horizontalVelocity = Vector2.zero;
         private float _verticalVelocity = 0f;
@@ -21,47 +39,34 @@ namespace SingleUseWorld
         private bool _grounded = false;
 
         [SerializeField]
+        [Tooltip("Controls whether physics affects the projectile.")]
         private bool _isKinematic = false;
 
         [SerializeField]
+        [Tooltip("Controls whether the projectile should ricochet when hitting a wall.")]
+        private bool _shouldRikochet = true;
+
+        [SerializeField]
         [Min(0f)]
+        [Tooltip("Specifies the value of the force that pulls the projectile to the ground.")]
         private float _gravityScale = 10f;
-
+        
         [SerializeField]
-        [Range(0f, 1f)]
-        private float _frictionScale = 0.4f;
-
-        [SerializeField]
-        [Range(0f, 1f)]
-        private float _bounceScale = 0.6f;
-
-        [Space]
-        [SerializeField]
-        private bool _shouldBounce = true;
-
-        [SerializeField]
-        [Min(0f)]
-        private float _bounceVelocityThreshold = 0.08f;
-
-        [SerializeField]
-        [Min(0f)]
-        private float _moveVelocityThreshold = 0.08f;
+        [Tooltip("Specifies the layers to collide with.")]
+        private LayerMask _collisionMask = default;
         #endregion
 
         #region Properties
         public Vector2 HorizontalVelocity { get => _horizontalVelocity; }
         public float VerticalVelocity { get => _verticalVelocity; }
         public float GravityScale { get => _gravityScale; set => _gravityScale = Mathf.Max(0f, value); }
-        public float FrictionScale { get => _frictionScale; set => _frictionScale = Mathf.Clamp01(value); }
-        public float BounceScale { get => _bounceScale; set => _bounceScale = Mathf.Clamp01(value); }
-        public bool ShouldBounce { get => _shouldBounce; set => _shouldBounce = value; }
-        public float BounceVelocityThreshold { get => _bounceVelocityThreshold; set => _bounceVelocityThreshold = Mathf.Max(0f, value); }
-        public float MoveVelocityThreshold { get => _moveVelocityThreshold; set => _moveVelocityThreshold = Mathf.Max(0f, value); }
         public bool IsKinematic { get => _isKinematic; set => _isKinematic = value; }
+        public bool ShouldRikochet { get => _shouldRikochet; set => _shouldRikochet = value; }
         #endregion
 
         #region Delegates & Events
-        public event Action Bounced = delegate { };
+        public event Action GroundCollision = delegate { };
+        public event Action WallCollision = delegate { };
         #endregion
 
         #region LifeCycle Methods
@@ -69,8 +74,9 @@ namespace SingleUseWorld
         {
             _elevator = GetComponent<Elevator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            _circleCollider2D = GetComponent<CircleCollider2D>();
 
-            _rigidbody2D.isKinematic = false;
+            _rigidbody2D.isKinematic = true;
             _rigidbody2D.freezeRotation = true;
 
             _grounded = _elevator.grounded;
@@ -80,16 +86,8 @@ namespace SingleUseWorld
         private void FixedUpdate()
         {
             var fixedDeltaTime = Time.fixedDeltaTime;
-
-            HandlePhysics(fixedDeltaTime);
-            ApplyMovement(fixedDeltaTime);
-            CheckGroundCollision();
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            var collisionNormal = collision.GetContact(0).normal;
-            HandleWallCollision(collisionNormal);
+            HandleHorizontalMovement(fixedDeltaTime);
+            HandleVerticalMovement(fixedDeltaTime);
         }
         #endregion
 
@@ -113,61 +111,103 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        private void HandlePhysics(float fixedDeltaTime)
+        private void HandleHorizontalMovement(float fixedDeltaTime)
         {
-            if (_isKinematic)
+            // Check velocity threshold.
+            if (IsHorizontalVelocityUnderThreshold())
                 return;
 
-            if (_grounded)
+            // Movement parameters to adjust.
+            var speed = _horizontalVelocity.magnitude;
+            var distance = speed * fixedDeltaTime;
+            var direction = _horizontalVelocity.normalized;
+            var position = _rigidbody2D.position;
+            
+            var iteration = 0;
+            RaycastHit2D hit = new RaycastHit2D();
+            // During the first iteration, the presence of obstacles in the path of the initial movement is determined.
+            // If an obstacle is detected, the direction and distance of movement are adjusted depending on the collision info.
+            // During the second and subsequent iterations, the process is repeated for the adjusted movement.           
+            while (
+                iteration++ < DETECTION_ITERATIONS &&
+                distance > MOVEMENT_THRESHOLD &&
+                direction.sqrMagnitude > MOVEMENT_THRESHOLD
+                )
             {
-                HandleSliding(fixedDeltaTime);
+                var distanceAdjustment = distance;
+                hit = Physics2D.CircleCast(position, _circleCollider2D.radius, direction, distance, _collisionMask);
+
+                // If there was a hit.
+                if (hit)
+                {
+                    // We only want to move if we are not too close to the collider.
+                    if (hit.distance > HIT_OFFSET)
+                    {
+                        // Calculate adjusted distance.
+                        distanceAdjustment = hit.distance - HIT_OFFSET;
+                        // Adjust target position.
+                        position += direction * distanceAdjustment;
+                    }
+                    else
+                    {
+                        // We had a hit but it resulted in us touching
+                        // or being within allowed hit offset, so we
+                        // don't need to adjust distance, therefore
+                        // reset adjustment.
+                        distanceAdjustment = 0f;
+                    }
+
+                    // Adjust direction based on hit normal.
+                    // For tangential hits, the direction will be adjusted
+                    // to slide along the collision.
+                    direction -= hit.normal * Vector2.Dot(direction, hit.normal);
+
+                    // Remove the distance we ended up moving from the initial.
+                    distance -= distanceAdjustment;
+                }
+                else
+                {
+                    // No hit so move by the whole initial distance.
+                    position += direction * distance;
+                    break;
+                }
             }
-            else
-            {
-                HandleFlying(fixedDeltaTime);
-            }
+
+            // Apply horizontal movement.
+            _rigidbody2D.MovePosition(position);
+            // Check wall collision.
+            if (hit)
+                HandleWallCollision(hit.normal);
         }
 
-        private void HandleSliding(float fixedDeltaTime)
+        private void HandleVerticalMovement(float fixedDeltaTime)
         {
-            ApplyFriction(fixedDeltaTime);
+            // Check velocity threshold.
+            if (_isKinematic || IsVericalVelocityUnderThreshold())
+                return;
 
-            if (IsHorizontalVelocityUnderThreshold())
-            {
-                _horizontalVelocity = Vector2.zero;
-            }
-        }
-
-        private void HandleFlying(float fixedDeltaTime)
-        {
             ApplyGravity(fixedDeltaTime);
-        }
-
-        private void ApplyFriction(float fixedDeltaTime)
-        {
-            var normalForce = GravityScale * fixedDeltaTime;
-            var frictionForce = HorizontalVelocity.normalized * FrictionScale * normalForce;
-            _horizontalVelocity -= frictionForce;
+            CheckGroundCollision();
         }
 
         private void ApplyGravity(float fixedDeltaTime)
         {
             var gravityForce = GravityScale * fixedDeltaTime;
             _verticalVelocity -= gravityForce;
-        }
 
-        private bool IsVerticalVelocityUnderThreshold()
-        {
-            var verticalVelocitySqr = VerticalVelocity * VerticalVelocity;
-            var bounceVelocitySqr = BounceVelocityThreshold * BounceVelocityThreshold;
-            return verticalVelocitySqr < bounceVelocitySqr;
+            // Apply vertical movement.
+            var verticalTranslation = _verticalVelocity * fixedDeltaTime;
+            _elevator.Translate(verticalTranslation);
         }
 
         private bool IsHorizontalVelocityUnderThreshold()
         {
-            var horizontalVelocitySqr = HorizontalVelocity.sqrMagnitude;
-            var moveVelocitySqr = MoveVelocityThreshold * MoveVelocityThreshold;
-            return horizontalVelocitySqr < moveVelocitySqr;
+            return (_horizontalVelocity.sqrMagnitude) < VELOCITY_THRESHOLD;
+        }
+
+        private bool IsVericalVelocityUnderThreshold()
+        {
+            return (_verticalVelocity * _verticalVelocity) < VELOCITY_THRESHOLD;
         }
 
         private void CheckGroundCollision()
@@ -186,11 +226,10 @@ namespace SingleUseWorld
             if (_isKinematic)
                 return;
 
-            if (_shouldBounce)
-            {
+            if (_shouldRikochet)
                 _horizontalVelocity = Vector2.Reflect(_horizontalVelocity, collisionNormal);
-                _horizontalVelocity *= BounceScale;
-            }
+
+            WallCollision.Invoke();
         }
 
         private void HandleGroundCollision()
@@ -198,41 +237,9 @@ namespace SingleUseWorld
             if (_isKinematic)
                 return;
 
-            if (_shouldBounce)
-            {
-                var newVerticalVelocity = -VerticalVelocity * BounceScale;
-                var newHorizontalVelocity = HorizontalVelocity * (1f - FrictionScale);
+            _verticalVelocity = 0f;
 
-                if (IsHorizontalVelocityUnderThreshold())
-                {
-                    _horizontalVelocity = Vector2.zero;
-                }
-                if (IsVerticalVelocityUnderThreshold())
-                {
-                    _verticalVelocity = 0f;
-                    return;
-                }
-
-                SetVelocity(newHorizontalVelocity, newVerticalVelocity);
-
-                Bounced.Invoke();
-            }
-            else
-            {
-                _horizontalVelocity = Vector2.zero;
-                _verticalVelocity = 0f;
-            }
-        }
-
-        private void ApplyMovement(float fixedDeltaTime)
-        {
-            Vector2 horizontalTranslation = HorizontalVelocity * fixedDeltaTime;
-            float verticalTranslation = VerticalVelocity * fixedDeltaTime;
-
-            Vector2 newPosition = _rigidbody2D.position + horizontalTranslation;
-
-            _rigidbody2D.MovePosition(newPosition);
-            _elevator.Translate(verticalTranslation);
+            GroundCollision.Invoke();
         }
         #endregion
 
@@ -244,10 +251,10 @@ namespace SingleUseWorld
 
         private void DrawDirection()
         {
-            if (HorizontalVelocity.magnitude != 0)
+            if (_horizontalVelocity.magnitude != 0)
             {
                 Gizmos.color = Color.blue;
-                GizmosExtension.DrawArrow(transform.position, HorizontalVelocity.normalized);
+                GizmosExtension.DrawArrow(transform.position, _horizontalVelocity.normalized);
                 Gizmos.color = Color.white;
             }
         }
