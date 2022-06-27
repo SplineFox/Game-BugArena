@@ -15,13 +15,13 @@ namespace SingleUseWorld
         // Specifies a small offset from colliders to ensure we don't try to get too close.
         // Moving too close can mean we get hits when moving tangential to a surface which results
         // in the object not being able to move.
-        private const float HIT_OFFSET = 0.05f;
+        private const float HIT_OFFSET = 0.04f;
         
         // Specifies the number of iterations to detect and resolve physical collisions.
         private const int DETECTION_ITERATIONS = 2;
 
         // Specifies the epsilon value under which any movement distance or direction will be considered zero.
-        private const float MOVEMENT_THRESHOLD = 0.005f;
+        private const float MOVEMENT_THRESHOLD = 0.0048f;
         
         // Specifies the threshold under which velocity will not be taken into account.
         private const float VELOCITY_THRESHOLD = 0.0064f;
@@ -88,6 +88,23 @@ namespace SingleUseWorld
             var fixedDeltaTime = Time.fixedDeltaTime;
             HandleHorizontalMovement(fixedDeltaTime);
             HandleVerticalMovement(fixedDeltaTime);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            RemoveOverlap(collision);
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            RemoveOverlap(collision);
+        }
+
+        private void RemoveOverlap(Collision2D collision)
+        {
+            var collisionDistance = Physics2D.Distance(collision.otherCollider, collision.collider);
+            if (collisionDistance.isOverlapped)
+                collision.otherRigidbody.position += collisionDistance.normal * collisionDistance.distance;
         }
         #endregion
 
