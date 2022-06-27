@@ -11,14 +11,13 @@ namespace SingleUseWorld
     }
 
     [RequireComponent(typeof(Collider2D))]
-    public sealed class PlayerArmament : MonoBehaviour
+    public sealed class PlayerArmament : BaseComponent<ArmamentState>
     {
         #region Fields
         [SerializeField]
         private bool _pickupAllowed = true;
         private Cooldown _pickupCooldown = default;
 
-        private ArmamentState _state = default;
         private Vector2 _direction = Vector2.right;
 
         private Collider2D _collider2D = default;
@@ -26,13 +25,8 @@ namespace SingleUseWorld
         #endregion
 
         #region Properties
-        public ArmamentState State { get => _state; }
         public Vector2 AimDirection { get => _direction; }
         public bool PickupAllowed { get => _pickupAllowed; set => _pickupAllowed = value; }
-        #endregion
-
-        #region Delegates & Events
-        public Action<ArmamentState> StateChanged = delegate { };
         #endregion
 
         #region LifeCycle Methods
@@ -49,7 +43,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize()
+        public override void Initialize()
         {
             _state = ArmamentState.Unarmed;
 
@@ -122,15 +116,6 @@ namespace SingleUseWorld
             _item = item;
             _item.Attach(transform, 1.8f);
             _pickupCooldown.Start();
-        }
-
-        private void SetState(ArmamentState state)
-        {
-            if (_state == state)
-                return;
-
-            _state = state;
-            StateChanged.Invoke(state);
         }
 
         private void CheckTrigger2D()
