@@ -15,13 +15,13 @@ namespace SingleUseWorld
         // Specifies a small offset from colliders to ensure we don't try to get too close.
         // Moving too close can mean we get hits when moving tangential to a surface which results
         // in the object not being able to move.
-        private const float HIT_OFFSET = 0.04f;
+        private const float SAFE_DISTANCE = 0.04f;
         
         // Specifies the number of iterations to detect and resolve physical collisions.
         private const int DETECTION_ITERATIONS = 2;
 
         // Specifies the epsilon value under which any movement distance or direction will be considered zero.
-        private const float MOVEMENT_THRESHOLD = 0.0048f;
+        private const float DISTANCE_THRESHOLD = 0.0048f;
         
         // Specifies the threshold under which velocity will not be taken into account.
         private const float VELOCITY_THRESHOLD = 0.0064f;
@@ -65,8 +65,8 @@ namespace SingleUseWorld
         #endregion
 
         #region Delegates & Events
-        public event Action GroundCollision = delegate { };
         public event Action WallCollision = delegate { };
+        public event Action GroundCollision = delegate { };
         #endregion
 
         #region LifeCycle Methods
@@ -130,76 +130,76 @@ namespace SingleUseWorld
         #region Private Methods
         private void HandleHorizontalMovement(float fixedDeltaTime)
         {
-            // Check velocity threshold.
             if (IsHorizontalVelocityUnderThreshold())
                 return;
 
-            // Movement parameters to adjust.
             var speed = _horizontalVelocity.magnitude;
             var distance = speed * fixedDeltaTime;
             var direction = _horizontalVelocity.normalized;
             var position = _rigidbody2D.position;
-            
-            var iteration = 0;
-            RaycastHit2D hit = new RaycastHit2D();
-            // During the first iteration, the presence of obstacles in the path of the initial movement is determined.
-            // If an obstacle is detected, the direction and distance of movement are adjusted depending on the collision info.
-            // During the second and subsequent iterations, the process is repeated for the adjusted movement.           
-            while (
-                iteration++ < DETECTION_ITERATIONS &&
-                distance > MOVEMENT_THRESHOLD &&
-                direction.sqrMagnitude > MOVEMENT_THRESHOLD
-                )
+
+            if (_isKinematic)
+                position = MoveAndSlide(position, direction, distance);
+            else
+                position = MoveAndCollide(position, direction, distance);
+
+            _rigidbody2D.MovePosition(position);
+        }
+
+        private RaycastHit2D DetectCollision(Vector2 position, Vector2 direction, float distance)
+        {
+            var hit =  Physics2D.CircleCast(position, _circleCollider2D.radius, direction, distance + SAFE_DISTANCE, _collisionMask);
+            hit.distance = hit ? (hit.distance - SAFE_DISTANCE) : 0f;
+            return hit;
+        }
+
+        private Vector2 MoveAndCollide(Vector2 position, Vector2 direction, float distance)
+        {
+            // Detect
+            var collision = DetectCollision(position, direction, distance);
+            if(collision)
             {
-                var distanceAdjustment = distance;
-                hit = Physics2D.CircleCast(position, _circleCollider2D.radius, direction, distance, _collisionMask);
+                // Resolve
+                distance = collision.distance;
 
-                // If there was a hit.
-                if (hit)
+                // Response
+                HandleWallCollision(collision.normal);
+            }
+
+            position += direction * distance;
+            return position;
+        }
+
+        private Vector2 MoveAndSlide(Vector2 position, Vector2 direction, float distance)
+        {
+            var iteration = 0;
+
+            while (iteration++ < DETECTION_ITERATIONS &&
+                   distance > DISTANCE_THRESHOLD &&
+                   direction.sqrMagnitude > DISTANCE_THRESHOLD)
+            {
+                // Detect
+                var collision = DetectCollision(position, direction, distance);
+                if(collision)
                 {
-                    // We only want to move if we are not too close to the collider.
-                    if (hit.distance > HIT_OFFSET)
-                    {
-                        // Calculate adjusted distance.
-                        distanceAdjustment = hit.distance - HIT_OFFSET;
-                        // Adjust target position.
-                        position += direction * distanceAdjustment;
-                    }
-                    else
-                    {
-                        // We had a hit but it resulted in us touching
-                        // or being within allowed hit offset, so we
-                        // don't need to adjust distance, therefore
-                        // reset adjustment.
-                        distanceAdjustment = 0f;
-                    }
-
-                    // Adjust direction based on hit normal.
-                    // For tangential hits, the direction will be adjusted
-                    // to slide along the collision.
-                    direction -= hit.normal * Vector2.Dot(direction, hit.normal);
-
-                    // Remove the distance we ended up moving from the initial.
-                    distance -= distanceAdjustment;
+                    // Resolve
+                    position += direction * collision.distance;
+                    distance -= collision.distance;
+                    // Response
+                    direction -= collision.normal * Vector2.Dot(direction, collision.normal);
                 }
                 else
                 {
-                    // No hit so move by the whole initial distance.
                     position += direction * distance;
                     break;
                 }
             }
 
-            // Apply horizontal movement.
-            _rigidbody2D.MovePosition(position);
-            // Check wall collision.
-            if (hit)
-                HandleWallCollision(hit.normal);
+            return position;
         }
 
         private void HandleVerticalMovement(float fixedDeltaTime)
         {
-            // Check velocity threshold.
             if (_isKinematic || IsVericalVelocityUnderThreshold())
                 return;
 
@@ -240,21 +240,18 @@ namespace SingleUseWorld
 
         private void HandleWallCollision(Vector2 collisionNormal)
         {
-            if (_isKinematic)
-                return;
-
             if (_shouldRikochet)
                 _horizontalVelocity = Vector2.Reflect(_horizontalVelocity, collisionNormal);
+            else
+                _horizontalVelocity = Vector2.zero;
 
             WallCollision.Invoke();
         }
 
         private void HandleGroundCollision()
         {
-            if (_isKinematic)
-                return;
-
             _verticalVelocity = 0f;
+            _horizontalVelocity = Vector2.zero;
 
             GroundCollision.Invoke();
         }
