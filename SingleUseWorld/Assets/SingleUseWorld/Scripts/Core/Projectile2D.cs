@@ -143,7 +143,7 @@ namespace SingleUseWorld
             else
                 position = MoveAndCollide(position, direction, distance);
 
-            _rigidbody2D.MovePosition(position);
+            _rigidbody2D.position = position;
         }
 
         private RaycastHit2D DetectCollision(Vector2 position, Vector2 direction, float distance)
