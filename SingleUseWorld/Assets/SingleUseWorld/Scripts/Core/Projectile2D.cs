@@ -38,6 +38,8 @@ namespace SingleUseWorld
         private bool _wasGrounded = false;
         private bool _grounded = false;
 
+        private ContactFilter2D _contactFilter = default;
+
         [SerializeField]
         [Tooltip("Controls whether physics affects the projectile.")]
         private bool _isKinematic = false;
@@ -50,10 +52,6 @@ namespace SingleUseWorld
         [Min(0f)]
         [Tooltip("Specifies the value of the force that pulls the projectile to the ground.")]
         private float _gravityScale = 10f;
-        
-        [SerializeField]
-        [Tooltip("Specifies the layers to collide with.")]
-        private LayerMask _collisionMask = default;
         #endregion
 
         #region Properties
@@ -81,6 +79,9 @@ namespace SingleUseWorld
 
             _grounded = _elevator.grounded;
             _wasGrounded = _grounded;
+
+            _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+            _contactFilter.useLayerMask = true;
         }
 
         private void FixedUpdate()
@@ -148,9 +149,12 @@ namespace SingleUseWorld
 
         private RaycastHit2D DetectCollision(Vector2 position, Vector2 direction, float distance)
         {
-            var hit =  Physics2D.CircleCast(position, _circleCollider2D.radius, direction, distance + SAFE_DISTANCE, _collisionMask);
-            hit.distance = hit ? (hit.distance - SAFE_DISTANCE) : 0f;
-            return hit;
+            var hit = new RaycastHit2D[1];
+
+            if (_circleCollider2D.Cast(direction, _contactFilter, hit, distance + SAFE_DISTANCE, true) > 0)
+                hit[0].distance = hit[0].distance - SAFE_DISTANCE;
+
+            return hit[0];
         }
 
         private Vector2 MoveAndCollide(Vector2 position, Vector2 direction, float distance)
