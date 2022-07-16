@@ -17,8 +17,10 @@ namespace SingleUseWorld
         [SerializeField]
         private bool _pickupAllowed = true;
         private Cooldown _pickupCooldown = default;
+        private float _pickupCooldownTime = 0.5f;
 
         private Vector2 _direction = Vector2.right;
+        private float _attachmentHeight = 1.8f;
 
         private Collider2D _collider2D = default;
         private Item _item = default;
@@ -49,7 +51,7 @@ namespace SingleUseWorld
 
             _collider2D = GetComponent<Collider2D>();
 
-            _pickupCooldown = new Cooldown(0.5f);
+            _pickupCooldown = new Cooldown(_pickupCooldownTime);
             _pickupCooldown.Completed += CheckTrigger2D;
         }
 
@@ -70,7 +72,7 @@ namespace SingleUseWorld
             }
 
             _item = item;
-            _item.Attach(transform, 1.8f);
+            _item.Attach(transform, _attachmentHeight);
 
             SetState(ArmamentState.Armed);
         }
@@ -114,7 +116,7 @@ namespace SingleUseWorld
         {
             _item.Detach();
             _item = item;
-            _item.Attach(transform, 1.8f);
+            _item.Attach(transform, _attachmentHeight);
             _pickupCooldown.Start();
         }
 

@@ -9,6 +9,7 @@ namespace SingleUseWorld
         OutSight
     }
 
+    [RequireComponent(typeof(Collider2D))]
     public class EnemySight : BaseComponent<SightState>
     {
         #region Fields
@@ -53,6 +54,7 @@ namespace SingleUseWorld
         #region Public Methods
         public override void Initialize()
         {
+            _collider2D = GetComponent<Collider2D>();
             _state = SightState.OutSight;
         }
         #endregion

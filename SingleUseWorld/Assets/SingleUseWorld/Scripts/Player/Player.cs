@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public sealed class Player : BaseCharacter, IControllable
+    public sealed class Player : BaseCharacter, IControllable, IGrabbable
     {
         #region Fields
         [SerializeField] private PlayerArmament _armament = default;
@@ -66,6 +66,16 @@ namespace SingleUseWorld
         void IControllable.Drop()
         {
             _armament.Drop();
+        }
+
+        void IGrabbable.Grab(float grabbingTension)
+        {
+
+        }
+
+        void IGrabbable.Release(float grabbingTension)
+        {
+
         }
         #endregion
 

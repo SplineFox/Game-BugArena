@@ -213,10 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21156dc204e17df45855148b07e79217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveDirectionXParamName: MoveX
-  _moveDirectionYParamName: MoveY
-  _aimDirectionXParamName: AimX
-  _aimDirectionYParamName: AimY
+  _facingDirectionXParamName: FacingX
+  _facingDirectionYParamName: FacingY
   _idleUnarmedAnimName: IdleUnarmed
   _moveUnarmedAnimName: MoveUnarmed
   _idleArmedAnimName: IdleArmed
@@ -235,10 +233,10 @@ GameObject:
   - component: {fileID: 5696049504297167786}
   - component: {fileID: 8490760906072763881}
   - component: {fileID: 8478764904173034992}
-  - component: {fileID: 8068193699446715418}
   - component: {fileID: 3204014717791785790}
+  - component: {fileID: 8068193699446715418}
   - component: {fileID: 5696049504297167795}
-  - component: {fileID: 5696049504297167794}
+  - component: {fileID: 9054213359136887535}
   - component: {fileID: 5696049504297167784}
   m_Layer: 6
   m_Name: Player
@@ -292,23 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efad542d06f3bf743bc9720e7d01d908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _armament: {fileID: 1702818958446252962}
   _body: {fileID: 7364524128247438948}
   _shadow: {fileID: 2725432087566407369}
-  _armament: {fileID: 1702818958446252962}
-  _movement: {fileID: 8068193699446715418}
---- !u!114 &8068193699446715418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696049504297167787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d10d3f9666a95ba4f8cdf2c4cca24f55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _movementAllowed: 1
 --- !u!114 &3204014717791785790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,12 +306,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isKinematic: 1
+  _shouldRikochet: 0
   _gravityScale: 10
-  _frictionScale: 0.4
-  _bounceScale: 0.6
-  _shouldBounce: 1
-  _bounceVelocityThreshold: 0.08
-  _moveVelocityThreshold: 0.08
+  _collisionMask:
+    serializedVersion: 2
+    m_Bits: 257
+--- !u!114 &8068193699446715418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696049504297167787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10d3f9666a95ba4f8cdf2c4cca24f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movementAllowed: 1
 --- !u!50 &5696049504297167795
 Rigidbody2D:
   serializedVersion: 4
@@ -336,7 +332,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5696049504297167787}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -347,10 +343,10 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &5696049504297167794
-BoxCollider2D:
+--- !u!58 &9054213359136887535
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -363,18 +359,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.375}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
 --- !u!210 &5696049504297167784
 SortingGroup:
   m_ObjectHideFlags: 0
