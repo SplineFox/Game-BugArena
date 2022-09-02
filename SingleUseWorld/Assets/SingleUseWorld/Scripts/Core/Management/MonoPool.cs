@@ -6,13 +6,6 @@ namespace SingleUseWorld
 {
     public class MonoPool<TPrefab> where TPrefab : MonoBehaviour, IPoolable
     {
-        public enum ExpandMethod
-        {
-            Disabled,
-            OneAtATime,
-            Doubling
-        }
-
         #region Fields
         private MonoFactory<TPrefab> _factory;
         private Transform _container;
@@ -20,7 +13,6 @@ namespace SingleUseWorld
         private Stack<TPrefab> _availableItems;
         private int _occupiedItemsCount;
         
-        private int _initialSize;
         private int _maxSize;
         private ExpandMethod _expandMethod;
         #endregion
@@ -43,13 +35,15 @@ namespace SingleUseWorld
         #endregion
 
         #region Construcors
-        public MonoPool(MonoFactory<TPrefab> factory, int initialSize)
+        public MonoPool(MonoFactory<TPrefab> factory, Transform containerTransform, MonoPoolSettings settings)
         {
+            _containerTransform = containerTransform;
             _factory = factory;
-            _initialSize = initialSize;
+            _maxSize = settings.MaxSize;
+            _expandMethod = settings.PoolExpandMethod;
 
-            _availableItems = new Stack<TPrefab>(_initialSize);
-            Resize(initialSize);
+            _availableItems = new Stack<TPrefab>(settings.InitialSize);
+            Resize(settings.InitialSize);
         }
         #endregion
 
