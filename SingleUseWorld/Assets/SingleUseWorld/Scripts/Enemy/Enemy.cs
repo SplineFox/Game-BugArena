@@ -34,15 +34,12 @@ namespace SingleUseWorld
             _movement.StateChanged += OnMovementStateChanged;
             _movement.SetSpeed(_wanderSpeed);
         }
-<<<<<<< Updated upstream
-=======
 
         public void Deinitialize()
         {
             _movement.StateChanged -= OnMovementStateChanged;
             _sight.StateChanged -= OnSightStateChanged;
         }
->>>>>>> Stashed changes
         #endregion
 
         #region Private Methods
