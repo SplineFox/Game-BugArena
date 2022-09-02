@@ -4,15 +4,33 @@ using UnityEditor;
 
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace SingleUseWorld
 {
-    [RequireComponent(typeof(Elevator), typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Elevator), typeof(Rigidbody2D), typeof(CircleCollider2D))]
     public class Projectile2D : MonoBehaviour
     {
+        #region Constants
+        // Specifies a small offset from colliders to ensure we don't try to get too close.
+        // Moving too close can mean we get hits when moving tangential to a surface which results
+        // in the object not being able to move.
+        private const float SAFE_DISTANCE = 0.04f;
+        
+        // Specifies the number of iterations to detect and resolve physical collisions.
+        private const int DETECTION_ITERATIONS = 2;
+
+        // Specifies the epsilon value under which any movement distance or direction will be considered zero.
+        private const float DISTANCE_THRESHOLD = 0.0048f;
+        
+        // Specifies the threshold under which velocity will not be taken into account.
+        private const float VELOCITY_THRESHOLD = 0.0064f;
+        #endregion
+
         #region Fields
         private Elevator _elevator = default;
         private Rigidbody2D _rigidbody2D = default;
+        private CircleCollider2D _circleCollider2D = default;
 
         private Vector2 _horizontalVelocity = Vector2.zero;
         private float _verticalVelocity = 0f;
@@ -20,48 +38,33 @@ namespace SingleUseWorld
         private bool _wasGrounded = false;
         private bool _grounded = false;
 
+        private ContactFilter2D _contactFilter = default;
+
         [SerializeField]
+        [Tooltip("Controls whether physics affects the projectile.")]
         private bool _isKinematic = false;
 
         [SerializeField]
+        [Tooltip("Controls whether the projectile should ricochet when hitting a wall.")]
+        private bool _shouldRikochet = true;
+
+        [SerializeField]
         [Min(0f)]
+        [Tooltip("Specifies the value of the force that pulls the projectile to the ground.")]
         private float _gravityScale = 10f;
-
-        [SerializeField]
-        [Range(0f, 1f)]
-        private float _frictionScale = 0.4f;
-
-        [SerializeField]
-        [Range(0f, 1f)]
-        private float _bounceScale = 0.6f;
-
-        [Space]
-        [SerializeField]
-        private bool _shouldBounce = true;
-
-        [SerializeField]
-        [Min(0f)]
-        private float _bounceVelocityThreshold = 0.08f;
-
-        [SerializeField]
-        [Min(0f)]
-        private float _moveVelocityThreshold = 0.08f;
         #endregion
 
         #region Properties
         public Vector2 HorizontalVelocity { get => _horizontalVelocity; }
         public float VerticalVelocity { get => _verticalVelocity; }
         public float GravityScale { get => _gravityScale; set => _gravityScale = Mathf.Max(0f, value); }
-        public float FrictionScale { get => _frictionScale; set => _frictionScale = Mathf.Clamp01(value); }
-        public float BounceScale { get => _bounceScale; set => _bounceScale = Mathf.Clamp01(value); }
-        public bool ShouldBounce { get => _shouldBounce; set => _shouldBounce = value; }
-        public float BounceVelocityThreshold { get => _bounceVelocityThreshold; set => _bounceVelocityThreshold = Mathf.Max(0f, value); }
-        public float MoveVelocityThreshold { get => _moveVelocityThreshold; set => _moveVelocityThreshold = Mathf.Max(0f, value); }
         public bool IsKinematic { get => _isKinematic; set => _isKinematic = value; }
+        public bool ShouldRikochet { get => _shouldRikochet; set => _shouldRikochet = value; }
         #endregion
 
         #region Delegates & Events
-        public event Action Bounced = delegate { };
+        public event Action WallCollision = delegate { };
+        public event Action GroundCollision = delegate { };
         #endregion
 
         #region LifeCycle Methods
@@ -69,27 +72,40 @@ namespace SingleUseWorld
         {
             _elevator = GetComponent<Elevator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            _circleCollider2D = GetComponent<CircleCollider2D>();
 
-            _rigidbody2D.isKinematic = false;
+            _rigidbody2D.isKinematic = true;
             _rigidbody2D.freezeRotation = true;
 
             _grounded = _elevator.grounded;
             _wasGrounded = _grounded;
+
+            _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+            _contactFilter.useLayerMask = true;
         }
 
         private void FixedUpdate()
         {
             var fixedDeltaTime = Time.fixedDeltaTime;
-
-            HandlePhysics(fixedDeltaTime);
-            ApplyMovement(fixedDeltaTime);
-            CheckGroundCollision();
+            HandleHorizontalMovement(fixedDeltaTime);
+            HandleVerticalMovement(fixedDeltaTime);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            var collisionNormal = collision.GetContact(0).normal;
-            HandleWallCollision(collisionNormal);
+            RemoveOverlap(collision);
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            RemoveOverlap(collision);
+        }
+
+        private void RemoveOverlap(Collision2D collision)
+        {
+            var collisionDistance = Physics2D.Distance(collision.otherCollider, collision.collider);
+            if (collisionDistance.isOverlapped)
+                collision.otherRigidbody.position += collisionDistance.normal * collisionDistance.distance;
         }
         #endregion
 
@@ -113,61 +129,106 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        private void HandlePhysics(float fixedDeltaTime)
+        private void HandleHorizontalMovement(float fixedDeltaTime)
         {
-            if (_isKinematic)
+            if (IsHorizontalVelocityUnderThreshold())
                 return;
 
-            if (_grounded)
-            {
-                HandleSliding(fixedDeltaTime);
-            }
+            var speed = _horizontalVelocity.magnitude;
+            var distance = speed * fixedDeltaTime;
+            var direction = _horizontalVelocity.normalized;
+            var position = _rigidbody2D.position;
+
+            if (_isKinematic)
+                position = MoveAndSlide(position, direction, distance);
             else
-            {
-                HandleFlying(fixedDeltaTime);
-            }
+                position = MoveAndCollide(position, direction, distance);
+
+            _rigidbody2D.position = position;
         }
 
-        private void HandleSliding(float fixedDeltaTime)
+        private RaycastHit2D DetectCollision(Vector2 position, Vector2 direction, float distance)
         {
-            ApplyFriction(fixedDeltaTime);
+            var hit = new RaycastHit2D[1];
 
-            if (IsHorizontalVelocityUnderThreshold())
-            {
-                _horizontalVelocity = Vector2.zero;
-            }
+            if (_circleCollider2D.Cast(direction, _contactFilter, hit, distance + SAFE_DISTANCE, true) > 0)
+                hit[0].distance = hit[0].distance - SAFE_DISTANCE;
+
+            return hit[0];
         }
 
-        private void HandleFlying(float fixedDeltaTime)
+        private Vector2 MoveAndCollide(Vector2 position, Vector2 direction, float distance)
         {
+            // Detect
+            var collision = DetectCollision(position, direction, distance);
+            if(collision)
+            {
+                // Resolve
+                distance = collision.distance;
+
+                // Response
+                HandleWallCollision(collision.normal);
+            }
+
+            position += direction * distance;
+            return position;
+        }
+
+        private Vector2 MoveAndSlide(Vector2 position, Vector2 direction, float distance)
+        {
+            var iteration = 0;
+
+            while (iteration++ < DETECTION_ITERATIONS &&
+                   distance > DISTANCE_THRESHOLD &&
+                   direction.sqrMagnitude > DISTANCE_THRESHOLD)
+            {
+                // Detect
+                var collision = DetectCollision(position, direction, distance);
+                if(collision)
+                {
+                    // Resolve
+                    position += direction * collision.distance;
+                    distance -= collision.distance;
+                    // Response
+                    direction -= collision.normal * Vector2.Dot(direction, collision.normal);
+                }
+                else
+                {
+                    position += direction * distance;
+                    break;
+                }
+            }
+
+            return position;
+        }
+
+        private void HandleVerticalMovement(float fixedDeltaTime)
+        {
+            if (_isKinematic || IsVericalVelocityUnderThreshold())
+                return;
+
             ApplyGravity(fixedDeltaTime);
-        }
-
-        private void ApplyFriction(float fixedDeltaTime)
-        {
-            var normalForce = GravityScale * fixedDeltaTime;
-            var frictionForce = HorizontalVelocity.normalized * FrictionScale * normalForce;
-            _horizontalVelocity -= frictionForce;
+            CheckGroundCollision();
         }
 
         private void ApplyGravity(float fixedDeltaTime)
         {
             var gravityForce = GravityScale * fixedDeltaTime;
             _verticalVelocity -= gravityForce;
-        }
 
-        private bool IsVerticalVelocityUnderThreshold()
-        {
-            var verticalVelocitySqr = VerticalVelocity * VerticalVelocity;
-            var bounceVelocitySqr = BounceVelocityThreshold * BounceVelocityThreshold;
-            return verticalVelocitySqr < bounceVelocitySqr;
+            // Apply vertical movement.
+            var verticalTranslation = _verticalVelocity * fixedDeltaTime;
+            _elevator.Translate(verticalTranslation);
         }
 
         private bool IsHorizontalVelocityUnderThreshold()
         {
-            var horizontalVelocitySqr = HorizontalVelocity.sqrMagnitude;
-            var moveVelocitySqr = MoveVelocityThreshold * MoveVelocityThreshold;
-            return horizontalVelocitySqr < moveVelocitySqr;
+            return (_horizontalVelocity.sqrMagnitude) < VELOCITY_THRESHOLD;
+        }
+
+        private bool IsVericalVelocityUnderThreshold()
+        {
+            return (_verticalVelocity * _verticalVelocity) < VELOCITY_THRESHOLD;
         }
 
         private void CheckGroundCollision()
@@ -183,56 +244,20 @@ namespace SingleUseWorld
 
         private void HandleWallCollision(Vector2 collisionNormal)
         {
-            if (_isKinematic)
-                return;
-
-            if (_shouldBounce)
-            {
+            if (_shouldRikochet)
                 _horizontalVelocity = Vector2.Reflect(_horizontalVelocity, collisionNormal);
-                _horizontalVelocity *= BounceScale;
-            }
+            else
+                _horizontalVelocity = Vector2.zero;
+
+            WallCollision.Invoke();
         }
 
         private void HandleGroundCollision()
         {
-            if (_isKinematic)
-                return;
+            _verticalVelocity = 0f;
+            _horizontalVelocity = Vector2.zero;
 
-            if (_shouldBounce)
-            {
-                var newVerticalVelocity = -VerticalVelocity * BounceScale;
-                var newHorizontalVelocity = HorizontalVelocity * (1f - FrictionScale);
-
-                if (IsHorizontalVelocityUnderThreshold())
-                {
-                    _horizontalVelocity = Vector2.zero;
-                }
-                if (IsVerticalVelocityUnderThreshold())
-                {
-                    _verticalVelocity = 0f;
-                    return;
-                }
-
-                SetVelocity(newHorizontalVelocity, newVerticalVelocity);
-
-                Bounced.Invoke();
-            }
-            else
-            {
-                _horizontalVelocity = Vector2.zero;
-                _verticalVelocity = 0f;
-            }
-        }
-
-        private void ApplyMovement(float fixedDeltaTime)
-        {
-            Vector2 horizontalTranslation = HorizontalVelocity * fixedDeltaTime;
-            float verticalTranslation = VerticalVelocity * fixedDeltaTime;
-
-            Vector2 newPosition = _rigidbody2D.position + horizontalTranslation;
-
-            _rigidbody2D.MovePosition(newPosition);
-            _elevator.Translate(verticalTranslation);
+            GroundCollision.Invoke();
         }
         #endregion
 
@@ -244,10 +269,10 @@ namespace SingleUseWorld
 
         private void DrawDirection()
         {
-            if (HorizontalVelocity.magnitude != 0)
+            if (_horizontalVelocity.magnitude != 0)
             {
                 Gizmos.color = Color.blue;
-                GizmosExtension.DrawArrow(transform.position, HorizontalVelocity.normalized);
+                GizmosExtension.DrawArrow(transform.position, _horizontalVelocity.normalized);
                 Gizmos.color = Color.white;
             }
         }

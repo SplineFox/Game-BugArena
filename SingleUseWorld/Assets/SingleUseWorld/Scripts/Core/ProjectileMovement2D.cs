@@ -11,16 +11,12 @@ namespace SingleUseWorld
     }
 
     [RequireComponent(typeof(Projectile2D))]
-    public sealed class PlayerMovement : MonoBehaviour
+    public sealed class ProjectileMovement2D : BaseComponent<MovementState>
     {
         #region Fields
         [SerializeField]
         private bool _movementAllowed = true;
 
-        private MovementState _state = default;
-        private MovementState _previousState = default;
-
-        private Player _player = default;
         private Projectile2D _projectile2D = default;
 
         private Vector2 _facingDirection = Vector2.right;
@@ -29,8 +25,6 @@ namespace SingleUseWorld
         #endregion
 
         #region Properties
-        public MovementState State { get => _state; }
-        public MovementState PreviousState { get => _previousState; }
         public Vector2 FacingDirection { get => _facingDirection; }
         public Vector2 MovementDirection { get => _movementDirection; }
         public bool MovementAllowed 
@@ -47,20 +41,13 @@ namespace SingleUseWorld
         }
         #endregion
 
-        #region Delegates & Events
-        public Action<MovementState> StateChanged = delegate { };
-        #endregion
-
         #region Public Methods
-        public void Initialize(Player player)
+        public override void Initialize()
         {
-            _player = player;
-
             _projectile2D = GetComponent<Projectile2D>();
             _projectile2D.IsKinematic = true;
 
             _state = MovementState.Idling;
-            _previousState = _state;
         }
 
         public void StartMovement()
@@ -110,16 +97,6 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        private void SetState(MovementState state)
-        {
-            if (_state == state)
-                return;
-
-            _previousState = _state;
-            _state = state;
-            StateChanged.Invoke(state);
-        }
-
         private void TryContinueMovement()
         {
             if (HasMovementDirection())
