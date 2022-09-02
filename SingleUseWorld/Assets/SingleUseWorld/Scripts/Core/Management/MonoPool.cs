@@ -8,7 +8,7 @@ namespace SingleUseWorld
     {
         #region Fields
         private MonoFactory<TPrefab> _factory;
-        private Transform _container;
+        private Transform _containerTransform;
 
         private Stack<TPrefab> _availableItems;
         private int _occupiedItemsCount;
@@ -56,8 +56,7 @@ namespace SingleUseWorld
             var item = _availableItems.Pop();
             _occupiedItemsCount++;
 
-            item.gameObject.SetActive(true);
-            item.Reinitialize();
+            ActivateItem(item);
 
             return item;
         }
@@ -67,8 +66,7 @@ namespace SingleUseWorld
             _availableItems.Push(item);
             _occupiedItemsCount--;
 
-            item.gameObject.SetActive(false);
-            SetContainer(item);
+            DeactivateItem(item);
 
             if (AvailableCount > _maxSize)
                 Resize(_maxSize);
@@ -146,8 +144,7 @@ namespace SingleUseWorld
             var item = _factory.Create();
             _availableItems.Push(item);
 
-            item.gameObject.SetActive(false);
-            SetContainer(item);
+            DeactivateItem(item);
         }
 
         private void DeallocateItem()
@@ -156,10 +153,22 @@ namespace SingleUseWorld
             _factory.Destroy(item);
         }
 
+        private void ActivateItem(TPrefab item)
+        {
+            item.gameObject.SetActive(true);
+            item.Reinitialize();
+        }
+
+        private void DeactivateItem(TPrefab item)
+        {
+            item.gameObject.SetActive(false);
+            SetContainer(item);
+        }
+
         private void SetContainer(TPrefab item)
         {
-            if (item.transform.parent != _container)
-                item.transform.SetParent(_container);
+            if (item.transform.parent != _containerTransform)
+                item.transform.SetParent(_containerTransform);
         }
         #endregion
     }
