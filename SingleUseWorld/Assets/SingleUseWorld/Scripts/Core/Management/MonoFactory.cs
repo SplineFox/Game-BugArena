@@ -13,7 +13,7 @@ namespace SingleUseWorld
         public TPrefab Create()
         {
             var instance = CreateInstance();
-            OnCreate(instance);
+            OnAfterCreate(instance);
             return instance;
         }
 
@@ -22,7 +22,7 @@ namespace SingleUseWorld
             if (instance == null)
                 return;
 
-            OnDestroy(instance);
+            OnBeforeDestroy(instance);
             DestroyInstance(instance);
         }
         #endregion
@@ -31,7 +31,7 @@ namespace SingleUseWorld
         /// <summary>
         /// Called right after the object is created.
         /// </summary>
-        protected virtual void OnCreate(TPrefab instance)
+        protected virtual void OnAfterCreate(TPrefab instance)
         {
             // Optional
         }
@@ -39,7 +39,7 @@ namespace SingleUseWorld
         /// <summary>
         /// Called right before the object is destroyed.
         /// </summary>
-        protected virtual void OnDestroy(TPrefab instance)
+        protected virtual void OnBeforeDestroy(TPrefab instance)
         {
             // Optional
         }
