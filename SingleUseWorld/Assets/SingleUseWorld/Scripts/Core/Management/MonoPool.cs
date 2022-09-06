@@ -94,17 +94,17 @@ namespace SingleUseWorld
             }
         }
 
-        private void Clear()
+        public void Clear()
         {
             Resize(0);
         }
 
-        private void ExpandBy(int numberToAdd)
+        public void ExpandBy(int numberToAdd)
         {
             Resize(AvailableCount + numberToAdd);
         }
 
-        private void ShrinkBy(int numberToRemove)
+        public void ShrinkBy(int numberToRemove)
         {
             Resize(AvailableCount - numberToRemove);
         }
@@ -156,7 +156,7 @@ namespace SingleUseWorld
         private void ActivateItem(TPrefab item)
         {
             item.gameObject.SetActive(true);
-            item.Reinitialize();
+            item.Reset();
         }
 
         private void DeactivateItem(TPrefab item)
