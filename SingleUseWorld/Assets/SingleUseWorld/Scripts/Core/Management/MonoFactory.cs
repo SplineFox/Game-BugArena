@@ -3,26 +3,56 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public abstract class MonoFactory<TPrefab> : ScriptableObject where TPrefab : MonoBehaviour
+    public class MonoFactory<TPrefab> : ScriptableObject where TPrefab : MonoBehaviour
     {
         #region Fields
         [SerializeField] protected TPrefab _prefab;
         #endregion
 
         #region Public Methods
-        public abstract TPrefab Create();
+        public TPrefab Create()
+        {
+            var instance = CreateInstance();
+            OnCreate(instance);
+            return instance;
+        }
 
-        public abstract void Destroy(TPrefab instance);
+        public void Destroy(TPrefab instance)
+        {
+            if (instance == null)
+                return;
+
+            OnDestroy(instance);
+            DestroyInstance(instance);
+        }
         #endregion
 
-        #region Protected Methods
-        protected TPrefab CreateInstance()
+        #region Protected
+        /// <summary>
+        /// Called right after the object is created.
+        /// </summary>
+        protected virtual void OnCreate(TPrefab instance)
+        {
+            // Optional
+        }
+
+        /// <summary>
+        /// Called right before the object is destroyed.
+        /// </summary>
+        protected virtual void OnDestroy(TPrefab instance)
+        {
+            // Optional
+        }
+        #endregion
+
+        #region Private Methods
+        private TPrefab CreateInstance()
         {
             TPrefab instance = Instantiate(_prefab);
             return instance;
         }
 
-        protected void DestroyInstance(TPrefab instance)
+        private void DestroyInstance(TPrefab instance)
         {
             Destroy(instance.gameObject);
         }
