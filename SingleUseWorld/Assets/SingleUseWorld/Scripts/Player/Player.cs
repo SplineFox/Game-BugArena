@@ -30,6 +30,15 @@ namespace SingleUseWorld
             _body.ThrowEndFrameReached += OnThrowEndFrameReached;
         }
 
+        public void Deinitialize()
+        {
+            _armament.StateChanged -= OnArmamentStateChanged;
+            _movement.StateChanged -= OnMovementStateChanged;
+
+            _body.ThrowStartFrameReached -= OnThrowStartFrameReached;
+            _body.ThrowEndFrameReached -= OnThrowEndFrameReached;
+        }
+
         void IControllable.StartMovement()
         {
             _movement.StartMovement();
