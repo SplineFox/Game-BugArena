@@ -10,10 +10,11 @@ namespace SingleUseWorld
         protected float _bobbingSpeed = 8f;
         #endregion
 
-        private void Start()
+        #region LifeCycle Methods
+        private void Awake()
         {
-            Initialize();
         }
+        #endregion
 
         #region Public Methods
         public void Attach(Transform target, float height)

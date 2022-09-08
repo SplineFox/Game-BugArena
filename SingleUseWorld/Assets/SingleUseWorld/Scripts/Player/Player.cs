@@ -16,10 +16,8 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public override void Initialize()
+        public void Initialize()
         {
-            base.Initialize();
-
             _armament.Initialize();
             _armament.StateChanged += OnArmamentStateChanged;
 

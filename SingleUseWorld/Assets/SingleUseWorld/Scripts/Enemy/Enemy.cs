@@ -18,16 +18,9 @@ namespace SingleUseWorld
         private float _wanderIdlingTime = 1f;
         #endregion
 
-        private void Start()
-        {
-            Initialize();
-        }
-
         #region Public Methods
-        public override void Initialize()
+        public void Initialize()
         {
-            base.Initialize();
-
             _sight.Initialize();
             _sight.StateChanged += OnSightStateChanged;
 
