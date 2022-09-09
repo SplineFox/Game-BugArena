@@ -14,7 +14,7 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        private void Awake()
+        protected virtual void Awake()
         {
             _elevator = GetComponent<Elevator>();
         }

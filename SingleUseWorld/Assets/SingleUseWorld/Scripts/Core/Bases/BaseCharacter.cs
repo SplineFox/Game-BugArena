@@ -10,8 +10,9 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _movement = GetComponent<ProjectileMovement2D>();
             _movement.Initialize();
         }

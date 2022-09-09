@@ -14,8 +14,9 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _collider = GetComponent<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _projectile = GetComponent<Projectile2D>();
