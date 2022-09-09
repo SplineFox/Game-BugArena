@@ -14,7 +14,7 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        private void Start()
+        private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
