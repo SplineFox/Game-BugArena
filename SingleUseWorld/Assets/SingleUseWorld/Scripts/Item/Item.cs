@@ -3,21 +3,38 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public abstract class Item : BaseProjectile
+    [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Rigidbody2D))]
+    public abstract class Item : BaseBehaviour, IPoolable
     {
         #region Fields
         protected float _bobbingHeight = 0.0625f;
         protected float _bobbingSpeed = 8f;
+
+        protected Collider2D _collider = default;
+        protected Rigidbody2D _rigidbody = default;
         #endregion
 
         #region LifeCycle Methods
         protected override void Awake()
         {
             base.Awake();
+            _collider = GetComponent<Collider2D>();
+            _rigidbody = GetComponent<Rigidbody2D>();
+        }
         }
         #endregion
 
         #region Public Methods
+        void IPoolable.Reset()
+        {
+            StopAllCoroutines();
+            elevator.height = 0f;
+            _collider.enabled = true;
+            _rigidbody.isKinematic = false;
+            StartCoroutine(Bob());
+        }
+
         public void Attach(Transform target, float height)
         {
             // attach to parent
@@ -27,11 +44,6 @@ namespace SingleUseWorld
             StopAllCoroutines();
             StartCoroutine(MoveTo(Vector3.zero));
             StartCoroutine(ElevateTo(height));
-
-            // disable physics
-            _projectile.ResetVelocity();
-            _projectile.IsKinematic = true;
-            _projectile.enabled = false;
 
             // disable collisions
             _collider.enabled = false;
@@ -46,10 +58,6 @@ namespace SingleUseWorld
             // play lower animation
             StopAllCoroutines();
             StartCoroutine(ElevateTo(0f));
-
-            // enable physics
-            _projectile.IsKinematic = false;
-            _projectile.enabled = true;
 
             // enable collisions
             _collider.enabled = true;
