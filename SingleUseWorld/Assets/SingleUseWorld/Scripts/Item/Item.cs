@@ -22,6 +22,10 @@ namespace SingleUseWorld
             _collider = GetComponent<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
         }
+
+        private void Start()
+        {
+            StartCoroutine(Bob());
         }
         #endregion
 
