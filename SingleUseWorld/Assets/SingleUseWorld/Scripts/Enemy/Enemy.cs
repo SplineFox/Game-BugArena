@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class Enemy : BaseCharacter
+    public class Enemy : BaseCharacter, IPoolable
     {
         #region Fields
         [SerializeField] private EnemySight _sight = default;
@@ -19,7 +19,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize()
+        public void OnCreate()
         {
             _sight.Initialize();
             _sight.StateChanged += OnSightStateChanged;
@@ -28,11 +28,14 @@ namespace SingleUseWorld
             _movement.SetSpeed(_wanderSpeed);
         }
 
-        public void Deinitialize()
+        public void OnDestroy()
         {
             _movement.StateChanged -= OnMovementStateChanged;
             _sight.StateChanged -= OnSightStateChanged;
         }
+
+        void IPoolable.OnReset()
+        {}
         #endregion
 
         #region Private Methods
