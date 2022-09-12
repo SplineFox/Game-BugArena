@@ -7,12 +7,7 @@ namespace SingleUseWorld
     {
         protected override void OnAfterCreate(Player instance)
         {
-            instance.Initialize();
-        }
-
-        protected override void OnBeforeDestroy(Player instance)
-        {
-            instance.Deinitialize();
+            instance.OnCreate();
         }
     }
 }

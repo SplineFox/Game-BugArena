@@ -16,7 +16,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize()
+        public void OnCreate()
         {
             _armament.Initialize();
             _armament.StateChanged += OnArmamentStateChanged;
@@ -28,7 +28,7 @@ namespace SingleUseWorld
             _body.ThrowEndFrameReached += OnThrowEndFrameReached;
         }
 
-        public void Deinitialize()
+        public void OnDestroy()
         {
             _armament.StateChanged -= OnArmamentStateChanged;
             _movement.StateChanged -= OnMovementStateChanged;

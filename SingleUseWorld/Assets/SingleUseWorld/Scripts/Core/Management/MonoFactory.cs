@@ -16,15 +16,6 @@ namespace SingleUseWorld
             OnAfterCreate(instance);
             return instance;
         }
-
-        public void Destroy(TPrefab instance)
-        {
-            if (instance == null)
-                return;
-
-            OnBeforeDestroy(instance);
-            DestroyInstance(instance);
-        }
         #endregion
 
         #region Protected
@@ -35,14 +26,6 @@ namespace SingleUseWorld
         {
             // Optional
         }
-
-        /// <summary>
-        /// Called right before the object is destroyed.
-        /// </summary>
-        protected virtual void OnBeforeDestroy(TPrefab instance)
-        {
-            // Optional
-        }
         #endregion
 
         #region Private Methods
@@ -50,11 +33,6 @@ namespace SingleUseWorld
         {
             TPrefab instance = Instantiate(_prefab);
             return instance;
-        }
-
-        private void DestroyInstance(TPrefab instance)
-        {
-            Destroy(instance.gameObject);
         }
         #endregion
     }

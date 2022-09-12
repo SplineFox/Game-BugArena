@@ -10,12 +10,7 @@ namespace SingleUseWorld
         #region Public Methods
         protected override void OnAfterCreate(Enemy instance)
         {
-            instance.Initialize();
-        }
-
-        protected override void OnBeforeDestroy(Enemy instance)
-        {
-            instance.Deinitialize();
+            instance.OnCreate();
         }
         #endregion
     }
