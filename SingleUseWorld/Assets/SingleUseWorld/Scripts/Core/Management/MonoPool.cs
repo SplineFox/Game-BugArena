@@ -150,7 +150,7 @@ namespace SingleUseWorld
         private void DeallocateItem()
         {
             var item = _availableItems.Pop();
-            _factory.Destroy(item);
+            GameObject.Destroy(item);
         }
 
         private void ActivateItem(TPrefab item)
