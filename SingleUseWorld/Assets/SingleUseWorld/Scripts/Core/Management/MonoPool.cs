@@ -156,7 +156,7 @@ namespace SingleUseWorld
         private void ActivateItem(TPrefab item)
         {
             item.gameObject.SetActive(true);
-            item.Reset();
+            item.OnReset();
         }
 
         private void DeactivateItem(TPrefab item)
