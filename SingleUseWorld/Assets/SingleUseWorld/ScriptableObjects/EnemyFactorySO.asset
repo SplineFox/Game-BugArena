@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7737ef16d81401b429bb07e04daeac61, type: 3}
-  m_Name: PlayerFactorySO
+  m_Script: {fileID: 11500000, guid: 761ba1409200eaf478bb11804bd7a016, type: 3}
+  m_Name: EnemyFactorySO
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 8478764904173034992, guid: 678981a153d98ee42aeea585e24d521d, type: 3}
+  _enemyPrefab: {fileID: 317637169614588558, guid: 01eb908f92af0e04e86d2b3c1d2b449a, type: 3}
