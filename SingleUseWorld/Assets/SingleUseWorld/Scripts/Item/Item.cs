@@ -5,14 +5,24 @@ namespace SingleUseWorld
 {
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class Item : BaseBehaviour, IPoolable
+    public class Item : BaseBehaviour, IPoolable
     {
         #region Fields
-        protected float _bobbingHeight = 0.0625f;
-        protected float _bobbingSpeed = 8f;
+        private float _bobbingHeight = 0.0625f;
+        private float _bobbingSpeed = 8f;
 
-        protected Collider2D _collider = default;
-        protected Rigidbody2D _rigidbody = default;
+        private Collider2D _collider = default;
+        private Rigidbody2D _rigidbody = default;
+
+        private ItemType _itemType = default;
+        private IMonoFactory<ItemEntity> _entityFactory = default;
+        #endregion
+
+        #region Properties
+        public ItemType Type 
+        { 
+            get => _itemType; 
+        }
         #endregion
 
         #region LifeCycle Methods
@@ -30,7 +40,16 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        void IPoolable.Reset()
+        public void OnCreate(ItemType itemType, IMonoFactory<ItemEntity> entityFactory)
+        {
+            _itemType = itemType;
+            _entityFactory = entityFactory;
+        }
+
+        public void OnDestroy()
+        { }
+
+        void IPoolable.OnReset()
         {
             StopAllCoroutines();
             elevator.height = 0f;
@@ -68,7 +87,13 @@ namespace SingleUseWorld
             _rigidbody.isKinematic = false;
         }
 
-        public abstract void Use(Vector2 direction);
+        public void Use(Vector2 direction, GameObject instigator)
+        {
+            var entity = _entityFactory.Create();
+            entity.transform.position = this.transform.position;
+            entity.Use(direction, transform.parent.gameObject);
+            GameObject.Destroy(this);
+        }
         #endregion
 
         #region Private Methods

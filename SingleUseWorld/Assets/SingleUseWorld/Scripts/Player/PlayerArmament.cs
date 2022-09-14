@@ -94,7 +94,7 @@ namespace SingleUseWorld
             if (_item == null)
                 return;
 
-            _item.Use(_direction);
+            _item.Use(_direction, gameObject);
             _item = null;
 
             _pickupAllowed = false;
