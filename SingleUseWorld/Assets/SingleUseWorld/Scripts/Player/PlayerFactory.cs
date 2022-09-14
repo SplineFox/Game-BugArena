@@ -3,11 +3,19 @@
 namespace SingleUseWorld
 {
     [CreateAssetMenu(fileName = "PlayerFactorySO", menuName = "SingleUseWorld/Factories/Player/Player Factory SO")]
-    public class PlayerFactory : MonoFactory<Player>
+    public class PlayerFactory : ScriptableFactory, IMonoFactory<Player>
     {
-        protected override void OnAfterCreate(Player instance)
+        #region Fields
+        [SerializeField] private Player _playerPrefab;
+        #endregion
+
+        #region Public Methods
+        public Player Create()
         {
-            instance.OnCreate();
+            var player = CreateInstance<Player>(_playerPrefab);
+            player.OnCreate();
+            return player;
         }
+        #endregion
     }
 }

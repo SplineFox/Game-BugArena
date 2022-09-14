@@ -3,18 +3,20 @@
 namespace SingleUseWorld
 {
     [CreateAssetMenu(fileName = "SkullItemFactorySO", menuName = "SingleUseWorld/Factories/Items/SkullItem Factory SO")]
-    public class SkullItemFactory : MonoFactory<SkullItem>
+    public class SkullItemFactory : ScriptableFactory, IMonoFactory<Item>
     {
-        [SerializeField] private SkullProjectileFactory _skullProjectileFactory;
+        #region Fields
+        [SerializeField] private Item _skullItemPrefab;
+        [SerializeField] private SkullEntityFactory _skullEntityFactory;
+        #endregion
 
-        protected override void OnAfterCreate(SkullItem instance)
+        #region Public Methods
+        public Item Create()
         {
-            instance.Initialize(this, _skullProjectileFactory);
+            var skullItem = CreateInstance<Item>(_skullItemPrefab);
+            skullItem.OnCreate(ItemType.Skull, _skullEntityFactory);
+            return skullItem;
         }
-
-        protected override void OnBeforeDestroy(SkullItem instance)
-        {
-            instance.Deinitialize();
-        }
+        #endregion
     }
 }

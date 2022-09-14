@@ -5,12 +5,18 @@ using UnityEngine;
 namespace SingleUseWorld
 {
     [CreateAssetMenu(fileName = "EnemyFactorySO", menuName = "SingleUseWorld/Factories/Enemies/Enemy Factory SO")]
-    public sealed class EnemyFactory : MonoFactory<Enemy>
+    public sealed class EnemyFactory : ScriptableFactory, IMonoFactory<Enemy>
     {
+        #region Fields
+        [SerializeField] private Enemy _enemyPrefab;
+        #endregion
+
         #region Public Methods
-        protected override void OnAfterCreate(Enemy instance)
+        public Enemy Create()
         {
-            instance.OnCreate();
+            var enemy = CreateInstance<Enemy>(_enemyPrefab);
+            enemy.OnCreate();
+            return enemy;
         }
         #endregion
     }
