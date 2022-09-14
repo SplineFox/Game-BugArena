@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "SkullProjectileSettingsSO", menuName = "SingleUseWorld/Settings/Items/SkullProjectile Settings SO")]
+    [CreateAssetMenu(fileName = "SkullEntitySettingsSO", menuName = "SingleUseWorld/Settings/Items/SkullEntity Settings SO")]
     public class SkullEntitySettings : ScriptableObject
     {
         #region Fields
@@ -13,7 +13,7 @@ namespace SingleUseWorld
         [Min(0.25f)]
         public float LaunchOffset = 0.34375f;
         [Min(1)]
-        public int Damage = 1;
+        public int Damage = 100;
         #endregion
     }
 }

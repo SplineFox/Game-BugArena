@@ -2,7 +2,7 @@
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "SkullProjectileFactorySO", menuName = "SingleUseWorld/Factories/Items/SkullProjectile Factory SO")]
+    [CreateAssetMenu(fileName = "SkullEntityFactorySO", menuName = "SingleUseWorld/Factories/Items/SkullEntity Factory SO")]
     public class SkullEntityFactory : ScriptableFactory, IMonoFactory<ItemEntity>
     {
         [SerializeField] private SkullEntity _skullEntityPrefab;
