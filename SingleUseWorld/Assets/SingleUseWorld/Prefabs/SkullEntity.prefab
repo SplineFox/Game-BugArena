@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1456267255817496274}
   - component: {fileID: 8987631306542378844}
   - component: {fileID: 4554726582950685939}
-  m_Layer: 7
-  m_Name: SkullProjectile
+  m_Layer: 0
+  m_Name: SkullEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,6 +33,7 @@ Transform:
   m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2437470645222569983}
   - {fileID: 6484845083605735814}
   - {fileID: 181991859364240393}
   m_Father: {fileID: 0}
@@ -53,7 +54,7 @@ MonoBehaviour:
   _height: 0
   _observers:
   - {fileID: 2109571748077368193}
-  - {fileID: 5532407349691823939}
+  - {fileID: 8208653113049320609}
 --- !u!114 &6680178726247032673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9c0228bf281834cb71152493c77bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _projectileTrigger: {fileID: 8203271595126458486}
 --- !u!114 &2889827444420935725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 181991859364240393}
-  - component: {fileID: 5532407349691823939}
+  - component: {fileID: 8208653113049320609}
   - component: {fileID: 1842440218649781745}
   m_Layer: 0
   m_Name: Shadow
@@ -159,9 +161,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7649522908223627925}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5532407349691823939
+--- !u!114 &8208653113049320609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355b61d6d891fa746aa7586b975c70ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxVisibleHeight: 1.8
+  _maxVisibleHeight: 1
   _minTransparency: 1
   _maxTransparency: 0.2
 --- !u!212 &1842440218649781745
@@ -227,6 +229,66 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4775450054892603474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2437470645222569983}
+  - component: {fileID: 8203271595126458486}
+  - component: {fileID: 3776791550433370857}
+  m_Layer: 10
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2437470645222569983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775450054892603474}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7649522908223627925}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8203271595126458486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775450054892603474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d819c686408bc459b5ae6051a934b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &3776791550433370857
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4775450054892603474}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &6233152101539960524
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +319,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7649522908223627925}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2109571748077368193
 MonoBehaviour:
