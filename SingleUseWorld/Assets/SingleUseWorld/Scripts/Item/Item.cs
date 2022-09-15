@@ -92,7 +92,7 @@ namespace SingleUseWorld
             var entity = _entityFactory.Create();
             entity.transform.position = this.transform.position;
             entity.Use(direction, transform.parent.gameObject);
-            GameObject.Destroy(this);
+            Destroy(gameObject);
         }
         #endregion
 
