@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _height: 0
   _observers:
-  - {fileID: 2109571748077368193}
+  - {fileID: 472270197644218008}
   - {fileID: 8208653113049320609}
 --- !u!114 &6680178726247032673
 MonoBehaviour:
@@ -67,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9c0228bf281834cb71152493c77bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _view: {fileID: 472270197644218008}
+  _shadow: {fileID: 8208653113049320609}
   _projectileTrigger: {fileID: 8203271595126458486}
 --- !u!114 &2889827444420935725
 MonoBehaviour:
@@ -298,7 +300,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6484845083605735814}
-  - component: {fileID: 2109571748077368193}
+  - component: {fileID: 472270197644218008}
   - component: {fileID: 6875112654339859146}
   m_Layer: 0
   m_Name: Body
@@ -321,7 +323,7 @@ Transform:
   m_Father: {fileID: 7649522908223627925}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2109571748077368193
+--- !u!114 &472270197644218008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,7 +332,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6233152101539960524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0264a927bc3de464ea6361e3c402a4b5, type: 3}
+  m_Script: {fileID: 11500000, guid: eceb675419f818d47b4021da362774e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &6875112654339859146
