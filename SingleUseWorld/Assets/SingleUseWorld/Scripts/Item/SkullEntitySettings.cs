@@ -14,6 +14,14 @@ namespace SingleUseWorld
         public float LaunchOffset = 0.34375f;
         [Min(1)]
         public int Damage = 100;
+
+        public float ReboundGravity = 30f;
+        public RangeFloat ReboundHorizontalSpeed = new RangeFloat(1f, 3f);
+        public RangeFloat ReboundVerticalSpeed = new RangeFloat(4f, 7f);
+
+        public float ReboundRotationAngle = 180f;
+        public float ReboundRotationTime = 0.6f;
+        public float ReboundFadeOutTime = 0.6f;
         #endregion
     }
 }

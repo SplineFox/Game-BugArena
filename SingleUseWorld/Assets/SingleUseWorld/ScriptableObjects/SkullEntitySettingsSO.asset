@@ -16,3 +16,10 @@ MonoBehaviour:
   LaunchSpeed: 20
   LaunchOffset: 0.34375
   Damage: 100
+  ReboundGravity: 30
+  ReboundHorizontalSpeed:
+    start: 1
+    end: 3
+  ReboundVerticalSpeed:
+    start: 4
+    end: 7
