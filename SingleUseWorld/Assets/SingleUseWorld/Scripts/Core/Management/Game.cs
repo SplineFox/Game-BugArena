@@ -13,7 +13,7 @@ namespace SingleUseWorld
         [SerializeField] private PlayerFactory _playerFactory = default;
         [Space]
         [SerializeField] private SkullItemFactory _skullItemFactory = default;
-        [SerializeField] private SkullEntityFactory _skullProjectileFactory = default;
+        [SerializeField] private SkullEntityFactory _skullEntityFactory = default;
 
         private Player _player;
         private PlayerController _playerController;
