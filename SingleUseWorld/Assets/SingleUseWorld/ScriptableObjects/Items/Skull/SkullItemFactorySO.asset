@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ffb156b041aef4fa52677106f234f3, type: 3}
   m_Name: SkullItemFactorySO
   m_EditorClassIdentifier: 
-  _skullItemPrefab: {fileID: 2612033958661259506, guid: 24da7e3fa79435240868572e41168599, type: 3}
+  _skullItemPrefab: {fileID: 8183528924108807107, guid: 232ea20ada07b4a46bc6beea28fba554, type: 3}
   _skullEntityFactory: {fileID: 11400000, guid: 8a229ed255b0c0641a84e2466753cf09, type: 2}
