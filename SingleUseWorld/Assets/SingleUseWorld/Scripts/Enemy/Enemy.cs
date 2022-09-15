@@ -11,6 +11,7 @@ namespace SingleUseWorld
         [SerializeField] private EnemyBodyView _body = default;
         [SerializeField] private ShadowView _shadow = default;
 
+        private int _health = 100;
         private float _wanderSpeed = 1f;
         private float _chaseSpeed = 3f;
 
@@ -36,6 +37,18 @@ namespace SingleUseWorld
 
         void IPoolable.OnReset()
         {}
+
+        public void Damage(int damageAmount, Vector2 damageDirection)
+        {
+            _health -= damageAmount;
+            if (_health <= 0)
+            {
+                float horizontalSpeed = UnityEngine.Random.Range(2f,5f);
+                float verticalSpeed = UnityEngine.Random.Range(2f, 5f);
+
+                _movement.Knockback(damageDirection * horizontalSpeed, verticalSpeed);
+            }
+        }
         #endregion
 
         #region Private Methods
