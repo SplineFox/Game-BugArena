@@ -12,6 +12,8 @@ namespace SingleUseWorld
         [SerializeField] private PlayerInput _playerInput = default;
         [SerializeField] private PlayerFactory _playerFactory = default;
         [Space]
+        [SerializeField] private EnemyFactory _enemyFactory = default;
+        [Space]
         [SerializeField] private SkullItemFactory _skullItemFactory = default;
         [SerializeField] private SkullEntityFactory _skullEntityFactory = default;
 
@@ -51,6 +53,9 @@ namespace SingleUseWorld
             _targetController = new TargetController(_player.transform, _cameraController);
 
             _playerController.Initialize(_playerInput, _player, _cameraController, _targetController);
+
+            var enemy = _enemyFactory.Create();
+            enemy.transform.position = _player.transform.position + Vector3.left * 5;
 
             var item = _skullItemFactory.Create();
             item.transform.position = _player.transform.position + Vector3.right * 5;

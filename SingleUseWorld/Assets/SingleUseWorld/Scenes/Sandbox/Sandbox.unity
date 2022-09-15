@@ -775,6 +775,7 @@ MonoBehaviour:
   _virtualCamera: {fileID: 1289957773}
   _playerInput: {fileID: 11400000, guid: ff6b5116997c8054facb194057e926d3, type: 2}
   _playerFactory: {fileID: 11400000, guid: 7606b61a6e25b694399373d55d3983e9, type: 2}
+  _enemyFactory: {fileID: 11400000, guid: d0a4434172cc50643985173946737cf8, type: 2}
   _skullItemFactory: {fileID: 11400000, guid: e6257ab42cd3c054c97f6b8e1ce5c431, type: 2}
   _skullEntityFactory: {fileID: 11400000, guid: 8a229ed255b0c0641a84e2466753cf09, type: 2}
 --- !u!4 &2088865095
