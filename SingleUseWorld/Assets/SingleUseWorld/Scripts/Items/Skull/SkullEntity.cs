@@ -48,7 +48,6 @@ namespace SingleUseWorld
         #region Public Methods
         public override void Use(Vector2 direction, GameObject instigator)
         {
-            StopAllCoroutines();
             elevator.height = _settings.LaunchHeight;
 
             var offset = new Vector3(direction.x, direction.y, 0) * _settings.LaunchOffset;
