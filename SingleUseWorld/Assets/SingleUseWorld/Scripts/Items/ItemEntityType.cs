@@ -9,7 +9,7 @@ namespace SingleUseWorld
         Spear,
         Dynamite,
         // Tier 2
-        Bow,
+        Arrow,
         Sword,
         Bomb,
         // Tier 3
