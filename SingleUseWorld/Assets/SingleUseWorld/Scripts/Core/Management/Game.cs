@@ -17,6 +17,7 @@ namespace SingleUseWorld
         [SerializeField] private SkullItemFactory _skullItemFactory = default;
         [SerializeField] private BowItemFactory _bowItemFactory = default;
         [SerializeField] private BombItemFactory _bombItemFactory = default;
+        [SerializeField] private SwordItemFactory _swordItemFactory = default;
 
         private Player _player;
         private PlayerController _playerController;
@@ -59,13 +60,16 @@ namespace SingleUseWorld
             enemy.transform.position = _player.transform.position + Vector3.left * 5;
 
             var skull = _skullItemFactory.Create();
-            skull.transform.position = _player.transform.position + Vector3.right * 9;
+            skull.transform.position = _player.transform.position + Vector3.right * 11;
 
             var bow = _bowItemFactory.Create();
-            bow.transform.position = _player.transform.position + Vector3.right * 7;
+            bow.transform.position = _player.transform.position + Vector3.right * 9;
 
             var bomb = _bombItemFactory.Create();
-            bomb.transform.position = _player.transform.position + Vector3.right * 5;
+            bomb.transform.position = _player.transform.position + Vector3.right * 7;
+
+            var sword = _swordItemFactory.Create();
+            sword.transform.position = _player.transform.position + Vector3.right * 5;
         }
 
         private void Deinitialize()
