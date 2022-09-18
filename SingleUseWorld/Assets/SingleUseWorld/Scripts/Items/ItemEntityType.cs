@@ -10,7 +10,7 @@ namespace SingleUseWorld
         Dynamite,
         // Tier 2
         Arrow,
-        Sword,
+        LongSword,
         Bomb,
         // Tier 3
         Chakram,
