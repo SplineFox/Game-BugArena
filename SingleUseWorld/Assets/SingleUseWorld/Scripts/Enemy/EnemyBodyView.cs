@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace SingleUseWorld
@@ -64,6 +65,11 @@ namespace SingleUseWorld
         {
             _animator.Play(_knockedAnimId);
         }
+
+        public void Rotate(float angle, float duration)
+        {
+            StartCoroutine(RotateTo(angle, duration));
+        }
         #endregion
 
         #region Private Methods
@@ -76,6 +82,20 @@ namespace SingleUseWorld
             _wanderAnimId = Animator.StringToHash(_wanderAnimName);
             _chaseAnimId = Animator.StringToHash(_chaseAnimName);
             _knockedAnimId = Animator.StringToHash(_knockedAnimName);
+        }
+
+        private IEnumerator RotateTo(float angle, float duration)
+        {
+            var initalRotation = Vector3.forward * transform.eulerAngles.z;
+            var targetRotation = Vector3.forward * angle;
+
+            var elapsedTime = 0f;
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                transform.eulerAngles = Vector3.Lerp(initalRotation, targetRotation, elapsedTime / duration);
+                yield return null;
+            }
         }
         #endregion
     }

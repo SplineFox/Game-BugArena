@@ -47,6 +47,11 @@ namespace SingleUseWorld
                 float verticalSpeed = UnityEngine.Random.Range(2f, 5f);
 
                 _movement.Knockback(damageDirection * horizontalSpeed, verticalSpeed);
+                
+                var angle = (damageDirection.x > 0) ? -180f : 180f;
+                _body.Rotate(angle, 1.2f);
+                _body.SetFacingDirectionParameter(damageDirection);
+                elevator.height = 1f;
             }
         }
         #endregion
