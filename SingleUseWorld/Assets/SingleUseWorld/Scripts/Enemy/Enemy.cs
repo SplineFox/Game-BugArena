@@ -27,12 +27,15 @@ namespace SingleUseWorld
 
             _movement.StateChanged += OnMovementStateChanged;
             _movement.SetSpeed(_wanderSpeed);
+
+            _projectile.GroundCollision += OnGroundHit;
         }
 
         public void OnDestroy()
         {
             _movement.StateChanged -= OnMovementStateChanged;
             _sight.StateChanged -= OnSightStateChanged;
+            _projectile.GroundCollision -= OnGroundHit;
         }
 
         void IPoolable.OnReset()
@@ -57,6 +60,14 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
+        private void OnGroundHit()
+        {
+            if (_health <= 0f)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         private void OnMovementStateChanged(MovementState movementState)
         {
             switch (movementState)
