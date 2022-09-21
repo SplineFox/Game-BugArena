@@ -15,10 +15,28 @@ namespace SingleUseWorld
         #region Fields
         private Collider2D _collider2D = default;
         private Transform _target = default;
+        private bool _sightAllowed = true;
         #endregion
 
         #region Properties
+        public bool SightAllowed
+        { 
+            get => _sightAllowed;
+            set
+            {
+                if (_sightAllowed == value)
+                    return;
+
+                _sightAllowed = value;
+                if (_sightAllowed)
+                    EnableTrigger();
+                else
+                    DisableTrigger();
+            }
+        }
+
         public Transform Target { get => _target; }
+
         public Vector2 DirectionToTarget
         {
             get
@@ -56,6 +74,20 @@ namespace SingleUseWorld
         {
             _collider2D = GetComponent<Collider2D>();
             _state = SightState.OutSight;
+        }
+        #endregion
+
+        #region Private Methods
+        private void EnableTrigger()
+        {
+            _collider2D.enabled = true;
+        }
+
+        private void DisableTrigger()
+        {
+            _target = null;
+            _state = SightState.OutSight;
+            _collider2D.enabled = false;
         }
         #endregion
     }
