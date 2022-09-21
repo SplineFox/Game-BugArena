@@ -43,7 +43,7 @@ namespace SingleUseWorld
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if(collision.gameObject == _target.gameObject)
+            if(_target != null && _target.gameObject == collision.gameObject)
             {
                 _target = null;
                 SetState(SightState.OutSight);
