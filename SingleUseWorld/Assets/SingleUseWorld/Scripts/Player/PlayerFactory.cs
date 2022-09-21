@@ -7,13 +7,14 @@ namespace SingleUseWorld
     {
         #region Fields
         [SerializeField] private Player _playerPrefab;
+        [SerializeField] private PlayerSettings _playerSettings;
         #endregion
 
         #region Public Methods
         public Player Create()
         {
             var player = CreateInstance<Player>(_playerPrefab);
-            player.OnCreate();
+            player.OnCreate(_playerSettings);
             return player;
         }
         #endregion

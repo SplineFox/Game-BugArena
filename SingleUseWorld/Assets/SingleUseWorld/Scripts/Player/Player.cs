@@ -12,17 +12,19 @@ namespace SingleUseWorld
         [SerializeField] private PlayerBodyView _body = default;
         [SerializeField] private ShadowView _shadow = default;
 
-        private float _movementSpeed = 4f;
+        private PlayerSettings _settings;
         #endregion
 
         #region Public Methods
-        public void OnCreate()
+        public void OnCreate(PlayerSettings settings)
         {
+            _settings = settings;
+
             _armament.Initialize();
             _armament.StateChanged += OnArmamentStateChanged;
 
             _movement.StateChanged += OnMovementStateChanged;
-            _movement.SetSpeed(_movementSpeed);
+            _movement.SetSpeed(_settings.MovementSpeed);
 
             _body.ThrowStartFrameReached += OnThrowStartFrameReached;
             _body.ThrowEndFrameReached += OnThrowEndFrameReached;
