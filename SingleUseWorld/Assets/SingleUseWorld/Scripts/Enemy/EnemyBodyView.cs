@@ -10,6 +10,9 @@ namespace SingleUseWorld
         #region Fields
         private Animator _animator = default;
         private SpriteRenderer _spriteRenderer = default;
+        private Material _originalMaterial = default;
+
+        [SerializeField] private Material _flashMaterial = default;
 
         [SerializeField] private string _facingDirectionXParamName = "FacingX";
         [SerializeField] private string _facingDirectionYParamName = "FacingY";
@@ -33,6 +36,7 @@ namespace SingleUseWorld
         {
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _originalMaterial = _spriteRenderer.sharedMaterial;
 
             CacheAnimatorParameters();
         }
@@ -66,6 +70,11 @@ namespace SingleUseWorld
             _animator.Play(_knockedAnimId);
         }
 
+        public void ShowFlash(float duration)
+        {
+            StartCoroutine(Flash(duration));
+        }
+
         public void Rotate(float angle, float duration)
         {
             StartCoroutine(RotateTo(angle, duration));
@@ -82,6 +91,13 @@ namespace SingleUseWorld
             _wanderAnimId = Animator.StringToHash(_wanderAnimName);
             _chaseAnimId = Animator.StringToHash(_chaseAnimName);
             _knockedAnimId = Animator.StringToHash(_knockedAnimName);
+        }
+
+        private IEnumerator Flash(float duration)
+        {
+            _spriteRenderer.material = _flashMaterial;
+            yield return new WaitForSeconds(duration);
+            _spriteRenderer.material = _originalMaterial;
         }
 
         private IEnumerator RotateTo(float angle, float duration)

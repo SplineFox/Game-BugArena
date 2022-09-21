@@ -54,6 +54,7 @@ namespace SingleUseWorld
                 var angle = (damageDirection.x > 0) ? -180f : 180f;
                 _body.Rotate(angle, 1.2f);
                 _body.SetFacingDirectionParameter(damageDirection);
+                _body.ShowFlash(0.1f);
                 elevator.height = 1f;
             }
         }
