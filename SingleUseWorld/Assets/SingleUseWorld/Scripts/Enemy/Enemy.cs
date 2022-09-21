@@ -12,21 +12,19 @@ namespace SingleUseWorld
         [SerializeField] private ShadowView _shadow = default;
 
         private int _health = 100;
-        private float _wanderSpeed = 1f;
-        private float _chaseSpeed = 3f;
-
-        private float _wanderMovingTime = 1f;
-        private float _wanderIdlingTime = 1f;
+        private EnemySettings _settings;
         #endregion
 
         #region Public Methods
-        public void OnCreate()
+        public void OnCreate(EnemySettings settings)
         {
+            _settings = settings;
+
             _sight.Initialize();
             _sight.StateChanged += OnSightStateChanged;
 
             _movement.StateChanged += OnMovementStateChanged;
-            _movement.SetSpeed(_wanderSpeed);
+            _movement.SetSpeed(_settings.WanderSpeed);
 
             _projectile.GroundCollision += OnGroundHit;
         }
@@ -118,7 +116,7 @@ namespace SingleUseWorld
 
         private IEnumerator Chase()
         {
-            _movement.SetSpeed(_chaseSpeed);
+            _movement.SetSpeed(_settings.ChaseSpeed);
             _movement.StartMovement();
 
             while (true)
@@ -135,10 +133,10 @@ namespace SingleUseWorld
             _movement.SetDirection(direction);
             _body.SetFacingDirectionParameter(direction);
 
-            _movement.SetSpeed(_wanderSpeed);
+            _movement.SetSpeed(_settings.WanderSpeed);
             _movement.StartMovement();
 
-            yield return new WaitForSeconds(_wanderMovingTime);
+            yield return new WaitForSeconds(_settings.WanderMovingTime);
             StartCoroutine(Idle());
         }
 
@@ -146,7 +144,7 @@ namespace SingleUseWorld
         {
             _movement.StopMovement();
 
-            yield return new WaitForSeconds(_wanderIdlingTime);
+            yield return new WaitForSeconds(_settings.WanderIdlingTime);
             StartCoroutine(Wander());
         }
         #endregion

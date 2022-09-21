@@ -9,13 +9,14 @@ namespace SingleUseWorld
     {
         #region Fields
         [SerializeField] private Enemy _enemyPrefab;
+        [SerializeField] private EnemySettings _enemySettings;
         #endregion
 
         #region Public Methods
         public Enemy Create()
         {
             var enemy = CreateInstance<Enemy>(_enemyPrefab);
-            enemy.OnCreate();
+            enemy.OnCreate(_enemySettings);
             return enemy;
         }
         #endregion
