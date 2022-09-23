@@ -18,12 +18,18 @@ namespace SingleUseWorld
 
         private ItemType _itemType = default;
         private IMonoFactory<ItemEntity> _entityFactory = default;
+        private ItemSettings _settings = default;
         #endregion
 
         #region Properties
         public ItemType Type 
         { 
             get => _itemType; 
+        }
+
+        public float SpeedFactor
+        {
+            get => _settings.SpeedFactor;
         }
         #endregion
 
@@ -42,10 +48,11 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void OnCreate(ItemType itemType, IMonoFactory<ItemEntity> entityFactory)
+        public void OnCreate(ItemType itemType, IMonoFactory<ItemEntity> entityFactory, ItemSettings settings)
         {
             _itemType = itemType;
             _entityFactory = entityFactory;
+            _settings = settings;
         }
 
         public void OnDestroy()

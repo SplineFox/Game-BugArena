@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7737ef16d81401b429bb07e04daeac61, type: 3}
-  m_Name: PlayerFactorySO
+  m_Script: {fileID: 11500000, guid: e823a2800b8cc774f890d0feeb8cc45b, type: 3}
+  m_Name: ItemSettingsSO
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 8478764904173034992, guid: 678981a153d98ee42aeea585e24d521d, type: 3}
-  _playerSettings: {fileID: 11400000, guid: e4db57a7b13853543bf67281d435876a, type: 2}
+  SpeedFactor: 0.85

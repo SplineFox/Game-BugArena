@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: BombItemFactorySO
   m_EditorClassIdentifier: 
   _bombItemPrefab: {fileID: 1620896060815122539, guid: 7edde63d21eec394d8dc81e21b0fdb7f, type: 3}
+  _itemSettings: {fileID: 11400000, guid: d672c076f9aa58f4bae7160fb2d53d3c, type: 2}
   _bombEntityFactory: {fileID: 11400000, guid: 98bb30a74343bef4986d5de374fa90d8, type: 2}

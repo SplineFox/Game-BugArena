@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: BowItemFactorySO
   m_EditorClassIdentifier: 
   _bowItemPrefab: {fileID: 1423468036185238025, guid: 871c96f007d2d6c45b0bb24d2764d345, type: 3}
+  _itemSettings: {fileID: 11400000, guid: d672c076f9aa58f4bae7160fb2d53d3c, type: 2}
   _arrowEntityFactory: {fileID: 11400000, guid: 7a6dd90fb5221754c9f53b1a985e5b48, type: 2}
