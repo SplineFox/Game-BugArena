@@ -13,18 +13,18 @@ namespace SingleUseWorld
         [SerializeField] private ShadowView _shadow = default;
 
         private PlayerSettings _settings;
+        private PlayerSpeed _speed;
         #endregion
 
         #region Public Methods
         public void OnCreate(PlayerSettings settings)
         {
             _settings = settings;
+            _speed = new PlayerSpeed(_settings.SpeedSettings, _movement);
 
             _armament.Initialize();
             _armament.StateChanged += OnArmamentStateChanged;
-
             _movement.StateChanged += OnMovementStateChanged;
-            _movement.SetSpeed(_settings.MovementSpeed);
 
             _body.ThrowStartFrameReached += OnThrowStartFrameReached;
             _body.ThrowEndFrameReached += OnThrowEndFrameReached;
@@ -135,9 +135,11 @@ namespace SingleUseWorld
             switch (_armament.State)
             {
                 case ArmamentState.Unarmed:
+                    _speed.ResetItemFactor();
                     ResolveUnarmedMovement();
                     break;
                 case ArmamentState.Armed:
+                    _speed.SetItemFactor(_armament.HeldItem.SpeedFactor);
                     ResolveArmedMovement();
                     break;
             }

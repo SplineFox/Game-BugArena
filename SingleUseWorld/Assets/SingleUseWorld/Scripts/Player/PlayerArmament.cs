@@ -27,6 +27,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Properties
+        public Item HeldItem { get => _item; }
         public Vector2 AimDirection { get => _direction; }
         public bool PickupAllowed { get => _pickupAllowed; set => _pickupAllowed = value; }
         #endregion
