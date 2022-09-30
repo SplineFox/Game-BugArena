@@ -20,7 +20,7 @@ namespace SingleUseWorld
         {
             _settings = settings;
 
-            _sight.Initialize();
+            _sight.Initialize(_settings.SightSettings);
             _sight.StateChanged += OnSightStateChanged;
 
             _movement.StateChanged += OnMovementStateChanged;

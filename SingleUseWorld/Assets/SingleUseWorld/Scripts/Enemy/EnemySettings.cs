@@ -6,6 +6,8 @@ namespace SingleUseWorld
     public class EnemySettings : ScriptableObject
     {
         #region Fields
+        public EnemySight.Settings SightSettings;
+
         public float WanderSpeed = 1f;
         public float ChaseSpeed = 3f;
 
