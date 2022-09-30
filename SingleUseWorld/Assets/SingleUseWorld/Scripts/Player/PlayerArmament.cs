@@ -46,7 +46,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public override void Initialize()
+        public void Initialize(Settings settings)
         {
             _state = ArmamentState.Unarmed;
 

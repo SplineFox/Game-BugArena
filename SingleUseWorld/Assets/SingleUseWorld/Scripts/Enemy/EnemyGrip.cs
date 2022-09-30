@@ -39,7 +39,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public override void Initialize()
+        public void Initialize()
         {
             _collider2D = GetComponent<Collider2D>();
             _state = GripState.Released;
