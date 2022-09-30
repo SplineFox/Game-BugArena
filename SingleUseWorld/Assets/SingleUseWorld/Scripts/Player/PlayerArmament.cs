@@ -14,14 +14,21 @@ namespace SingleUseWorld
     [RequireComponent(typeof(Collider2D))]
     public sealed class PlayerArmament : BaseComponent<ArmamentState>
     {
+        #region Nested Classes
+        [Serializable]
+        public class Settings
+        {
+            public float PickupCooldownTime = 0.5f;
+            public float AttachmentHeight = 1.8f;
+        }
+        #endregion
+
         #region Fields
         [SerializeField]
+        private Settings _settings;
         private bool _pickupAllowed = true;
         private Coroutine _pickupCooldownCoroutine = default;
-        private float _pickupCooldownTime = 0.5f;
-
         private Vector2 _direction = Vector2.right;
-        private float _attachmentHeight = 1.8f;
 
         private Collider2D _collider2D = default;
         private Item _item = default;
@@ -48,6 +55,7 @@ namespace SingleUseWorld
         #region Public Methods
         public void Initialize(Settings settings)
         {
+            _settings = settings;
             _state = ArmamentState.Unarmed;
 
             _collider2D = GetComponent<Collider2D>();
@@ -70,7 +78,7 @@ namespace SingleUseWorld
             }
 
             _item = item;
-            _item.Attach(transform, _attachmentHeight);
+            _item.Attach(transform, _settings.AttachmentHeight);
 
             SetState(ArmamentState.Armed);
         }
@@ -114,7 +122,7 @@ namespace SingleUseWorld
         {
             _item.Detach();
             _item = item;
-            _item.Attach(transform, _attachmentHeight);
+            _item.Attach(transform, _settings.AttachmentHeight);
             StartPickupCooldown();
         }
 
@@ -143,7 +151,7 @@ namespace SingleUseWorld
             {
                 StopCoroutine(_pickupCooldownCoroutine);
             }
-            _pickupCooldownCoroutine = StartCoroutine(PickupCooldown(_pickupCooldownTime));
+            _pickupCooldownCoroutine = StartCoroutine(PickupCooldown(_settings.PickupCooldownTime));
         }
 
         private IEnumerator PickupCooldown(float duration)

@@ -24,7 +24,7 @@ namespace SingleUseWorld
             _speed = new PlayerSpeed(_settings.SpeedSettings, _movement);
             _health = new PlayerHealth(_settings.HealthSettings, this);
 
-            _armament.Initialize();
+            _armament.Initialize(_settings.ArmamentSettings);
             _armament.StateChanged += OnArmamentStateChanged;
             _movement.StateChanged += OnMovementStateChanged;
 
