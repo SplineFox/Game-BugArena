@@ -34,7 +34,7 @@ namespace SingleUseWorld
 
         private bool PickupCooldownCompleted
         {
-            get => _pickupCooldownCoroutine != null;
+            get => _pickupCooldownCoroutine == null;
         }
         #endregion
 
@@ -139,7 +139,7 @@ namespace SingleUseWorld
 
         private void StartPickupCooldown()
         {
-            if (_pickupCooldownCoroutine != null)
+            if (!PickupCooldownCompleted)
             {
                 StopCoroutine(_pickupCooldownCoroutine);
             }
