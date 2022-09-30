@@ -24,7 +24,10 @@ namespace SingleUseWorld
         #endregion
 
         #region Properties
-        public float Value => _speed;
+        public float Value
+        {
+            get => _speed;
+        }
         #endregion
 
         #region Constructors
