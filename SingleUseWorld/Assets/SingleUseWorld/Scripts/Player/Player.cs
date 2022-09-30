@@ -13,6 +13,7 @@ namespace SingleUseWorld
         [SerializeField] private ShadowView _shadow = default;
 
         private PlayerSettings _settings;
+        private PlayerHealth _health;
         private PlayerSpeed _speed;
         #endregion
 
@@ -21,6 +22,7 @@ namespace SingleUseWorld
         {
             _settings = settings;
             _speed = new PlayerSpeed(_settings.SpeedSettings, _movement);
+            _health = new PlayerHealth(_settings.HealthSettings, this);
 
             _armament.Initialize();
             _armament.StateChanged += OnArmamentStateChanged;

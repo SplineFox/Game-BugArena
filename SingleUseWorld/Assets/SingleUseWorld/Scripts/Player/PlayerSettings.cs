@@ -6,5 +6,6 @@ namespace SingleUseWorld
     public class PlayerSettings : ScriptableObject
     {
         public PlayerSpeed.Settings SpeedSettings;
+        public PlayerHealth.Settings HealthSettings;
     }
 }
