@@ -4,45 +4,73 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class Enemy : BaseCharacter
+    public class Enemy : BaseCharacter, IPoolable
     {
         #region Fields
         [SerializeField] private EnemySight _sight = default;
+        [SerializeField] private EnemyGrip _grip = default;
         [SerializeField] private EnemyBodyView _body = default;
         [SerializeField] private ShadowView _shadow = default;
 
-        private float _wanderSpeed = 1f;
-        private float _chaseSpeed = 3f;
-
-        private float _wanderMovingTime = 1f;
-        private float _wanderIdlingTime = 1f;
+        private int _health = 100;
+        private EnemySettings _settings;
         #endregion
 
-        private void Start()
-        {
-            Initialize();
-        }
-
         #region Public Methods
-        public override void Initialize()
+        public void OnCreate(EnemySettings settings)
         {
-            base.Initialize();
+            _settings = settings;
 
-            _sight.Initialize();
+            _grip.Initialize(_settings.GripSettings);
+
+            _sight.Initialize(_settings.SightSettings);
             _sight.StateChanged += OnSightStateChanged;
 
             _movement.StateChanged += OnMovementStateChanged;
-            _movement.SetSpeed(_wanderSpeed);
+            _movement.SetSpeed(_settings.WanderSpeed);
+
+            _projectile.GroundCollision += OnGroundHit;
         }
 
-        public void Deinitialize()
+        public void OnDestroy()
         {
             _movement.StateChanged -= OnMovementStateChanged;
             _sight.StateChanged -= OnSightStateChanged;
+            _projectile.GroundCollision -= OnGroundHit;
+        }
+
+        void IPoolable.OnReset()
+        {}
+
+        public void Damage(int damageAmount, Vector2 damageDirection)
+        {
+            _health -= damageAmount;
+            if (_health <= 0)
+            {
+                float horizontalSpeed = UnityEngine.Random.Range(2f,5f);
+                float verticalSpeed = UnityEngine.Random.Range(2f, 5f);
+
+                _movement.Knockback(damageDirection * horizontalSpeed, verticalSpeed);
+                _sight.SightAllowed = false;
+                
+                var angle = (damageDirection.x > 0) ? -180f : 180f;
+                _body.Rotate(angle, 1.2f);
+                _body.SetFacingDirectionParameter(damageDirection);
+                _body.ShowFlash(0.1f);
+                elevator.height = 1f;
+            }
         }
         #endregion
 
         #region Private Methods
+        private void OnGroundHit()
+        {
+            if (_health <= 0f)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         private void OnMovementStateChanged(MovementState movementState)
         {
             switch (movementState)
@@ -91,7 +119,7 @@ namespace SingleUseWorld
 
         private IEnumerator Chase()
         {
-            _movement.SetSpeed(_chaseSpeed);
+            _movement.SetSpeed(_settings.ChaseSpeed);
             _movement.StartMovement();
 
             while (true)
@@ -108,10 +136,10 @@ namespace SingleUseWorld
             _movement.SetDirection(direction);
             _body.SetFacingDirectionParameter(direction);
 
-            _movement.SetSpeed(_wanderSpeed);
+            _movement.SetSpeed(_settings.WanderSpeed);
             _movement.StartMovement();
 
-            yield return new WaitForSeconds(_wanderMovingTime);
+            yield return new WaitForSeconds(_settings.WanderMovingTime);
             StartCoroutine(Idle());
         }
 
@@ -119,7 +147,7 @@ namespace SingleUseWorld
         {
             _movement.StopMovement();
 
-            yield return new WaitForSeconds(_wanderIdlingTime);
+            yield return new WaitForSeconds(_settings.WanderIdlingTime);
             StartCoroutine(Wander());
         }
         #endregion

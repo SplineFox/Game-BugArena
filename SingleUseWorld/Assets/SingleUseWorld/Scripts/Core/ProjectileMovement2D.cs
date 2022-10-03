@@ -42,7 +42,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public override void Initialize()
+        public void Initialize()
         {
             _projectile2D = GetComponent<Projectile2D>();
             _projectile2D.IsKinematic = true;

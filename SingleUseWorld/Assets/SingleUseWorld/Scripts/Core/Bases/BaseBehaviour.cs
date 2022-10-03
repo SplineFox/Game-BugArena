@@ -13,9 +13,11 @@ namespace SingleUseWorld
         public Elevator elevator { get => _elevator; }
         #endregion
 
-        public virtual void Initialize()
+        #region LifeCycle Methods
+        protected virtual void Awake()
         {
             _elevator = GetComponent<Elevator>();
         }
+        #endregion
     }
 }

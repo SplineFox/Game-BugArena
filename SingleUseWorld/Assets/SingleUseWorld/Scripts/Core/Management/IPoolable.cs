@@ -5,6 +5,6 @@ namespace SingleUseWorld
 {
     public interface IPoolable
     {
-        public void Reset();
+        public void OnReset();
     }
 }

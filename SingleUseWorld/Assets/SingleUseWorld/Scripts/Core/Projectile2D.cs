@@ -204,7 +204,7 @@ namespace SingleUseWorld
 
         private void HandleVerticalMovement(float fixedDeltaTime)
         {
-            if (_isKinematic || IsVericalVelocityUnderThreshold())
+            if (_isKinematic || _grounded)
                 return;
 
             ApplyGravity(fixedDeltaTime);
@@ -224,11 +224,6 @@ namespace SingleUseWorld
         private bool IsHorizontalVelocityUnderThreshold()
         {
             return (_horizontalVelocity.sqrMagnitude) < VELOCITY_THRESHOLD;
-        }
-
-        private bool IsVericalVelocityUnderThreshold()
-        {
-            return (_verticalVelocity * _verticalVelocity) < VELOCITY_THRESHOLD;
         }
 
         private void CheckGroundCollision()

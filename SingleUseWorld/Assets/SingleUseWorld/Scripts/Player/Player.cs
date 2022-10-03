@@ -12,22 +12,42 @@ namespace SingleUseWorld
         [SerializeField] private PlayerBodyView _body = default;
         [SerializeField] private ShadowView _shadow = default;
 
-        private float _movementSpeed = 4f;
+        private PlayerSettings _settings;
+        private PlayerHealth _health;
+        private PlayerSpeed _speed;
+        private PlayerGripHandler _gripHandler;
+        #endregion
+
+        #region LifeCycle Methods
+        private void Update()
+        {
+            _gripHandler.Tick();
+        }
         #endregion
 
         #region Public Methods
-        public override void Initialize()
+        public void OnCreate(PlayerSettings settings)
         {
-            base.Initialize();
+            _settings = settings;
+            _speed = new PlayerSpeed(_settings.SpeedSettings, _movement);
+            _health = new PlayerHealth(_settings.HealthSettings, this);
+            _gripHandler = new PlayerGripHandler(_settings.GripHandlerSettings, _speed, _health);
 
-            _armament.Initialize();
+            _armament.Initialize(_settings.ArmamentSettings);
             _armament.StateChanged += OnArmamentStateChanged;
-
             _movement.StateChanged += OnMovementStateChanged;
-            _movement.SetSpeed(_movementSpeed);
 
             _body.ThrowStartFrameReached += OnThrowStartFrameReached;
             _body.ThrowEndFrameReached += OnThrowEndFrameReached;
+        }
+
+        public void OnDestroy()
+        {
+            _armament.StateChanged -= OnArmamentStateChanged;
+            _movement.StateChanged -= OnMovementStateChanged;
+
+            _body.ThrowStartFrameReached -= OnThrowStartFrameReached;
+            _body.ThrowEndFrameReached -= OnThrowEndFrameReached;
         }
 
         void IControllable.StartMovement()
@@ -68,14 +88,14 @@ namespace SingleUseWorld
             _armament.Drop();
         }
 
-        void IGrabbable.Grab(float grabbingTension)
+        void IGrabbable.Grab(float grabbingSlowDown, float grabbingDamagePerSecond)
         {
-
+            _gripHandler.Grab(grabbingSlowDown, grabbingDamagePerSecond);
         }
 
-        void IGrabbable.Release(float grabbingTension)
+        void IGrabbable.Release(float grabbingSlowDown, float grabbingDamagePerSecond)
         {
-
+            _gripHandler.Release(grabbingSlowDown, grabbingDamagePerSecond);
         }
         #endregion
 
@@ -126,9 +146,11 @@ namespace SingleUseWorld
             switch (_armament.State)
             {
                 case ArmamentState.Unarmed:
+                    _speed.ResetItemFactor();
                     ResolveUnarmedMovement();
                     break;
                 case ArmamentState.Armed:
+                    _speed.SetItemFactor(_armament.HeldItem.SpeedFactor);
                     ResolveArmedMovement();
                     break;
             }

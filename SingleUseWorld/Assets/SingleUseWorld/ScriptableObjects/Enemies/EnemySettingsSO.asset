@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc75b05165113f47ac309d8c35169ef, type: 3}
+  m_Name: EnemySettingsSO
+  m_EditorClassIdentifier: 
+  SightSettings:
+    OutSightRadius: 2
+    InSightRadius: 3
+  GripSettings:
+    GrabbingDamagePerSecond: 5
+    GrabbingSlowDown: 0.1
+  WanderSpeed: 1
+  ChaseSpeed: 3
+  WanderMovingTime: 1
+  WanderIdlingTime: 1

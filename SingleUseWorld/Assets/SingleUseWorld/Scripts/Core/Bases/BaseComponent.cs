@@ -17,11 +17,6 @@ namespace SingleUseWorld
         public Action<T> StateChanged = delegate { };
         #endregion
 
-        #region Public Methods
-        public virtual void Initialize()
-        { }
-        #endregion
-
         #region Private Methods
         protected void SetState(T state)
         {

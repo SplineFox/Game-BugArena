@@ -9,10 +9,10 @@ namespace SingleUseWorld
         protected ProjectileMovement2D _movement = default;
         #endregion
 
-        #region Public Methods
-        public override void Initialize()
+        #region LifeCycle Methods
+        protected override void Awake()
         {
-            base.Initialize();
+            base.Awake();
             _movement = GetComponent<ProjectileMovement2D>();
             _movement.Initialize();
         }

@@ -13,8 +13,16 @@ namespace SingleUseWorld
         [Range(0f, 1f)] [SerializeField] private float _maxTransparency = 0.2f;
         #endregion
 
+        #region Properties
+        public bool Visible
+        {
+            get => _spriteRenderer.enabled;
+            set => _spriteRenderer.enabled = value;
+        }
+        #endregion
+
         #region LifeCycle Methods
-        private void Start()
+        private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }

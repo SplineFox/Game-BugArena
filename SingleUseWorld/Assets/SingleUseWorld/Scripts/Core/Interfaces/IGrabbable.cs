@@ -4,8 +4,8 @@ namespace SingleUseWorld
 {
     public interface IGrabbable
     {
-        void Grab(float grabbingTension);
+        void Grab(float grabbingSlowDown, float grabbingDamagePerSecond);
 
-        void Release(float grabbingTension);
+        void Release(float grabbingSlowDown, float grabbingDamagePerSecond);
     }
 }

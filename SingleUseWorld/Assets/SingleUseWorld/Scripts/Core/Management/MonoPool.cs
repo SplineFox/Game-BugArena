@@ -7,7 +7,7 @@ namespace SingleUseWorld
     public class MonoPool<TPrefab> where TPrefab : MonoBehaviour, IPoolable
     {
         #region Fields
-        private MonoFactory<TPrefab> _factory;
+        private IMonoFactory<TPrefab> _factory;
         private Transform _containerTransform;
 
         private Stack<TPrefab> _availableItems;
@@ -35,7 +35,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Construcors
-        public MonoPool(MonoFactory<TPrefab> factory, Transform containerTransform, MonoPoolSettings settings)
+        public MonoPool(IMonoFactory<TPrefab> factory, Transform containerTransform, MonoPoolSettings settings)
         {
             _containerTransform = containerTransform;
             _factory = factory;
@@ -150,13 +150,13 @@ namespace SingleUseWorld
         private void DeallocateItem()
         {
             var item = _availableItems.Pop();
-            _factory.Destroy(item);
+            GameObject.Destroy(item);
         }
 
         private void ActivateItem(TPrefab item)
         {
             item.gameObject.SetActive(true);
-            item.Reset();
+            item.OnReset();
         }
 
         private void DeactivateItem(TPrefab item)

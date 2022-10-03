@@ -221,7 +221,7 @@ MonoBehaviour:
   _moveArmedAnimName: MoveArmed
   _knockedAnimName: Knocked
   _throwAnimName: Throw
-  _stepDustView: {fileID: 0}
+  _stepDustView: {fileID: 1255893053277186890, guid: 1162bcb4a5faff74e8d02fb4d79bd4a4, type: 3}
 --- !u!1 &5696049504297167787
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,9 +308,6 @@ MonoBehaviour:
   _isKinematic: 1
   _shouldRikochet: 0
   _gravityScale: 10
-  _collisionMask:
-    serializedVersion: 2
-    m_Bits: 257
 --- !u!114 &8068193699446715418
 MonoBehaviour:
   m_ObjectHideFlags: 0

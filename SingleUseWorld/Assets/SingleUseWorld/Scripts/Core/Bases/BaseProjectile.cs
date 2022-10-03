@@ -13,10 +13,10 @@ namespace SingleUseWorld
         protected Projectile2D _projectile = default;
         #endregion
 
-        #region Public Methods
-        public override void Initialize()
+        #region LifeCycle Methods
+        protected override void Awake()
         {
-            base.Initialize();
+            base.Awake();
             _collider = GetComponent<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _projectile = GetComponent<Projectile2D>();

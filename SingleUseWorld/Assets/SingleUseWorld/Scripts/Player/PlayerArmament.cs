@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace SingleUseWorld
@@ -13,31 +14,38 @@ namespace SingleUseWorld
     [RequireComponent(typeof(Collider2D))]
     public sealed class PlayerArmament : BaseComponent<ArmamentState>
     {
+        #region Nested Classes
+        [Serializable]
+        public class Settings
+        {
+            public float PickupCooldownTime = 0.5f;
+            public float AttachmentHeight = 1.8f;
+        }
+        #endregion
+
         #region Fields
         [SerializeField]
+        private Settings _settings;
         private bool _pickupAllowed = true;
-        private Cooldown _pickupCooldown = default;
-        private float _pickupCooldownTime = 0.5f;
-
+        private Coroutine _pickupCooldownCoroutine = default;
         private Vector2 _direction = Vector2.right;
-        private float _attachmentHeight = 1.8f;
 
         private Collider2D _collider2D = default;
         private Item _item = default;
         #endregion
 
         #region Properties
+        public Item HeldItem { get => _item; }
         public Vector2 AimDirection { get => _direction; }
         public bool PickupAllowed { get => _pickupAllowed; set => _pickupAllowed = value; }
+
+        private bool PickupCooldownCompleted
+        {
+            get => _pickupCooldownCoroutine == null;
+        }
         #endregion
 
         #region LifeCycle Methods
-        private void Update()
-        {
-            float deltaTime = Time.deltaTime;
-            _pickupCooldown.Update(deltaTime);
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             TryPickUp(collision);
@@ -45,14 +53,12 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public override void Initialize()
+        public void Initialize(Settings settings)
         {
+            _settings = settings;
             _state = ArmamentState.Unarmed;
 
             _collider2D = GetComponent<Collider2D>();
-
-            _pickupCooldown = new Cooldown(_pickupCooldownTime);
-            _pickupCooldown.Completed += CheckTrigger2D;
         }
 
         public void SetDirection(Vector2 direction)
@@ -62,7 +68,7 @@ namespace SingleUseWorld
 
         public void PickUp(Item item)
         {
-            if (!_pickupAllowed || !_pickupCooldown.IsCompleted)
+            if (!PickupAllowed || !PickupCooldownCompleted)
                 return;
 
             if (_item != null)
@@ -72,7 +78,7 @@ namespace SingleUseWorld
             }
 
             _item = item;
-            _item.Attach(transform, _attachmentHeight);
+            _item.Attach(transform, _settings.AttachmentHeight);
 
             SetState(ArmamentState.Armed);
         }
@@ -85,7 +91,7 @@ namespace SingleUseWorld
             _item.Detach();
             _item = null;
 
-            _pickupCooldown.Start();
+            StartPickupCooldown();
             SetState(ArmamentState.Unarmed);
         }
 
@@ -94,7 +100,7 @@ namespace SingleUseWorld
             if (_item == null)
                 return;
 
-            _item.Use(_direction);
+            _item.Use(_direction, gameObject);
             _item = null;
 
             _pickupAllowed = false;
@@ -116,8 +122,8 @@ namespace SingleUseWorld
         {
             _item.Detach();
             _item = item;
-            _item.Attach(transform, _attachmentHeight);
-            _pickupCooldown.Start();
+            _item.Attach(transform, _settings.AttachmentHeight);
+            StartPickupCooldown();
         }
 
         private void CheckTrigger2D()
@@ -137,6 +143,22 @@ namespace SingleUseWorld
             {
                 PickUp(item);
             }
+        }
+
+        private void StartPickupCooldown()
+        {
+            if (!PickupCooldownCompleted)
+            {
+                StopCoroutine(_pickupCooldownCoroutine);
+            }
+            _pickupCooldownCoroutine = StartCoroutine(PickupCooldown(_settings.PickupCooldownTime));
+        }
+
+        private IEnumerator PickupCooldown(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            _pickupCooldownCoroutine = null;
+            CheckTrigger2D();
         }
         #endregion
     }
