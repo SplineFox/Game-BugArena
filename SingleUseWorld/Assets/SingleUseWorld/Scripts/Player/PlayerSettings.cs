@@ -8,5 +8,6 @@ namespace SingleUseWorld
         public PlayerSpeed.Settings SpeedSettings;
         public PlayerHealth.Settings HealthSettings;
         public PlayerArmament.Settings ArmamentSettings;
+        public PlayerGripHandler.Settings GripHandlerSettings;
     }
 }

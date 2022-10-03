@@ -15,6 +15,14 @@ namespace SingleUseWorld
         private PlayerSettings _settings;
         private PlayerHealth _health;
         private PlayerSpeed _speed;
+        private PlayerGripHandler _gripHandler;
+        #endregion
+
+        #region LifeCycle Methods
+        private void Update()
+        {
+            _gripHandler.Tick();
+        }
         #endregion
 
         #region Public Methods
@@ -23,6 +31,7 @@ namespace SingleUseWorld
             _settings = settings;
             _speed = new PlayerSpeed(_settings.SpeedSettings, _movement);
             _health = new PlayerHealth(_settings.HealthSettings, this);
+            _gripHandler = new PlayerGripHandler(_settings.GripHandlerSettings, _speed, _health);
 
             _armament.Initialize(_settings.ArmamentSettings);
             _armament.StateChanged += OnArmamentStateChanged;
@@ -81,12 +90,12 @@ namespace SingleUseWorld
 
         void IGrabbable.Grab(float grabbingSlowDown, float grabbingDamagePerSecond)
         {
-
+            _gripHandler.Grab(grabbingSlowDown, grabbingDamagePerSecond);
         }
 
         void IGrabbable.Release(float grabbingSlowDown, float grabbingDamagePerSecond)
         {
-
+            _gripHandler.Release(grabbingSlowDown, grabbingDamagePerSecond);
         }
         #endregion
 
