@@ -79,12 +79,12 @@ namespace SingleUseWorld
             _armament.Drop();
         }
 
-        void IGrabbable.Grab(float grabbingTension)
+        void IGrabbable.Grab(float grabbingSlowDown, float grabbingDamagePerSecond)
         {
 
         }
 
-        void IGrabbable.Release(float grabbingTension)
+        void IGrabbable.Release(float grabbingSlowDown, float grabbingDamagePerSecond)
         {
 
         }
