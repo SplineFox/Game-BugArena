@@ -8,6 +8,7 @@ namespace SingleUseWorld
     {
         #region Fields
         [SerializeField] private EnemySight _sight = default;
+        [SerializeField] private EnemyGrip _grip = default;
         [SerializeField] private EnemyBodyView _body = default;
         [SerializeField] private ShadowView _shadow = default;
 
@@ -19,6 +20,8 @@ namespace SingleUseWorld
         public void OnCreate(EnemySettings settings)
         {
             _settings = settings;
+
+            _grip.Initialize(_settings.GripSettings);
 
             _sight.Initialize(_settings.SightSettings);
             _sight.StateChanged += OnSightStateChanged;

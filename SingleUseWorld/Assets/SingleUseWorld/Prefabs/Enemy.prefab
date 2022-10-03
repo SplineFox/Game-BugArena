@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sight: {fileID: 1144849618397294167}
+  _grip: {fileID: 4986275914341116251}
   _body: {fileID: 1564527933190625389}
   _shadow: {fileID: 3113030128408013591}
 --- !u!114 &2492716051257339616

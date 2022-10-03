@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc75b05165113f47ac309d8c35169ef, type: 3}
   m_Name: EnemySettingsSO
   m_EditorClassIdentifier: 
+  SightSettings:
+    OutSightRadius: 2
+    InSightRadius: 3
+  GripSettings:
+    GrabbingDamagePerSecond: 5
+    GrabbingSlowDown: 0.1
   WanderSpeed: 1
   ChaseSpeed: 3
   WanderMovingTime: 1

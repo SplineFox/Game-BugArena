@@ -7,6 +7,7 @@ namespace SingleUseWorld
     {
         #region Fields
         public EnemySight.Settings SightSettings;
+        public EnemyGrip.Settings GripSettings;
 
         public float WanderSpeed = 1f;
         public float ChaseSpeed = 3f;
