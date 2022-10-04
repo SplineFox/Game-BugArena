@@ -21,7 +21,7 @@ MonoBehaviour:
     RecoveryDuration: 5
   ArmamentSettings:
     PickupCooldownTime: 0.5
-    AttachmentHeight: 1.8
+    AttachmentHeight: 1.6
   GripHandlerSettings:
     MaxSlowDown: 0.5
     MaxDamagePerSecond: 2.5
