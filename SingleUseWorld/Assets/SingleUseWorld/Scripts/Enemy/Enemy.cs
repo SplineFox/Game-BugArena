@@ -13,6 +13,7 @@ namespace SingleUseWorld
         [SerializeField] private ShadowView _shadow = default;
 
         private int _health = 100;
+        private float _knockbackInitialHeight = 0.4375f;
         private EnemySettings _settings;
         #endregion
 
@@ -48,7 +49,7 @@ namespace SingleUseWorld
             if (_health <= 0)
             {
                 float horizontalSpeed = UnityEngine.Random.Range(2f,5f);
-                float verticalSpeed = UnityEngine.Random.Range(2f, 5f);
+                float verticalSpeed = UnityEngine.Random.Range(5f, 7f);
 
                 _movement.Knockback(damageDirection * horizontalSpeed, verticalSpeed);
                 _sight.SightAllowed = false;
@@ -57,7 +58,7 @@ namespace SingleUseWorld
                 _body.Rotate(angle, 1.2f);
                 _body.SetFacingDirection(damageDirection);
                 _body.ShowFlash(0.1f);
-                elevator.height = 1f;
+                elevator.height = _knockbackInitialHeight;
             }
         }
         #endregion
