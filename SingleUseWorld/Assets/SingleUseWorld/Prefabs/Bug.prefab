@@ -77,7 +77,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -221,7 +221,6 @@ MonoBehaviour:
   _idleArmedAnimName: IdleArmed
   _moveArmedAnimName: MoveArmed
   _knockedAnimName: Knocked
-  _throwAnimName: Throw
   _stepDustView: {fileID: 1255893053277186890, guid: 1162bcb4a5faff74e8d02fb4d79bd4a4, type: 3}
 --- !u!1 &5696049504297167787
 GameObject:

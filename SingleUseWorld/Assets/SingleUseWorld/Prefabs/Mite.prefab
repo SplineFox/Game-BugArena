@@ -77,7 +77,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _flashMaterial: {fileID: 2100000, guid: 0341cda944ad4744ab83e066a67dee68, type: 2}
-  _facingDirectionXParamName: FacingX
-  _facingDirectionYParamName: FacingY
+  _rollSpeedPerSecond: 20
+  _rollDegree: 10
   _idleAnimName: Idle
   _wanderAnimName: Wander
   _chaseAnimName: Chase
