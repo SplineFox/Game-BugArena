@@ -36,18 +36,12 @@ namespace SingleUseWorld
             _armament.Initialize(_settings.ArmamentSettings);
             _armament.StateChanged += OnArmamentStateChanged;
             _movement.StateChanged += OnMovementStateChanged;
-
-            _body.ThrowStartFrameReached += OnThrowStartFrameReached;
-            _body.ThrowEndFrameReached += OnThrowEndFrameReached;
         }
 
         public void OnDestroy()
         {
             _armament.StateChanged -= OnArmamentStateChanged;
             _movement.StateChanged -= OnMovementStateChanged;
-
-            _body.ThrowStartFrameReached -= OnThrowStartFrameReached;
-            _body.ThrowEndFrameReached -= OnThrowEndFrameReached;
         }
 
         void IControllable.StartMovement()
@@ -77,10 +71,7 @@ namespace SingleUseWorld
             if (_armament.State == ArmamentState.Unarmed)
                 return;
 
-            _movement.MovementAllowed = false;
-
-            _body.SetFacingDirection(_armament.AimDirection);
-            _body.PlayThrowAnimation();
+            _armament.Use();
         }
 
         void IControllable.Drop()
@@ -100,20 +91,6 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        private void OnThrowStartFrameReached()
-        {
-            _armament.Use();
-        }
-
-        private void OnThrowEndFrameReached()
-        {
-            _movement.MovementAllowed = true;
-            _armament.FinishThrowedState();
-
-            if (_movement.MovementDirection.magnitude != 0f)
-                _body.SetFacingDirection(_movement.FacingDirection);
-        }
-
         private void OnMovementStateChanged(MovementState movementState)
         {
             switch (movementState)
@@ -133,8 +110,6 @@ namespace SingleUseWorld
         {
             switch (armamentState)
             {
-                case ArmamentState.Throwed:
-                    break;
                 default:
                     ResolveAnimation();
                     break;
