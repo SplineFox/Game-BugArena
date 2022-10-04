@@ -213,8 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21156dc204e17df45855148b07e79217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _facingDirectionXParamName: FacingX
-  _facingDirectionYParamName: FacingY
+  _flashMaterial: {fileID: 2100000, guid: 0341cda944ad4744ab83e066a67dee68, type: 2}
+  _rollSpeedPerSecond: 20
+  _rollDegree: 10
   _idleUnarmedAnimName: IdleUnarmed
   _moveUnarmedAnimName: MoveUnarmed
   _idleArmedAnimName: IdleArmed

@@ -55,7 +55,7 @@ namespace SingleUseWorld
                 
                 var angle = (damageDirection.x > 0) ? -180f : 180f;
                 _body.Rotate(angle, 1.2f);
-                _body.SetFacingDirectionParameter(damageDirection);
+                _body.SetFacingDirection(damageDirection);
                 _body.ShowFlash(0.1f);
                 elevator.height = 1f;
             }
@@ -125,7 +125,7 @@ namespace SingleUseWorld
             while (true)
             {
                 _movement.SetDirection(_sight.DirectionToTarget);
-                _body.SetFacingDirectionParameter(_movement.FacingDirection);
+                _body.SetFacingDirection(_movement.FacingDirection);
                 yield return null;
             }
         }
@@ -134,7 +134,7 @@ namespace SingleUseWorld
         {
             var direction = new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)).normalized;
             _movement.SetDirection(direction);
-            _body.SetFacingDirectionParameter(direction);
+            _body.SetFacingDirection(direction);
 
             _movement.SetSpeed(_settings.WanderSpeed);
             _movement.StartMovement();

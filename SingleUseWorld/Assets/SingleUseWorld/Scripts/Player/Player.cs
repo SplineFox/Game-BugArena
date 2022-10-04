@@ -58,7 +58,7 @@ namespace SingleUseWorld
         void IControllable.SetMovementDirection(Vector2 direction)
         {
             _movement.SetDirection(direction);
-            _body.SetFacingDirectionParameter(direction);
+            _body.SetFacingDirection(direction);
         }
 
         void IControllable.StopMovement()
@@ -79,7 +79,7 @@ namespace SingleUseWorld
 
             _movement.MovementAllowed = false;
 
-            _body.SetFacingDirectionParameter(_armament.AimDirection);
+            _body.SetFacingDirection(_armament.AimDirection);
             _body.PlayThrowAnimation();
         }
 
@@ -111,7 +111,7 @@ namespace SingleUseWorld
             _armament.FinishThrowedState();
 
             if (_movement.MovementDirection.magnitude != 0f)
-                _body.SetFacingDirectionParameter(_movement.FacingDirection);
+                _body.SetFacingDirection(_movement.FacingDirection);
         }
 
         private void OnMovementStateChanged(MovementState movementState)
