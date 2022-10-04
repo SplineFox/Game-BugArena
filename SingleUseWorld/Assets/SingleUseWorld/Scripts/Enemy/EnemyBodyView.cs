@@ -52,6 +52,7 @@ namespace SingleUseWorld
         {
             _animator.Play(_knockedAnimId);
             ResetRoll();
+            _rollEnabled = false;
         }
         #endregion
 
