@@ -7,7 +7,7 @@ namespace SingleUseWorld
         #region Public Methods
         public override void UpdateHeight(float height)
         {
-            transform.position = transform.parent.position + Vector3.up * height;
+            transform.position = transform.parent.position + transform.parent.up * height;
         }
         #endregion
     }
