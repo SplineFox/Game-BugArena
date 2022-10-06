@@ -7,7 +7,7 @@ namespace SingleUseWorld
     {
         #region Fields
         protected float _rotationSpeed = 4f;
-        protected float _rotationAngle = 4f;
+        protected float _rotationAngle = 8f;
         #endregion
 
         #region Properties
@@ -23,6 +23,10 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
+        public void StartRotation()
+        {
+            StartCoroutine(Rotate(_rotationAngle, _rotationSpeed));
+        }
         #endregion
 
         #region Internal Methods
@@ -32,15 +36,15 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        private IEnumerator Rotate()
+        private IEnumerator Rotate(float rotationAngle, float rotationSpeed)
         {
             float rotationProgress = 0f;
             float sinShift = Mathf.PI / 2;
 
             while (true)
             {
-                rotationProgress += _rotationSpeed * Time.deltaTime;
-                float rotation = Mathf.Sin(rotationProgress - sinShift) * _rotationAngle;
+                rotationProgress += rotationSpeed * Time.deltaTime;
+                float rotation = Mathf.Sin(rotationProgress - sinShift) * rotationAngle;
                 transform.localRotation = Quaternion.Euler(0, 0, rotation);
                 yield return null;
             }
