@@ -8,6 +8,8 @@ namespace SingleUseWorld
     public class Item : BaseBehaviour, IPoolable
     {
         #region Fields
+        [SerializeField] private ItemBodyView _body = default;
+
         private float _bobbingHeight = 0.0625f;
         private float _bobbingSpeed = 8f;
         private float _elevationSpeed = 10f;
@@ -71,6 +73,7 @@ namespace SingleUseWorld
         {
             // attach to parent
             transform.SetParent(target);
+            transform.rotation = target.rotation;
 
             // play raise animation
             StopAllCoroutines();
@@ -90,6 +93,7 @@ namespace SingleUseWorld
             // play lower animation
             StopAllCoroutines();
             StartCoroutine(ElevateTo(0f, _elevationSpeed));
+            StartCoroutine(RotateTo(Quaternion.identity, 10f));
 
             // enable collisions
             _collider.enabled = true;
@@ -131,6 +135,16 @@ namespace SingleUseWorld
                 yield return null;
             }
             transform.localPosition = targetPosition;
+        }
+
+        private IEnumerator RotateTo(Quaternion targetRotation, float rotationSpeed)
+        {
+            while (Quaternion.Angle(transform.rotation, targetRotation) > 0.05f)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                yield return null;
+            }
+            transform.rotation = targetRotation;
         }
 
         private IEnumerator Bob(float bobbingHeight, float bobbingSpeed)
