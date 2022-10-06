@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SingleUseWorld
@@ -21,6 +22,7 @@ namespace SingleUseWorld
 
         private float _totalSlowDown;
         private float _totalDamagePerSecond;
+        private List<IGrabber> _grabbers;
         #endregion
 
         #region Constructors
@@ -30,6 +32,7 @@ namespace SingleUseWorld
             _speed = speed;
             _health = health;
 
+            _grabbers = new List<IGrabber>();
             _totalSlowDown = 1f;
             _totalDamagePerSecond = 0f;
         }
@@ -46,10 +49,12 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Grab(float grabbingSlowDown, float grabbingDamagePerSecond)
+        public void GrabbedBy(IGrabber grabInstigator)
         {
-            _totalSlowDown -= grabbingSlowDown;
-            _totalDamagePerSecond += grabbingDamagePerSecond;
+            _grabbers.Add(grabInstigator);
+
+            _totalSlowDown -= grabInstigator.SlowDown;
+            _totalDamagePerSecond += grabInstigator.DamagePerSecond;
 
             _totalSlowDown = Mathf.Max(_totalSlowDown, _settings.MaxSlowDown);
             _totalDamagePerSecond = Mathf.Min(_totalDamagePerSecond, _settings.MaxDamagePerSecond);
@@ -57,15 +62,27 @@ namespace SingleUseWorld
             _speed.SetEnemyFactor(_totalSlowDown);
         }
 
-        public void Release(float grabbingSlowDown, float grabbingDamagePerSecond)
+        public void ReleasedBy(IGrabber grabInstigator)
         {
-            _totalSlowDown += grabbingSlowDown;
-            _totalDamagePerSecond -= grabbingDamagePerSecond;
+            _grabbers.Remove(grabInstigator);
+
+            _totalSlowDown += grabInstigator.SlowDown;
+            _totalDamagePerSecond -= grabInstigator.DamagePerSecond;
 
             _totalSlowDown = Mathf.Min(_totalSlowDown, 1f);
             _totalDamagePerSecond = Mathf.Max(_totalDamagePerSecond, 0f);
 
             _speed.SetEnemyFactor(_totalSlowDown);
+        }
+
+        public void Reset()
+        {
+            foreach(var grabber in _grabbers)
+                grabber.Release();
+
+            _grabbers.Clear();
+            _totalSlowDown = 1f;
+            _totalDamagePerSecond = 0f;
         }
         #endregion
     }

@@ -10,7 +10,7 @@ namespace SingleUseWorld
     }
 
     [RequireComponent(typeof(Collider2D))]
-    public class EnemyGrip : BaseComponent<GripState>
+    public class EnemyGrip : BaseComponent<GripState>, IGrabber
     {
         #region Nested Classes
         [Serializable]
@@ -28,6 +28,18 @@ namespace SingleUseWorld
         private Settings _settings;
         #endregion
 
+        #region Properties
+        float IGrabber.DamagePerSecond
+        {
+            get => _settings.GrabbingDamagePerSecond;
+        }
+
+        float IGrabber.SlowDown
+        {
+            get => _settings.GrabbingSlowDown;
+        }
+        #endregion
+
         #region LifeCycle Methods
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -35,7 +47,7 @@ namespace SingleUseWorld
             {
                 _grabbableGameObject = collision.gameObject;
                 _grabbable = grabbable;
-                _grabbable.Grab(_settings.GrabbingSlowDown, _settings.GrabbingDamagePerSecond);
+                _grabbable.GrabbedBy(this);
                 SetState(GripState.Grabbed);
             }
         }
@@ -44,7 +56,7 @@ namespace SingleUseWorld
         {
             if (_grabbableGameObject != null && collision.gameObject == _grabbableGameObject)
             {
-                _grabbable.Release(_settings.GrabbingSlowDown, _settings.GrabbingDamagePerSecond);
+                _grabbable.ReleasedBy(this);
                 _grabbable = null;
                 _grabbableGameObject = null;
                 SetState(GripState.Released);
@@ -61,12 +73,12 @@ namespace SingleUseWorld
             _state = GripState.Released;
         }
 
-        public void Release()
+        void IGrabber.Release()
         {
             if (_grabbable == null)
                 return;
 
-            _grabbable.Release(_settings.GrabbingSlowDown, _settings.GrabbingDamagePerSecond);
+            _grabbable.ReleasedBy(this);
             _grabbable = null;
             _grabbableGameObject = null;
             _state = GripState.Released;

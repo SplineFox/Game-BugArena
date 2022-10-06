@@ -79,14 +79,14 @@ namespace SingleUseWorld
             _armament.Drop();
         }
 
-        void IGrabbable.Grab(float grabbingSlowDown, float grabbingDamagePerSecond)
+        void IGrabbable.GrabbedBy(IGrabber grabInstigator)
         {
-            _gripHandler.Grab(grabbingSlowDown, grabbingDamagePerSecond);
+            _gripHandler.GrabbedBy(grabInstigator);
         }
 
-        void IGrabbable.Release(float grabbingSlowDown, float grabbingDamagePerSecond)
+        void IGrabbable.ReleasedBy(IGrabber grabInstigator)
         {
-            _gripHandler.Release(grabbingSlowDown, grabbingDamagePerSecond);
+            _gripHandler.ReleasedBy(grabInstigator);
         }
         #endregion
 
