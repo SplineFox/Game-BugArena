@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SingleUseWorld
 {
@@ -12,6 +13,16 @@ namespace SingleUseWorld
         {
             this.start = start;
             this.end = end;
+        }
+
+        public float GetRandomValue()
+        {
+            return UnityEngine.Random.Range(start, end);
+        }
+
+        public float GetLerpedValue(float t)
+        {
+            return Mathf.Lerp(start, end, t);
         }
     }
 }
