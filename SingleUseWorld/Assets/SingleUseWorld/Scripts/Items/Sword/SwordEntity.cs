@@ -58,8 +58,17 @@ namespace SingleUseWorld
         #region Private Methods
         private void OnEnemyHit(Enemy enemy)
         {
-            var direction = transform.right;
-            enemy.Damage(_settings.Damage, direction);
+            // damage
+            var damageAmount = _settings.DamageAmount;
+            var damageDirection = transform.up;
+
+            // knockback
+            var verticalKnockback = _settings.KnockbackVerticalSpeed.GetRandomValue();
+            var horizontalKnockback = damageDirection * _settings.KnockbackHorizontalSpeed.GetRandomValue();
+            var spinKnockback = -Mathf.Sign(damageDirection.x) * _settings.KnockbackSpinSpeed.GetRandomValue();
+
+            var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
+            enemy.TakeDamage(damage);
         }
 
         private IEnumerator RotateTo(float angle, float duration)

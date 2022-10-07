@@ -61,26 +61,35 @@ namespace SingleUseWorld
         #region Private Methods
         private void OnEnemyHit(Enemy enemy)
         {
+            // damage
+            var damageAmount = _settings.DamageAmount;
             var damageDirection = _projectile.HorizontalVelocity.normalized;
-            enemy.Damage(_settings.Damage, damageDirection);
+            
+            // knockback
+            var verticalKnockback = _settings.KnockbackVerticalSpeed.GetRandomValue();
+            var horizontalKnockback = damageDirection * _settings.KnockbackHorizontalSpeed.GetRandomValue();
+            var spinKnockback = -Mathf.Sign(damageDirection.x) * _settings.KnockbackSpinSpeed.GetRandomValue();
 
-            var horizontalSpeed = Random.Range(_settings.ReboundHorizontalSpeed.start, _settings.ReboundHorizontalSpeed.end);
-            var verticalSpeed = Random.Range(_settings.ReboundVerticalSpeed.start, _settings.ReboundVerticalSpeed.end);
+            var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
+            enemy.TakeDamage(damage);
+
+            // rebound
+            var verticalRebound = _settings.ReboundVerticalSpeed.GetRandomValue();
+            var horizontalRebound = damageDirection * -_settings.ReboundHorizontalSpeed.GetRandomValue();
+            var spinRebound = Mathf.Sign(damageDirection.x) * _settings.ReboundSpinSpeed;
 
             _projectileTrigger.enabled = false;
-            _projectile.GravityScale = _settings.ReboundGravity;
-            _projectile.SetVelocity(damageDirection * -horizontalSpeed, verticalSpeed);
+            _projectile.GravityScale = _settings.ReboundGravityScale;
+            _projectile.SetVelocity(horizontalRebound, verticalRebound);
 
             _shadow.Visible = false;
-            
-            // choose rebound angle based on hit direction 
-            var angle = (damageDirection.x > 0) ? _settings.ReboundRotationAngle : -_settings.ReboundRotationAngle;
-            _view.Rotate(angle, _settings.ReboundRotationTime);
+            _view.StartSpin(spinRebound);
             _view.FadeOut(_settings.ReboundFadeOutTime);
         }
 
         private void OnGroundHit()
         {
+            _view.StopSpin();
             Destroy(gameObject);
         }
         #endregion

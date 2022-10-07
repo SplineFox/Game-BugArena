@@ -64,8 +64,21 @@ namespace SingleUseWorld
             {
                 if (collision.gameObject.TryGetComponent<Enemy>(out var enemy))
                 {
-                    var damageDirection = enemy.transform.position - transform.position;
-                    enemy.Damage(_settings.Damage, damageDirection);
+                    // distance
+                    var vectorToEnemy = enemy.transform.position - transform.position;
+                    var distanceInterpolant = Mathf.InverseLerp(0f, _settings.DamageRadius, vectorToEnemy.magnitude);
+                    
+                    // damage
+                    var damageAmount = _settings.DamageAmount;
+                    var damageDirection = vectorToEnemy.normalized;
+
+                    // knockback
+                    var verticalKnockback = _settings.KnockbackVerticalSpeed.GetLerpedValue(distanceInterpolant);
+                    var horizontalKnockback = damageDirection * _settings.KnockbackHorizontalSpeed.GetLerpedValue(distanceInterpolant);
+                    var spinKnockback = -Mathf.Sign(damageDirection.x) * _settings.KnockbackSpinSpeed.GetLerpedValue(distanceInterpolant);
+
+                    var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
+                    enemy.TakeDamage(damage);
                 }
             }
         }
