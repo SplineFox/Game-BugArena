@@ -13,8 +13,16 @@ MonoBehaviour:
   m_Name: SwordEntitySettingsSO
   m_EditorClassIdentifier: 
   LaunchHeight: 0
-  LaunchSpeed: 20
   LaunchOffset: 0.25
-  Damage: 100
+  DamageAmount: 100
+  KnockbackHorizontalSpeed:
+    start: 3
+    end: 4
+  KnockbackVerticalSpeed:
+    start: 4
+    end: 5
+  KnockbackSpinSpeed:
+    start: 45
+    end: 90
   RotationAngle: 100
   RotationDuration: 0.25

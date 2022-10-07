@@ -3,17 +3,12 @@ using UnityEngine;
 namespace SingleUseWorld
 {
     [CreateAssetMenu(fileName = "ArrowEntitySettingsSO", menuName = "SingleUseWorld/Settings/Items/ArrowEntity Settings SO")]
-    public class ArrowEntitySettings : ScriptableObject
+    public class ArrowEntitySettings : EntitySettings
     {
         #region Fields
-        [Range(0f, 1.8f)]
-        public float LaunchHeight = 0.5f;
+        [ColoredHeader("Arrow parameters:", "#FD6D40")]
         [Min(0f)]
         public float LaunchSpeed = 20f;
-        [Min(0.25f)]
-        public float LaunchOffset = 1f;
-        [Min(1)]
-        public int Damage = 100;
         #endregion
     }
 }

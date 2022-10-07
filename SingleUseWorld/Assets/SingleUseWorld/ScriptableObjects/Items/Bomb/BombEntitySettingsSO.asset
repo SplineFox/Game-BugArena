@@ -14,10 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LaunchHeight: 1.8
   LaunchOffset: 0.34375
+  DamageAmount: 100
+  KnockbackHorizontalSpeed:
+    start: 10
+    end: 6
+  KnockbackVerticalSpeed:
+    start: 8
+    end: 4
+  KnockbackSpinSpeed:
+    start: 360
+    end: 45
   LaunchHorizontalSpeed: 8
   LaunchVerticalSpeed: 7
   LaunchGravity: 20
-  Damage: 100
   DamageRadius: 3
   DamageMask:
     serializedVersion: 2
