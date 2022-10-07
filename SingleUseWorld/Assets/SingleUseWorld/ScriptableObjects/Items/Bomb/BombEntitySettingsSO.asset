@@ -23,7 +23,7 @@ MonoBehaviour:
     end: 4
   KnockbackSpinSpeed:
     start: 360
-    end: 45
+    end: 90
   LaunchHorizontalSpeed: 8
   LaunchVerticalSpeed: 7
   LaunchGravity: 20

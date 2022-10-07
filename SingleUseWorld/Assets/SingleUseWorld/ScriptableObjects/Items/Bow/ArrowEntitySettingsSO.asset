@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: ArrowEntitySettingsSO
   m_EditorClassIdentifier: 
   LaunchHeight: 0.5
-  LaunchSpeed: 20
   LaunchOffset: 1
-  Damage: 100
+  DamageAmount: 100
+  KnockbackHorizontalSpeed:
+    start: 8
+    end: 10
+  KnockbackVerticalSpeed:
+    start: 3
+    end: 4
+  KnockbackSpinSpeed:
+    start: 45
+    end: 90
+  LaunchSpeed: 20

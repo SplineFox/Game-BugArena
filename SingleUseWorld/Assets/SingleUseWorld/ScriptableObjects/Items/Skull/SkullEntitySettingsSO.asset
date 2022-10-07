@@ -17,13 +17,13 @@ MonoBehaviour:
   DamageAmount: 100
   KnockbackHorizontalSpeed:
     start: 2
-    end: 4
+    end: 3
   KnockbackVerticalSpeed:
     start: 4
     end: 6
   KnockbackSpinSpeed:
-    start: 90
-    end: 135
+    start: 45
+    end: 90
   LaunchSpeed: 20
   ReboundGravityScale: 30
   ReboundHorizontalSpeed:
