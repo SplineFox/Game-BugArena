@@ -11,6 +11,7 @@ namespace SingleUseWorld
         protected Material _originalMaterial = default;
 
         protected SpriteRenderer _spriteRenderer = default;
+        protected Coroutine _spinCoroutine = default;
 
         [SerializeField] protected float _rollSpeedPerSecond = 20f;
         [SerializeField] protected float _rollDegree = 10;
@@ -48,10 +49,17 @@ namespace SingleUseWorld
             StartCoroutine(Flash(duration));
         }
 
-        public void Rotate(float angle, float duration)
+        public void StartSpin(float spinSpeedPerSecond)
         {
             _rollEnabled = false;
-            StartCoroutine(RotateTo(angle, duration));
+            StopSpin();
+            _spinCoroutine = StartCoroutine(Spin(spinSpeedPerSecond));
+        }
+
+        public void StopSpin()
+        {
+            if (_spinCoroutine != null)
+                StopCoroutine(_spinCoroutine);
         }
         #endregion
 
@@ -81,16 +89,12 @@ namespace SingleUseWorld
             _spriteRenderer.material = _originalMaterial;
         }
 
-        protected IEnumerator RotateTo(float angle, float duration)
+        protected IEnumerator Spin(float spinSpeedPerSecond)
         {
-            var initalRotation = transform.rotation;
-            var targetRotation = Quaternion.Euler(Vector3.forward * angle);
-
-            var elapsedTime = 0f;
-            while (elapsedTime < duration)
+            while (true)
             {
-                elapsedTime += Time.deltaTime;
-                transform.rotation = Quaternion.Lerp(initalRotation, targetRotation, elapsedTime / duration);
+                var spinDelta = Vector3.forward * Time.deltaTime * spinSpeedPerSecond;
+                transform.Rotate(spinDelta);
                 yield return null;
             }
         }

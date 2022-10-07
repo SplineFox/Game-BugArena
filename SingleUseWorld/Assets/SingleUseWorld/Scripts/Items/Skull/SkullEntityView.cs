@@ -8,15 +8,22 @@ namespace SingleUseWorld
     public class SkullEntityView : BodyView
     {
         private SpriteRenderer _spriteRenderer;
+        protected Coroutine _spinCoroutine;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
-
-        public void Rotate(float angle, float duration)
+        public void StartSpin(float spinSpeedPerSecond)
         {
-            StartCoroutine(RotateTo(angle, duration));
+            StopSpin();
+            _spinCoroutine = StartCoroutine(Spin(spinSpeedPerSecond));
+        }
+
+        public void StopSpin()
+        {
+            if (_spinCoroutine != null)
+                StopCoroutine(_spinCoroutine);
         }
 
         public void FadeIn(float duration)
@@ -44,16 +51,12 @@ namespace SingleUseWorld
             }
         }
 
-        private IEnumerator RotateTo(float angle, float duration)
+        protected IEnumerator Spin(float spinSpeedPerSecond)
         {
-            var initalRotation = Vector3.forward * transform.eulerAngles.z;
-            var targetRotation = Vector3.forward * angle;
-
-            var elapsedTime = 0f;
-            while (elapsedTime < duration)
+            while (true)
             {
-                elapsedTime += Time.deltaTime;
-                transform.eulerAngles = Vector3.Lerp(initalRotation, targetRotation, elapsedTime / duration);
+                var spinDelta = Vector3.forward * Time.deltaTime * spinSpeedPerSecond;
+                transform.Rotate(spinDelta);
                 yield return null;
             }
         }
