@@ -6,8 +6,11 @@ namespace SingleUseWorld
     public class EnemySettings : ScriptableObject
     {
         #region Fields
+        public EnemyHealth.Settings HealthSettings;
         public EnemySight.Settings SightSettings;
         public EnemyGrip.Settings GripSettings;
+
+        public float KnockbackInitialHeight = 0.4375f;
 
         public float WanderSpeed = 1f;
         public float ChaseSpeed = 3f;
