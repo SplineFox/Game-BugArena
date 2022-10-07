@@ -12,15 +12,16 @@ namespace SingleUseWorld
         [SerializeField] private EnemyBodyView _body = default;
         [SerializeField] private ShadowView _shadow = default;
 
-        private int _health = 100;
-        private float _knockbackInitialHeight = 0.4375f;
         private EnemySettings _settings;
+        private EnemyHealth _health;
         #endregion
 
         #region Public Methods
         public void OnCreate(EnemySettings settings)
         {
             _settings = settings;
+            _health = new EnemyHealth(_settings.HealthSettings);
+            _health.Died += OnDied;
 
             _grip.Initialize(_settings.GripSettings);
 
@@ -35,6 +36,7 @@ namespace SingleUseWorld
 
         public void OnDestroy()
         {
+            _health.Died -= OnDied;
             _movement.StateChanged -= OnMovementStateChanged;
             _sight.StateChanged -= OnSightStateChanged;
             _projectile.GroundCollision -= OnGroundHit;
@@ -45,27 +47,27 @@ namespace SingleUseWorld
 
         public void TakeDamage(Damage damage)
         {
-            _health -= damage.amount;
-            if (_health <= 0)
-            {
-                _movement.Knockback(damage.horizontalKnockback, damage.verticalKnockback);
-                _sight.SightAllowed = false;
-                
-                _body.SetFacingDirection(damage.direction);
-                _body.StartSpin(damage.spinKnockback);
-                _body.ShowFlash(0.1f);
-                elevator.height = _knockbackInitialHeight;
-            }
+            _health.TakeDamage(damage);
         }
         #endregion
 
         #region Private Methods
+        private void OnDied(Damage damage)
+        {
+            elevator.height = _settings.KnockbackInitialHeight;
+            _sight.SightAllowed = false;
+            _grip.GripAllowed = false;
+
+            _movement.Knockback(damage.horizontalKnockback, damage.verticalKnockback);
+            _body.SetFacingDirection(damage.direction);
+            _body.StartSpin(damage.spinKnockback);
+            _body.ShowFlash(0.1f);
+        }
+
         private void OnGroundHit()
         {
-            if (_health <= 0f)
-            {
+            if (_health.IsDead)
                 Destroy(gameObject);
-            }
         }
 
         private void OnMovementStateChanged(MovementState movementState)
