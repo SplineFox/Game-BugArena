@@ -26,9 +26,26 @@ namespace SingleUseWorld
         private GameObject _grabbableGameObject;
         private IGrabbable _grabbable;
         private Settings _settings;
+        private bool _gripAllowed = true;
         #endregion
 
         #region Properties
+        public bool GripAllowed
+        {
+            get => _gripAllowed;
+            set
+            {
+                if (_gripAllowed == value)
+                    return;
+
+                _gripAllowed = value;
+                if (_gripAllowed)
+                    EnableTrigger();
+                else
+                    DisableTrigger();
+            }
+        }
+
         float IGrabber.DamagePerSecond
         {
             get => _settings.GrabbingDamagePerSecond;
@@ -73,7 +90,7 @@ namespace SingleUseWorld
             _state = GripState.Released;
         }
 
-        void IGrabber.Release()
+        public void Release()
         {
             if (_grabbable == null)
                 return;
@@ -82,6 +99,19 @@ namespace SingleUseWorld
             _grabbable = null;
             _grabbableGameObject = null;
             _state = GripState.Released;
+        }
+        #endregion
+
+        #region Private Methods
+        private void EnableTrigger()
+        {
+            _collider2D.enabled = true;
+        }
+
+        private void DisableTrigger()
+        {
+            Release();
+            _collider2D.enabled = false;
         }
         #endregion
     }
