@@ -43,20 +43,16 @@ namespace SingleUseWorld
         void IPoolable.OnReset()
         {}
 
-        public void Damage(int damageAmount, Vector2 damageDirection)
+        public void TakeDamage(Damage damage)
         {
-            _health -= damageAmount;
+            _health -= damage.amount;
             if (_health <= 0)
             {
-                float horizontalSpeed = UnityEngine.Random.Range(2f,5f);
-                float verticalSpeed = UnityEngine.Random.Range(5f, 7f);
-
-                _movement.Knockback(damageDirection * horizontalSpeed, verticalSpeed);
+                _movement.Knockback(damage.horizontalKnockback, damage.verticalKnockback);
                 _sight.SightAllowed = false;
                 
-                var angle = (damageDirection.x > 0) ? -180f : 180f;
-                _body.Rotate(angle, 1.2f);
-                _body.SetFacingDirection(damageDirection);
+                _body.SetFacingDirection(damage.direction);
+                _body.StartSpin(damage.spinKnockback);
                 _body.ShowFlash(0.1f);
                 elevator.height = _knockbackInitialHeight;
             }
