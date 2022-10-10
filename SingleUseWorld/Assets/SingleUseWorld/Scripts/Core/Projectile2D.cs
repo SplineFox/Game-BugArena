@@ -103,6 +103,10 @@ namespace SingleUseWorld
 
         private void RemoveOverlap(Collision2D collision)
         {
+            // Check if collision should be resolved
+            if (_contactFilter.IsFilteringLayerMask(collision.collider.gameObject))
+                return;
+
             var collisionDistance = Physics2D.Distance(collision.otherCollider, collision.collider);
             if (collisionDistance.isOverlapped)
                 collision.otherRigidbody.position += collisionDistance.normal * collisionDistance.distance;
