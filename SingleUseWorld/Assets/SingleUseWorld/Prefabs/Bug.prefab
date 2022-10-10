@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355b61d6d891fa746aa7586b975c70ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxVisibleHeight: 1
+  _maxVisibleHeight: 3
   _minTransparency: 1
   _maxTransparency: 0.2
 --- !u!1 &3743817033405480477
