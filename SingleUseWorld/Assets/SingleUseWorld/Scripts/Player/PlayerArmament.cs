@@ -36,7 +36,21 @@ namespace SingleUseWorld
         #region Properties
         public Item HeldItem { get => _item; }
         public Vector2 AimDirection { get => _direction; }
-        public bool PickupAllowed { get => _pickupAllowed; set => _pickupAllowed = value; }
+        public bool PickupAllowed 
+        { 
+            get => _pickupAllowed;
+            set
+            {
+                if (_pickupAllowed == value)
+                    return;
+
+                _pickupAllowed = value;
+                if (_pickupAllowed)
+                    EnableTrigger();
+                else
+                    DisableTrigger();
+            }
+        }
 
         private bool PickupCooldownCompleted
         {
@@ -148,6 +162,17 @@ namespace SingleUseWorld
             yield return new WaitForSeconds(duration);
             _pickupCooldownCoroutine = null;
             CheckTrigger2D();
+        }
+
+        private void EnableTrigger()
+        {
+            _collider2D.enabled = true;
+        }
+
+        private void DisableTrigger()
+        {
+            Drop();
+            _collider2D.enabled = false;
         }
         #endregion
     }
