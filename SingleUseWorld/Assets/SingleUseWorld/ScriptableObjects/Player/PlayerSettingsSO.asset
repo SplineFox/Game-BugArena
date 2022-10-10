@@ -24,4 +24,5 @@ MonoBehaviour:
     AttachmentHeight: 1.6
   GripHandlerSettings:
     MaxSlowDown: 0.5
-    MaxDamagePerSecond: 2.5
+    MaxDamagePerSecond: 40
+  KnockbackInitialHeight: 0.75
