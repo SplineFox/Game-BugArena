@@ -9,5 +9,7 @@ namespace SingleUseWorld
         public PlayerHealth.Settings HealthSettings;
         public PlayerArmament.Settings ArmamentSettings;
         public PlayerGripHandler.Settings GripHandlerSettings;
+
+        public float KnockbackInitialHeight = 0.25f;
     }
 }
