@@ -36,12 +36,16 @@ namespace SingleUseWorld
             _armament.Initialize(_settings.ArmamentSettings);
             _armament.StateChanged += OnArmamentStateChanged;
             _movement.StateChanged += OnMovementStateChanged;
+            _projectile.GroundCollision += OnGroundHit;
+            _health.Died += OnDied;
         }
 
         public void OnDestroy()
         {
             _armament.StateChanged -= OnArmamentStateChanged;
             _movement.StateChanged -= OnMovementStateChanged;
+            _projectile.GroundCollision -= OnGroundHit;
+            _health.Died -= OnDied;
         }
 
         void IControllable.StartMovement()
@@ -91,6 +95,38 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
+        private void OnDied()
+        {
+            _armament.PickupAllowed = false;
+            _gripHandler.Reset();
+
+            var damage = GenerateRandomDamage();
+            _movement.Knockback(damage.horizontalKnockback, damage.verticalKnockback);
+            _body.SetFacingDirection(damage.direction);
+            _body.StartSpin(damage.spinKnockback);
+            _body.ShowFlash(0.1f);
+        }
+
+        private Damage GenerateRandomDamage()
+        {
+            // damage
+            var damageAmount = 0f;
+            var damageDirection = _movement.FacingDirection;
+
+            // knockback
+            var verticalKnockback = 4f;
+            var horizontalKnockback = damageDirection * 4f;
+            var spinKnockback = -Mathf.Sign(damageDirection.x) * 90f;
+
+            return new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
+        }
+
+        private void OnGroundHit()
+        {
+            if (_health.IsDead)
+                Destroy(gameObject);
+        }
+
         private void OnMovementStateChanged(MovementState movementState)
         {
             switch (movementState)
