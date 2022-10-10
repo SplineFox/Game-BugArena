@@ -66,6 +66,12 @@ namespace SingleUseWorld
         {
             SetItemFactor(1f);
         }
+
+        public void Reset()
+        {
+            ResetEnemyFactor();
+            ResetItemFactor();
+        }
         #endregion
 
         #region Private Methods
