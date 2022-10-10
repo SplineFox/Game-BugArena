@@ -130,6 +130,11 @@ namespace SingleUseWorld
         {
             SetVelocity(Vector2.zero, 0f);
         }
+
+        public void SetLayer(int layer)
+        {
+            _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(layer));
+        }
         #endregion
 
         #region Private Methods
