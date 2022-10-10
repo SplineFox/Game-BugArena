@@ -13,7 +13,7 @@ namespace SingleUseWorld
         public float LaunchOffset = 0.34375f;
 
         [Space]
-        public int DamageAmount = 100;
+        public float DamageAmount = 100;
         public RangeFloat KnockbackHorizontalSpeed = new RangeFloat(1f, 3f);
         public RangeFloat KnockbackVerticalSpeed = new RangeFloat(1f, 3f);
         public RangeFloat KnockbackSpinSpeed = new RangeFloat(90, 180);

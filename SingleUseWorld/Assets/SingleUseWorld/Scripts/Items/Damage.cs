@@ -5,7 +5,7 @@ namespace SingleUseWorld
     public struct Damage
     {
         #region Fields
-        public int amount;
+        public float amount;
         public Vector2 direction;
         public Vector2 horizontalKnockback;
         public float verticalKnockback;
@@ -13,7 +13,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public Damage(int amount, Vector2 direction, Vector2 horizontalKnockback, float verticalKnockback, float spinKnockback)
+        public Damage(float amount, Vector2 direction, Vector2 horizontalKnockback, float verticalKnockback, float spinKnockback)
         {
             this.amount = amount;
             this.direction = direction;
