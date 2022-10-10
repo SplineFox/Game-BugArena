@@ -63,6 +63,7 @@ namespace SingleUseWorld
 
             if (IsDead)
             {
+                _player.StopCoroutine(_recoveryCoroutine);
                 Died.Invoke();
                 return;
             }
