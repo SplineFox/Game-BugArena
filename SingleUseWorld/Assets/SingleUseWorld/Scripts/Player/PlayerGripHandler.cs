@@ -11,7 +11,7 @@ namespace SingleUseWorld
         public class Settings
         {
             public float MaxSlowDown = 0.5f;
-            public float MaxDamagePerSecond = 2.5f;
+            public float MaxDamagePerSecond = 40f;
         }
         #endregion
 
@@ -77,8 +77,10 @@ namespace SingleUseWorld
 
         public void Reset()
         {
-            foreach(var grabber in _grabbers)
-                grabber.Release();
+            for(int index = _grabbers.Count - 1; index >= 0; index--)
+            {
+                _grabbers[index].Release();
+            }
 
             _grabbers.Clear();
             _totalSlowDown = 1f;
