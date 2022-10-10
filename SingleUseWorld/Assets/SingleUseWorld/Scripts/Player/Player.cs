@@ -97,8 +97,7 @@ namespace SingleUseWorld
             {
                 case MovementState.Knocked:
                     _body.PlayKnockedAnimation();
-                    _armament.Drop();
-                    _armament.PickupAllowed = false;
+                    elevator.height = _settings.KnockbackInitialHeight;
                     break;
                 default:
                     ResolveAnimation();

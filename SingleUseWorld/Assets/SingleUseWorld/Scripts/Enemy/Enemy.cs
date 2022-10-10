@@ -54,7 +54,6 @@ namespace SingleUseWorld
         #region Private Methods
         private void OnDied(Damage damage)
         {
-            elevator.height = _settings.KnockbackInitialHeight;
             _sight.SightAllowed = false;
             _grip.GripAllowed = false;
 
@@ -76,6 +75,7 @@ namespace SingleUseWorld
             {
                 case MovementState.Knocked:
                     _body.PlayKnockedAnimation();
+                    elevator.height = _settings.KnockbackInitialHeight;
                     break;
                 case MovementState.Idling:
                     _body.PlayIdleAnimation();
