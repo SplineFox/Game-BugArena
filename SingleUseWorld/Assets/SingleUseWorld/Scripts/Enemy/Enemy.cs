@@ -60,10 +60,6 @@ namespace SingleUseWorld
             _body.SetFacingDirection(damage.direction);
             _body.StartSpin(damage.spinKnockback);
             _body.ShowFlash(0.1f);
-
-            var layer = LayerMask.NameToLayer(PhysicsLayer.KnockedCharacter.ToString());
-            gameObject.layer = layer;
-            _projectile.SetLayer(layer);
         }
 
         private void OnGroundHit()

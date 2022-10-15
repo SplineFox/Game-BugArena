@@ -75,6 +75,7 @@ namespace SingleUseWorld
 
             _projectile2D.IsKinematic = false;
             _projectile2D.SetVelocity(horizontalVelocity, verticalVelocity);
+            SetKnockedLayer();
             SetState(MovementState.Knocked);
         }
 
@@ -97,6 +98,13 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
+        private void SetKnockedLayer()
+        {
+            var layer = LayerMask.NameToLayer(PhysicsLayer.KnockedCharacter.ToString());
+            gameObject.layer = layer;
+            _projectile2D.SetLayer(layer);
+        }
+
         private void TryContinueMovement()
         {
             if (HasMovementDirection())
