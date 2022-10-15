@@ -34,6 +34,7 @@ namespace SingleUseWorld
             _gripHandler = new PlayerGripHandler(_settings.GripHandlerSettings, _speed, _health);
 
             _armament.Initialize(_settings.ArmamentSettings);
+
             _armament.StateChanged += OnArmamentStateChanged;
             _movement.StateChanged += OnMovementStateChanged;
             _projectile.GroundCollision += OnGroundHit;

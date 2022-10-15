@@ -21,17 +21,16 @@ namespace SingleUseWorld
         {
             _settings = settings;
             _health = new EnemyHealth(_settings.HealthSettings);
-            _health.Died += OnDied;
 
             _grip.Initialize(_settings.GripSettings);
-
             _sight.Initialize(_settings.SightSettings);
-            _sight.StateChanged += OnSightStateChanged;
 
+            _health.Died += OnDied;
             _movement.StateChanged += OnMovementStateChanged;
-            _movement.SetSpeed(_settings.WanderSpeed);
-
+            _sight.StateChanged += OnSightStateChanged;
             _projectile.GroundCollision += OnGroundHit;
+
+            _movement.SetSpeed(_settings.WanderSpeed);
         }
 
         public void OnDestroy()
