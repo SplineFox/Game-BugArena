@@ -38,6 +38,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1026702767
+    locked: 0
+  - name: Terrain
+    uniqueID: 769060787
+    locked: 0
+  - name: Props
+    uniqueID: 1203326479
+    locked: 0
+  - name: Shadows
+    uniqueID: 1493560243
+    locked: 0
+  - name: Bodies
+    uniqueID: 1638118201
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
