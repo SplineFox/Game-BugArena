@@ -53,7 +53,14 @@ namespace SingleUseWorld
         }
 
         void IPoolable.OnReset()
-        {}
+        {
+            _sight.SightAllowed = true;
+            _grip.GripAllowed = true;
+
+            _health.OnReset();
+            _movement.OnReset();
+            _body.OnReset();
+        }
 
         public void TakeDamage(Damage damage)
         {
