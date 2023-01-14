@@ -22,6 +22,11 @@ namespace SingleUseWorld
             get => EnemyType.Wanderer;
         }
         #endregion
+
+        #region Delegates & Events
+        public event Action<Enemy> Died = delegate { };
+        #endregion
+
         #region Public Methods
         public void OnCreate(EnemySettings settings)
         {
@@ -70,8 +75,8 @@ namespace SingleUseWorld
 
         private void OnGroundHit()
         {
-            if (_health.IsDead)
-                Destroy(gameObject);
+            Died.Invoke(this);
+            _body.StopSpin();
         }
 
         private void OnMovementStateChanged(MovementState movementState)
