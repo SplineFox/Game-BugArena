@@ -16,6 +16,12 @@ namespace SingleUseWorld
         private EnemyHealth _health;
         #endregion
 
+        #region Properties
+        public EnemyType Type
+        {
+            get => EnemyType.Wanderer;
+        }
+        #endregion
         #region Public Methods
         public void OnCreate(EnemySettings settings)
         {
