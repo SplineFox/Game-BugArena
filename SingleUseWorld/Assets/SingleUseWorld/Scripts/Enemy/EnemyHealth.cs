@@ -57,6 +57,11 @@ namespace SingleUseWorld
                 return;
             }
         }
+
+        public void OnReset()
+        {
+            _health = _settings.InitialHealth;
+        }
         #endregion
     }
 }
