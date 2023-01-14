@@ -18,6 +18,7 @@ namespace SingleUseWorld
         private bool _movementAllowed = true;
 
         private Projectile2D _projectile2D = default;
+        private int _defaultPhysicsLayer;
 
         private Vector2 _facingDirection = Vector2.right;
         private Vector2 _movementDirection = Vector2.zero;
@@ -47,6 +48,7 @@ namespace SingleUseWorld
             _projectile2D = GetComponent<Projectile2D>();
             _projectile2D.IsKinematic = true;
 
+            _defaultPhysicsLayer = gameObject.layer;
             _state = MovementState.Idling;
         }
 
@@ -79,6 +81,13 @@ namespace SingleUseWorld
             SetState(MovementState.Knocked);
         }
 
+        public void OnReset()
+        {
+            _projectile2D.IsKinematic = true;
+            SetDefaultLayer();
+            SetState(MovementState.Idling);
+        }
+
         public void SetSpeed(float speed)
         {
             _speed = speed;
@@ -98,6 +107,13 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
+        private void SetDefaultLayer()
+        {
+            var layer = _defaultPhysicsLayer;
+            gameObject.layer = layer;
+            _projectile2D.SetLayer(layer);
+        }
+
         private void SetKnockedLayer()
         {
             var layer = LayerMask.NameToLayer(PhysicsLayer.KnockedCharacter.ToString());
