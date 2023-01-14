@@ -13,22 +13,39 @@ namespace SingleUseWorld
         [SerializeField] private PlayerFactory _playerFactory = default;
         [Space]
         [SerializeField] private EnemyFactory _enemyFactory = default;
+        [SerializeField] private Transform _enemyPoolContainer = default;
         [Space]
         [SerializeField] private SkullItemFactory _skullItemFactory = default;
         [SerializeField] private BowItemFactory _bowItemFactory = default;
         [SerializeField] private BombItemFactory _bombItemFactory = default;
         [SerializeField] private SwordItemFactory _swordItemFactory = default;
+        [Space]
+        [SerializeField] private BoxCollider2D _levelBoundaryCollider = default;
+
+        private Score _score;
+        private LevelBoundary _levelBoundary;
 
         private Player _player;
         private PlayerController _playerController;
         private CameraController _cameraController;
         private TargetController _targetController;
+
+        private MonoPool<Enemy> _wandererEnemyPool;
+        private MonoPool<Enemy> _chaserEnemyPool;
+        private MonoPool<Enemy> _exploderEnemyPool;
+        private EnemyPool _enemyPool;
+        private EnemySpawner _enemySpawner;
         #endregion
 
         #region LifeCycle Methods
         private void Start()
         {
             Initialize();
+        }
+
+        private void Update()
+        {
+            _enemySpawner.Tick();
         }
 
         private void OnDestroy()
@@ -49,15 +66,24 @@ namespace SingleUseWorld
         #region Private Methods
         private void Initialize()
         {
+            _score = new Score(1500);
+            _levelBoundary = new LevelBoundary(_levelBoundaryCollider);
+
             _player = _playerFactory.Create();
             _playerController = new PlayerController();
             _cameraController = new CameraController(_camera, _virtualCamera);
             _targetController = new TargetController(_player.transform, _cameraController);
-
             _playerController.Initialize(_playerInput, _player, _cameraController, _targetController);
 
-            var enemy = _enemyFactory.Create();
-            enemy.transform.position = _player.transform.position + Vector3.left * 5;
+            var enemyPoolSettings = new MonoPoolSettings(10, 30, ExpandMethod.Doubling);
+            _wandererEnemyPool = new MonoPool<Enemy>(_enemyFactory, _enemyPoolContainer, enemyPoolSettings);
+            _chaserEnemyPool = new MonoPool<Enemy>(_enemyFactory, _enemyPoolContainer, enemyPoolSettings);
+            _exploderEnemyPool = new MonoPool<Enemy>(_enemyFactory, _enemyPoolContainer, enemyPoolSettings);
+            _enemyPool = new EnemyPool(_wandererEnemyPool, _chaserEnemyPool, _exploderEnemyPool);
+
+            var enemySpawnerSettings = new EnemySpawner.Settings();
+            _enemySpawner = new EnemySpawner(enemySpawnerSettings, _score, _levelBoundary, _enemyPool, _player);
+
 
             var skull = _skullItemFactory.Create();
             skull.transform.position = _player.transform.position + Vector3.right * 11;
