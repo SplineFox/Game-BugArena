@@ -54,12 +54,14 @@ namespace SingleUseWorld
 
         void IPoolable.OnReset()
         {
+            StopAllCoroutines();
             _sight.SightAllowed = true;
             _grip.GripAllowed = true;
 
             _health.OnReset();
             _movement.OnReset();
             _body.OnReset();
+            StartCoroutine(Wander());
         }
 
         public void TakeDamage(Damage damage)
