@@ -15,8 +15,8 @@ namespace SingleUseWorld
         public float WanderSpeed = 1f;
         public float ChaseSpeed = 3f;
 
-        public float WanderMovingTime = 1f;
-        public float WanderIdlingTime = 1f;
+        public RangeFloat WanderMovingTime = new RangeFloat(0.5f, 1f);
+        public RangeFloat WanderIdlingTime = new RangeFloat(0.5f, 1.5f);
         #endregion
     }
 }

@@ -157,7 +157,7 @@ namespace SingleUseWorld
             _movement.SetSpeed(_settings.WanderSpeed);
             _movement.StartMovement();
 
-            yield return new WaitForSeconds(_settings.WanderMovingTime);
+            yield return new WaitForSeconds(_settings.WanderMovingTime.GetRandomValue());
             StartCoroutine(Idle());
         }
 
@@ -165,7 +165,7 @@ namespace SingleUseWorld
         {
             _movement.StopMovement();
 
-            yield return new WaitForSeconds(_settings.WanderIdlingTime);
+            yield return new WaitForSeconds(_settings.WanderIdlingTime.GetRandomValue());
             StartCoroutine(Wander());
         }
         #endregion
