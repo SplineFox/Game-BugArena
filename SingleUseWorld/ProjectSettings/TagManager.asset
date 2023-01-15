@@ -19,7 +19,7 @@ TagManager:
   - EnemyTrigger
   - ItemEntity
   - KnockedCharacter
-  - 
+  - LevelBoundary
   - 
   - 
   - 

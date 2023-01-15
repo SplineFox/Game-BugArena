@@ -13,6 +13,8 @@ namespace SingleUseWorld
 
         PlayerTrigger,
         EnemyTrigger,
-        ItemEntityTrigger
+        ItemEntityTrigger,
+
+        LevelBoundary
     }
 }
