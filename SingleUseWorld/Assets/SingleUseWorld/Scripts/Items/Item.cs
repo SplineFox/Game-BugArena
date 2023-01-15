@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -35,6 +36,10 @@ namespace SingleUseWorld
         }
         #endregion
 
+        #region Delegates & Events
+        public event Action<Item> Used = delegate { };
+        #endregion
+
         #region LifeCycle Methods
         protected override void Awake()
         {
@@ -63,6 +68,7 @@ namespace SingleUseWorld
         void IPoolable.OnReset()
         {
             StopAllCoroutines();
+            transform.SetParent(null);
             elevator.height = 0f;
             _collider.enabled = true;
             _rigidbody.isKinematic = false;
@@ -105,7 +111,7 @@ namespace SingleUseWorld
             var entity = _entityFactory.Create();
             entity.transform.position = this.transform.position;
             entity.Use(direction, transform.parent.gameObject);
-            Destroy(gameObject);
+            Used.Invoke(this);
         }
         #endregion
 
