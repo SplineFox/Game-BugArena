@@ -6793,6 +6793,7 @@ MonoBehaviour:
   _bowItemFactory: {fileID: 11400000, guid: bf42a75a506db364eb56634ae9d56cf0, type: 2}
   _bombItemFactory: {fileID: 11400000, guid: 1252887e6dbdc1b49b36317e8f229e35, type: 2}
   _swordItemFactory: {fileID: 11400000, guid: 8f672b5aff24e424db2e12a820ea133b, type: 2}
+  _itemPoolContainer: {fileID: 1231729493}
   _levelBoundaryCollider: {fileID: 466600660}
 --- !u!4 &2088865095
 Transform:

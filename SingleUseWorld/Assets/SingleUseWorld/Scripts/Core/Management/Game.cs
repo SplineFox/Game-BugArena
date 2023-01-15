@@ -19,6 +19,7 @@ namespace SingleUseWorld
         [SerializeField] private BowItemFactory _bowItemFactory = default;
         [SerializeField] private BombItemFactory _bombItemFactory = default;
         [SerializeField] private SwordItemFactory _swordItemFactory = default;
+        [SerializeField] private Transform _itemPoolContainer = default;
         [Space]
         [SerializeField] private BoxCollider2D _levelBoundaryCollider = default;
 
@@ -35,6 +36,13 @@ namespace SingleUseWorld
         private MonoPool<Enemy> _exploderEnemyPool;
         private EnemyPool _enemyPool;
         private EnemySpawner _enemySpawner;
+
+        private MonoPool<Item> _skullItemPool;
+        private MonoPool<Item> _bowItemPool;
+        private MonoPool<Item> _bombItemPool;
+        private MonoPool<Item> _swordItemPool;
+        private ItemPool _itemPool;
+        private ItemSpawner _itemSpawner;
         #endregion
 
         #region LifeCycle Methods
@@ -46,6 +54,7 @@ namespace SingleUseWorld
         private void Update()
         {
             _enemySpawner.Tick();
+            _itemSpawner.Tick();
         }
 
         private void OnDestroy()
@@ -84,18 +93,15 @@ namespace SingleUseWorld
             var enemySpawnerSettings = new EnemySpawner.Settings();
             _enemySpawner = new EnemySpawner(enemySpawnerSettings, _score, _levelBoundary, _enemyPool, _player);
 
+            var itemPoolSettings = new MonoPoolSettings(10, 30, ExpandMethod.Doubling);
+            _skullItemPool = new MonoPool<Item>(_skullItemFactory, _itemPoolContainer, itemPoolSettings);
+            _bowItemPool = new MonoPool<Item>(_bowItemFactory, _itemPoolContainer, itemPoolSettings);
+            _bombItemPool = new MonoPool<Item>(_bombItemFactory, _itemPoolContainer, itemPoolSettings);
+            _swordItemPool = new MonoPool<Item>(_swordItemFactory, _itemPoolContainer, itemPoolSettings);
+            _itemPool = new ItemPool(_skullItemPool, _bowItemPool, _bombItemPool, _swordItemPool);
 
-            var skull = _skullItemFactory.Create();
-            skull.transform.position = _player.transform.position + Vector3.right * 11;
-
-            var bow = _bowItemFactory.Create();
-            bow.transform.position = _player.transform.position + Vector3.right * 9;
-
-            var bomb = _bombItemFactory.Create();
-            bomb.transform.position = _player.transform.position + Vector3.right * 7;
-
-            var sword = _swordItemFactory.Create();
-            sword.transform.position = _player.transform.position + Vector3.right * 5;
+            var itemSpawnerSettings = new ItemSpawner.Settings();
+            _itemSpawner = new ItemSpawner(itemSpawnerSettings, _score, _levelBoundary, _itemPool, _player);
         }
 
         private void Deinitialize()
