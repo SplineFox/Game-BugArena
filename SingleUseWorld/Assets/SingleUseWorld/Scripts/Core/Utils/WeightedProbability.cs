@@ -30,9 +30,9 @@ namespace SingleUseWorld
 
         public void Add(T obj, double weight)
         {
-            var item = new WeightedItem(obj, weight);
-            _weightedItems.Add(item);
             _totalWeight += weight;
+            var item = new WeightedItem(obj, _totalWeight);
+            _weightedItems.Add(item);
         }
 
         public void Clear()
