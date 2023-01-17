@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 005f1e0aeb648b341abf500a370f7deb, type: 3}
+  m_Name: GameSettingsSO
+  m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 11400000, guid: ff6b5116997c8054facb194057e926d3, type: 2}
+  PlayerFactory: {fileID: 11400000, guid: 7606b61a6e25b694399373d55d3983e9, type: 2}
+  EnemyFactory: {fileID: 11400000, guid: d0a4434172cc50643985173946737cf8, type: 2}
+  SkullItemFactory: {fileID: 11400000, guid: e6257ab42cd3c054c97f6b8e1ce5c431, type: 2}
+  BowItemFactory: {fileID: 11400000, guid: bf42a75a506db364eb56634ae9d56cf0, type: 2}
+  BombItemFactory: {fileID: 11400000, guid: 1252887e6dbdc1b49b36317e8f229e35, type: 2}
+  SwordItemFactory: {fileID: 11400000, guid: 8f672b5aff24e424db2e12a820ea133b, type: 2}
+  WandererEnemyPoolSettings:
+    InitialSize: 10
+    MaxSize: 25
+    PoolExpandMethod: 1
+  ChaserEnemyPoolSettings:
+    InitialSize: 10
+    MaxSize: 25
+    PoolExpandMethod: 1
+  ExploderEnemyPoolSettings:
+    InitialSize: 10
+    MaxSize: 25
+    PoolExpandMethod: 1
+  SkullItemPoolSettings:
+    InitialSize: 5
+    MaxSize: 10
+    PoolExpandMethod: 1
+  BowItemPoolSettings:
+    InitialSize: 5
+    MaxSize: 10
+    PoolExpandMethod: 1
+  BombItemPoolSettings:
+    InitialSize: 5
+    MaxSize: 10
+    PoolExpandMethod: 1
+  SwordItemPoolSettings:
+    InitialSize: 5
+    MaxSize: 10
+    PoolExpandMethod: 1
+  EnemySpawnerSettings:
+    InitialEnemiesAmount: 5
+    MaximumEnemiesAmount: 10
+    SpawnDistance: 5
+  ItemSpawnerSettings:
+    InitialItemsAmount: 5
+    MaximumItemsAmount: 10
+    SpawnDistance: 2.5
+    ItemsProbabilities:
+    - Type: 0
+      Weight: 30
+    - Type: 3
+      Weight: 25
+    - Type: 4
+      Weight: 25
+    - Type: 5
+      Weight: 20

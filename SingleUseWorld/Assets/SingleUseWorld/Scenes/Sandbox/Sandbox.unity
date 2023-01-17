@@ -7134,18 +7134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 065715b0ec0761c428c9c5a4305a2ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: b4979befb077edf42a0dbb7f52d5a588, type: 2}
   _camera: {fileID: 519420031}
   _virtualCamera: {fileID: 1289957773}
-  _playerInput: {fileID: 11400000, guid: ff6b5116997c8054facb194057e926d3, type: 2}
-  _playerFactory: {fileID: 11400000, guid: 7606b61a6e25b694399373d55d3983e9, type: 2}
-  _enemyFactory: {fileID: 11400000, guid: d0a4434172cc50643985173946737cf8, type: 2}
-  _enemyPoolContainer: {fileID: 1965182642}
-  _skullItemFactory: {fileID: 11400000, guid: e6257ab42cd3c054c97f6b8e1ce5c431, type: 2}
-  _bowItemFactory: {fileID: 11400000, guid: bf42a75a506db364eb56634ae9d56cf0, type: 2}
-  _bombItemFactory: {fileID: 11400000, guid: 1252887e6dbdc1b49b36317e8f229e35, type: 2}
-  _swordItemFactory: {fileID: 11400000, guid: 8f672b5aff24e424db2e12a820ea133b, type: 2}
-  _itemPoolContainer: {fileID: 1231729493}
   _levelBoundaryCollider: {fileID: 970438906}
+  _enemyPoolContainer: {fileID: 1965182642}
+  _itemPoolContainer: {fileID: 1231729493}
 --- !u!4 &2088865095
 Transform:
   m_ObjectHideFlags: 0
