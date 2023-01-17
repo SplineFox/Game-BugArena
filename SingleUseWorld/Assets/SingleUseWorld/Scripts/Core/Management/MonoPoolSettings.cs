@@ -10,6 +10,7 @@ namespace SingleUseWorld
         Doubling
     }
 
+    [Serializable]
     public struct MonoPoolSettings
     {
         public int InitialSize;
