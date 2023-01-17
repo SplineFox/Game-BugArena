@@ -13,6 +13,14 @@ namespace SingleUseWorld
             public int InitialItemsAmount = 5;
             public int MaximumItemsAmount = 10;
             public float SpawnDistance = 2.5f;
+            public List<ItemProbability> ItemsProbabilities;
+        }
+
+        [Serializable]
+        public struct ItemProbability
+        {
+            public ItemType Type;
+            public double Weight;
         }
         #endregion
 
@@ -25,6 +33,8 @@ namespace SingleUseWorld
 
         private List<Item> _items;
         private int _desiredItemsAmount;
+        private WeightedProbability<ItemType> _itemsRoulette;
+
         #endregion
 
         #region Constructors
@@ -37,6 +47,12 @@ namespace SingleUseWorld
             _player = player;
 
             _items = new List<Item>();
+            _itemsRoulette = new WeightedProbability<ItemType>();
+
+            foreach (var itemProbability in settings.ItemsProbabilities)
+            {
+                _itemsRoulette.Add(itemProbability.Type, itemProbability.Weight);
+            }
         }
         #endregion
 
@@ -62,7 +78,8 @@ namespace SingleUseWorld
         #region Private Methods
         private void SpawnItem()
         {
-            var item = _itemPool.Get(ItemType.Bomb);
+            var itemType = _itemsRoulette.Next();
+            var item = _itemPool.Get(itemType);
             item.transform.position = FindPositionForItem(item);
             item.Used += OnItemUsed;
             _items.Add(item);
