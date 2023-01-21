@@ -10,6 +10,7 @@ namespace SingleUseWorld
         [SerializeField] private ShadowView _shadow = default;
         [SerializeField] private ProjectileTrigger _projectileTrigger = default;
 
+        private bool _hitEnemy;
         private Projectile2D _projectile;
         private SkullEntitySettings _settings;
         #endregion
@@ -34,6 +35,7 @@ namespace SingleUseWorld
         public void OnCreate(SkullEntitySettings settings)
         {
             _settings = settings;
+            _hitEnemy = false;
             _projectileTrigger.EnemyHit += OnEnemyHit;
             _projectile.GroundCollision += OnGroundHit;
         }
@@ -61,6 +63,11 @@ namespace SingleUseWorld
         #region Private Methods
         private void OnEnemyHit(Enemy enemy)
         {
+            if (_hitEnemy)
+                return;
+            else
+                _hitEnemy = true;
+
             // damage
             var damageAmount = _settings.DamageAmount;
             var damageDirection = _projectile.HorizontalVelocity.normalized;
