@@ -8,6 +8,7 @@ namespace SingleUseWorld
         #region Fields
         [SerializeField] private Item _bowItemPrefab;
         [SerializeField] private ItemSettings _itemSettings;
+        [SerializeField] private ItemTypeSettings _itemTypeSettings;
         [SerializeField] private ArrowEntityFactory _arrowEntityFactory;
         #endregion
 
@@ -15,7 +16,7 @@ namespace SingleUseWorld
         public Item Create()
         {
             var bowItem = CreateInstance<Item>(_bowItemPrefab);
-            bowItem.OnCreate(ItemType.Bow, _arrowEntityFactory, _itemSettings);
+            bowItem.OnCreate(_itemSettings, _itemTypeSettings, _arrowEntityFactory);
             return bowItem;
         }
         #endregion

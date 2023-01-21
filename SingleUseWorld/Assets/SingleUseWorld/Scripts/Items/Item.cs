@@ -11,28 +11,23 @@ namespace SingleUseWorld
         #region Fields
         [SerializeField] private ItemBodyView _body = default;
 
-        private float _bobbingHeight = 0.0625f;
-        private float _bobbingSpeed = 8f;
-        private float _elevationSpeed = 10f;
-        private float _movementSpeed = 10f;
-
         private Collider2D _collider = default;
         private Rigidbody2D _rigidbody = default;
 
-        private ItemType _itemType = default;
         private IMonoFactory<ItemEntity> _entityFactory = default;
         private ItemSettings _settings = default;
+        private ItemTypeSettings _typeSettings = default;
         #endregion
 
         #region Properties
         public ItemType Type 
         { 
-            get => _itemType; 
+            get => _typeSettings.Type; 
         }
 
         public float SpeedFactor
         {
-            get => _settings.SpeedFactor;
+            get => _typeSettings.SpeedFactor;
         }
         #endregion
 
@@ -50,16 +45,16 @@ namespace SingleUseWorld
 
         private void Start()
         {
-            StartCoroutine(Bob(_bobbingHeight, _bobbingSpeed));
+            StartCoroutine(Bob(_settings.BobbingHeight, _settings.BobbingSpeed));
         }
         #endregion
 
         #region Public Methods
-        public void OnCreate(ItemType itemType, IMonoFactory<ItemEntity> entityFactory, ItemSettings settings)
+        public void OnCreate(ItemSettings settings, ItemTypeSettings typeSettings, IMonoFactory<ItemEntity> entityFactory)
         {
-            _itemType = itemType;
-            _entityFactory = entityFactory;
             _settings = settings;
+            _typeSettings = typeSettings;
+            _entityFactory = entityFactory;
         }
 
         public void OnDestroy()
@@ -73,7 +68,7 @@ namespace SingleUseWorld
             elevator.Reset();
             _collider.enabled = true;
             _rigidbody.isKinematic = false;
-            StartCoroutine(Bob(_bobbingHeight, _bobbingSpeed));
+            StartCoroutine(Bob(_settings.BobbingHeight, _settings.BobbingSpeed));
         }
 
         public void Attach(Transform target, float height)
@@ -84,8 +79,8 @@ namespace SingleUseWorld
 
             // play raise animation
             StopAllCoroutines();
-            StartCoroutine(MoveTo(Vector3.zero, _movementSpeed));
-            StartCoroutine(ElevateTo(height, _elevationSpeed));
+            StartCoroutine(MoveTo(Vector3.zero, _settings.MovementSpeed));
+            StartCoroutine(ElevateTo(height, _settings.ElevationSpeed));
 
             // disable collisions
             _collider.enabled = false;
@@ -99,7 +94,7 @@ namespace SingleUseWorld
 
             // play lower animation
             StopAllCoroutines();
-            StartCoroutine(ElevateTo(0f, _elevationSpeed));
+            StartCoroutine(ElevateTo(0f, _settings.ElevationSpeed));
             StartCoroutine(RotateTo(Quaternion.identity, 10f));
 
             // enable collisions
@@ -130,7 +125,7 @@ namespace SingleUseWorld
             // if item became detached
             if (transform.parent == null)
             {
-                StartCoroutine(Bob(_bobbingHeight, _bobbingSpeed));
+                StartCoroutine(Bob(_settings.BobbingHeight, _settings.BobbingSpeed));
             }
         }
 

@@ -8,6 +8,7 @@ namespace SingleUseWorld
         #region Fields
         [SerializeField] private Item _skullItemPrefab;
         [SerializeField] private ItemSettings _itemSettings;
+        [SerializeField] private ItemTypeSettings _itemTypeSettings;
         [SerializeField] private SkullEntityFactory _skullEntityFactory;
         #endregion
 
@@ -15,7 +16,7 @@ namespace SingleUseWorld
         public Item Create()
         {
             var skullItem = CreateInstance<Item>(_skullItemPrefab);
-            skullItem.OnCreate(ItemType.Skull, _skullEntityFactory, _itemSettings);
+            skullItem.OnCreate(_itemSettings, _itemTypeSettings, _skullEntityFactory);
             return skullItem;
         }
         #endregion

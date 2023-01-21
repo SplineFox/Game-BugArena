@@ -8,6 +8,7 @@ namespace SingleUseWorld
         #region Fields
         [SerializeField] private Item _bombItemPrefab;
         [SerializeField] private ItemSettings _itemSettings;
+        [SerializeField] private ItemTypeSettings _itemTypeSettings;
         [SerializeField] private BombEntityFactory _bombEntityFactory;
         #endregion
 
@@ -15,7 +16,7 @@ namespace SingleUseWorld
         public Item Create()
         {
             var bombItem = CreateInstance<Item>(_bombItemPrefab);
-            bombItem.OnCreate(ItemType.Bomb, _bombEntityFactory, _itemSettings);
+            bombItem.OnCreate(_itemSettings, _itemTypeSettings, _bombEntityFactory);
             return bombItem;
         }
         #endregion

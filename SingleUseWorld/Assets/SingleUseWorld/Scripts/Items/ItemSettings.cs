@@ -6,7 +6,10 @@ namespace SingleUseWorld
     public class ItemSettings : ScriptableObject
     {
         #region Fields
-        public float SpeedFactor = 0.8f;
+        public float BobbingHeight = 0.0625f;
+        public float BobbingSpeed = 8f;
+        public float ElevationSpeed = 10f;
+        public float MovementSpeed = 10f;
         #endregion
     }
 }
