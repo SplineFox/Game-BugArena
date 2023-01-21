@@ -19,6 +19,10 @@ namespace SingleUseWorld
         public BombItemFactory BombItemFactory;
         public SwordItemFactory SwordItemFactory;
         [Space]
+        [Header("Effect factories")]
+        public EffectFactory StepDustEffectFactory;
+        public EffectFactory PoofDustEffectFactory;
+        [Space]
         [Header("Enemy pools")]
         public MonoPoolSettings WandererEnemyPoolSettings;
         public MonoPoolSettings ChaserEnemyPoolSettings;
@@ -29,6 +33,10 @@ namespace SingleUseWorld
         public MonoPoolSettings BowItemPoolSettings;
         public MonoPoolSettings BombItemPoolSettings;
         public MonoPoolSettings SwordItemPoolSettings;
+        [Space]
+        [Header("Effect pools")]
+        public MonoPoolSettings StepDustEffectPool;
+        public MonoPoolSettings PoofDustEffectPool;
         [Space]
         [Header("Spawners")]
         public EnemySpawner.Settings EnemySpawnerSettings;

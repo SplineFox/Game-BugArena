@@ -19,6 +19,8 @@ MonoBehaviour:
   BowItemFactory: {fileID: 11400000, guid: bf42a75a506db364eb56634ae9d56cf0, type: 2}
   BombItemFactory: {fileID: 11400000, guid: 1252887e6dbdc1b49b36317e8f229e35, type: 2}
   SwordItemFactory: {fileID: 11400000, guid: 8f672b5aff24e424db2e12a820ea133b, type: 2}
+  StepDustEffectFactory: {fileID: 11400000, guid: 21401727daba86e4ba97b7621bf1e6a0, type: 2}
+  PoofDustEffectFactory: {fileID: 11400000, guid: 4b3cadca2ddb1164fa78093a68b99b3d, type: 2}
   WandererEnemyPoolSettings:
     InitialSize: 10
     MaxSize: 25
@@ -46,6 +48,14 @@ MonoBehaviour:
   SwordItemPoolSettings:
     InitialSize: 5
     MaxSize: 10
+    PoolExpandMethod: 1
+  StepDustEffectPool:
+    InitialSize: 5
+    MaxSize: 10
+    PoolExpandMethod: 1
+  PoofDustEffectPool:
+    InitialSize: 10
+    MaxSize: 15
     PoolExpandMethod: 1
   EnemySpawnerSettings:
     InitialEnemiesAmount: 5
