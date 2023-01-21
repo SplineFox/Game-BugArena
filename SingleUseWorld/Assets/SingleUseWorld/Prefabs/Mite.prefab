@@ -293,6 +293,7 @@ MonoBehaviour:
   _grip: {fileID: 4986275914341116251}
   _body: {fileID: 1564527933190625389}
   _shadow: {fileID: 3113030128408013591}
+  _poofDustView: {fileID: 1232422207796869773, guid: 81930cd52975dc0468bfb8049a151839, type: 3}
 --- !u!114 &2492716051257339616
 MonoBehaviour:
   m_ObjectHideFlags: 0

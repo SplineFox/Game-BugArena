@@ -13,6 +13,7 @@ namespace SingleUseWorld
         [Space]
         [SerializeField] private Transform _enemyPoolContainer = default;
         [SerializeField] private Transform _itemPoolContainer = default;
+        [SerializeField] private Transform _effectPoolContainer = default;
 
         private Score _score;
         private LevelBoundary _levelBoundary;
@@ -31,11 +32,16 @@ namespace SingleUseWorld
         private MonoPool<Item> _bombItemPool;
         private MonoPool<Item> _swordItemPool;
 
+        private MonoPool<Effect> _stepDustEffectPool;
+        private MonoPool<Effect> _poofDustEffectPool;
+
         private EnemyPool _enemyPool;
         private ItemPool _itemPool;
+        private EffectPool _effectPool;
 
         private EnemySpawner _enemySpawner;
         private ItemSpawner _itemSpawner;
+        private EffectSpawner _effectSpawner;
         #endregion
 
         #region LifeCycle Methods
@@ -70,6 +76,16 @@ namespace SingleUseWorld
         {
             _score = new Score(1500);
             _levelBoundary = new LevelBoundary(_levelBoundaryCollider);
+
+            // Low-level Effect pools
+            _stepDustEffectPool = new MonoPool<Effect>(_settings.StepDustEffectFactory, _effectPoolContainer, _settings.StepDustEffectPool);
+            _poofDustEffectPool = new MonoPool<Effect>(_settings.PoofDustEffectFactory, _effectPoolContainer, _settings.PoofDustEffectPool);
+
+            _effectPool = new EffectPool(_stepDustEffectPool, _poofDustEffectPool);
+            _effectSpawner = new EffectSpawner(_effectPool);
+
+            _settings.PlayerFactory.Initialize(_effectSpawner);
+            _settings.EnemyFactory.Initialize(_effectSpawner);
 
             // Controllers
             _player = _settings.PlayerFactory.Create();

@@ -16,6 +16,8 @@ namespace SingleUseWorld
         private PlayerHealth _health;
         private PlayerSpeed _speed;
         private PlayerGripHandler _gripHandler;
+
+        private EffectSpawner _effectSpawner;
         #endregion
 
         #region LifeCycle Methods
@@ -26,13 +28,15 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void OnCreate(PlayerSettings settings)
+        public void OnCreate(PlayerSettings settings, EffectSpawner effectSpawner)
         {
             _settings = settings;
+            _effectSpawner = effectSpawner;
             _speed = new PlayerSpeed(_settings.SpeedSettings, _movement);
             _health = new PlayerHealth(_settings.HealthSettings, this);
             _gripHandler = new PlayerGripHandler(_settings.GripHandlerSettings, _speed, _health);
 
+            _body.Initialize(effectSpawner);
             _armament.Initialize(_settings.ArmamentSettings);
 
             _armament.StateChanged += OnArmamentStateChanged;
@@ -125,7 +129,10 @@ namespace SingleUseWorld
         private void OnGroundHit()
         {
             if (_health.IsDead)
+            {
                 Destroy(gameObject);
+                _effectSpawner.SpawnEffect(EffectType.PoofDust, transform.position);
+            }
         }
 
         private void OnMovementStateChanged(MovementState movementState)

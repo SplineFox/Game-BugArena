@@ -8,13 +8,20 @@ namespace SingleUseWorld
         #region Fields
         [SerializeField] private Player _playerPrefab;
         [SerializeField] private PlayerSettings _playerSettings;
+
+        private EffectSpawner _effectSpawner;
         #endregion
 
         #region Public Methods
+        public void Initialize(EffectSpawner effectSpawner)
+        {
+            _effectSpawner = effectSpawner;
+        }
+
         public Player Create()
         {
             var player = CreateInstance<Player>(_playerPrefab);
-            player.OnCreate(_playerSettings);
+            player.OnCreate(_playerSettings, _effectSpawner);
             return player;
         }
         #endregion

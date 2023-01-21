@@ -22,8 +22,7 @@ namespace SingleUseWorld
         private int _moveArmedAnimId = 0;
         private int _knockedAnimId = 0;
 
-        [SerializeField]
-        private StepDustView _stepDustView = default;
+        private EffectSpawner _effectSpawner;
         #endregion
 
         #region Delegates & Events
@@ -42,6 +41,11 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
+        public void Initialize(EffectSpawner effectSpawner)
+        {
+            _effectSpawner = effectSpawner;
+        }
+        
         public void PlayIdleUnarmedAnimation()
         {
             bool shouldSync = _animator.CurrentStateIs(_idleArmedAnimId);
@@ -81,7 +85,7 @@ namespace SingleUseWorld
         /// </summary>
         private void OnStepFrame(AnimationEvent animationEvent)
         {
-            GameObject.Instantiate(_stepDustView, transform.position, Quaternion.identity);
+            _effectSpawner.SpawnEffect(EffectType.StepDust, transform.position);
         }
 
         private void CacheAnimatorParameters()

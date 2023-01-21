@@ -14,6 +14,8 @@ namespace SingleUseWorld
 
         private EnemySettings _settings;
         private EnemyHealth _health;
+
+        private EffectSpawner _effectSpawner;
         #endregion
 
         #region Properties
@@ -28,9 +30,10 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void OnCreate(EnemySettings settings)
+        public void OnCreate(EnemySettings settings, EffectSpawner effectSpawner)
         {
             _settings = settings;
+            _effectSpawner = effectSpawner;
             _health = new EnemyHealth(_settings.HealthSettings);
 
             _grip.Initialize(_settings.GripSettings);
@@ -86,6 +89,7 @@ namespace SingleUseWorld
         {
             Died.Invoke(this);
             _body.StopSpin();
+            _effectSpawner.SpawnEffect(EffectType.PoofDust, transform.position);
         }
 
         private void OnMovementStateChanged(MovementState movementState)
