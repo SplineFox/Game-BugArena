@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1363370686978894661}
   - component: {fileID: 2999010898974121776}
   - component: {fileID: 6844945988738173230}
-  - component: {fileID: 1255893053277186890}
+  - component: {fileID: 5563750861580874388}
   m_Layer: 0
   m_Name: StepDust
   m_TagString: Untagged
@@ -103,7 +103,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1255893053277186890
+--- !u!114 &5563750861580874388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,6 +112,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 186066553446788784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ab0cfa36df52be47972479b05fc792e, type: 3}
+  m_Script: {fileID: 11500000, guid: c57a5cf5d0af103488343f5f76568460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
