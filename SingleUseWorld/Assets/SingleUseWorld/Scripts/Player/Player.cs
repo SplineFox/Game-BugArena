@@ -130,8 +130,8 @@ namespace SingleUseWorld
         {
             if (_health.IsDead)
             {
-                Destroy(gameObject);
                 _effectSpawner.SpawnEffect(EffectType.PoofDust, transform.position);
+                gameObject.SetActive(false);
             }
         }
 
