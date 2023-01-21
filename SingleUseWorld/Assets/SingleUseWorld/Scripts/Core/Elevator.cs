@@ -53,6 +53,11 @@ namespace SingleUseWorld
         {
             height += translation;
         }
+
+        public void Reset()
+        {
+            height = 0f;
+        }
         #endregion
 
         #region Private Methods
