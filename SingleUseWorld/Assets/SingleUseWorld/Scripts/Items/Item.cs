@@ -69,7 +69,8 @@ namespace SingleUseWorld
         {
             StopAllCoroutines();
             transform.SetParent(null);
-            elevator.height = 0f;
+            transform.Reset();
+            elevator.Reset();
             _collider.enabled = true;
             _rigidbody.isKinematic = false;
             StartCoroutine(Bob(_bobbingHeight, _bobbingSpeed));
