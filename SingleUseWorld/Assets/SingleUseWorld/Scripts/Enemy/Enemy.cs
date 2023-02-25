@@ -76,6 +76,7 @@ namespace SingleUseWorld
         #region Private Methods
         private void OnDied(Damage damage)
         {
+            StopAllCoroutines();
             _sight.SightAllowed = false;
             _grip.GripAllowed = false;
 
