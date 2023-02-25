@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: PlayerSettingsSO
   m_EditorClassIdentifier: 
   SpeedSettings:
-    InitialSpeed: 4
-    MinSpeed: 1.5
+    InitialSpeed: 6
+    MinSpeed: 2
   HealthSettings:
-    InitialHealth: 100
+    InitialHealth: 100000
     TimeTillRecovery: 0.25
     RecoveryDuration: 5
   ArmamentSettings:
     PickupCooldownTime: 0.5
     AttachmentHeight: 1.6
   GripHandlerSettings:
-    MaxSlowDown: 0.5
+    MaxSlowDown: 0
     MaxDamagePerSecond: 40
   KnockbackInitialHeight: 0.75

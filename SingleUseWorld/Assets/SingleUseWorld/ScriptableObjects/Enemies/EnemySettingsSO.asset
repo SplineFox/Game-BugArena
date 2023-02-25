@@ -16,12 +16,16 @@ MonoBehaviour:
     InitialHealth: 100
   SightSettings:
     OutSightRadius: 2
-    InSightRadius: 3
+    InSightRadius: 2.8
   GripSettings:
-    GrabbingDamagePerSecond: 40
-    GrabbingSlowDown: 0.1
+    GrabbingDamagePerSecond: 20
+    GrabbingSlowDown: 0.22
   KnockbackInitialHeight: 0.4375
-  WanderSpeed: 1
-  ChaseSpeed: 3
-  WanderMovingTime: 1
-  WanderIdlingTime: 1
+  WanderSpeed: 1.4
+  ChaseSpeed: 3.6
+  WanderMovingTime:
+    start: 0.5
+    end: 1
+  WanderIdlingTime:
+    start: 0.5
+    end: 1.5
