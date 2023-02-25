@@ -27,6 +27,7 @@ namespace SingleUseWorld
 
         #region Delegates & Events
         public event Action<Enemy> Died = delegate { };
+        public event Action<Enemy> GroundHit = delegate { };
         #endregion
 
         #region Public Methods
@@ -77,6 +78,7 @@ namespace SingleUseWorld
         private void OnDied(Damage damage)
         {
             StopAllCoroutines();
+            Died.Invoke(this);
             _sight.SightAllowed = false;
             _grip.GripAllowed = false;
 
@@ -88,7 +90,7 @@ namespace SingleUseWorld
 
         private void OnGroundHit()
         {
-            Died.Invoke(this);
+            GroundHit.Invoke(this);
             _body.StopSpin();
             _effectSpawner.SpawnEffect(EffectType.PoofDust, transform.position);
         }
