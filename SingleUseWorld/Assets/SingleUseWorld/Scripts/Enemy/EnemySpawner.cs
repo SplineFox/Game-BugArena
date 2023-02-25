@@ -23,18 +23,23 @@ namespace SingleUseWorld
         private EnemyPool _enemyPool;
         private Player _player;
 
+        private HitTimer _hitTimer;
+        private CameraShaker _cameraShaker;
+
         private List<Enemy> _enemies;
         private int _desiredEnemiesAmount;
         #endregion
 
         #region Constructors
-        public EnemySpawner(Settings settings, Score score, LevelBoundary levelBoundary, EnemyPool enemyPool, Player player)
+        public EnemySpawner(Settings settings, Score score, LevelBoundary levelBoundary, EnemyPool enemyPool, Player player, HitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;
             _levelBoundary = levelBoundary;
             _enemyPool = enemyPool;
             _player = player;
+            _hitTimer = hitTimer;
+            _cameraShaker = cameraShaker;
 
             _enemies = new List<Enemy>();
         }
@@ -65,12 +70,14 @@ namespace SingleUseWorld
             var enemy = _enemyPool.Get(EnemyType.Wanderer);
             enemy.transform.position = FindPositionForEnemy(enemy);
             enemy.Died += OnEnemyDied;
+            enemy.GroundHit += OnEnemyGroundHit;
             _enemies.Add(enemy);
         }
 
         private void DespawnEnemy(Enemy enemy)
         {
             enemy.Died -= OnEnemyDied;
+            enemy.GroundHit -= OnEnemyGroundHit;
             _enemies.Remove(enemy);
             _enemyPool.Release(enemy);
         }
@@ -85,6 +92,12 @@ namespace SingleUseWorld
         }
 
         private void OnEnemyDied(Enemy enemy)
+        {
+            _hitTimer.StopTime(0.09f);
+            _cameraShaker.Shake(1f, 0.4f);
+        }
+
+        private void OnEnemyGroundHit(Enemy enemy)
         {
             DespawnEnemy(enemy);
         }

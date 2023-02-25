@@ -10,6 +10,8 @@ namespace SingleUseWorld
         [SerializeField] private Camera _camera = default;
         [SerializeField] private CinemachineVirtualCamera _virtualCamera = default;
         [SerializeField] private BoxCollider2D _levelBoundaryCollider = default;
+        [SerializeField] private HitTimer _hitTimer = default;
+        [SerializeField] private CameraShaker _cameraShaker = default;
         [Space]
         [SerializeField] private Transform _enemyPoolContainer = default;
         [SerializeField] private Transform _itemPoolContainer = default;
@@ -110,7 +112,7 @@ namespace SingleUseWorld
             _itemPool = new ItemPool(_skullItemPool, _bowItemPool, _bombItemPool, _swordItemPool);
             
             // Spawners
-            _enemySpawner = new EnemySpawner(_settings.EnemySpawnerSettings, _score, _levelBoundary, _enemyPool, _player);
+            _enemySpawner = new EnemySpawner(_settings.EnemySpawnerSettings, _score, _levelBoundary, _enemyPool, _player, _hitTimer, _cameraShaker);
             _itemSpawner = new ItemSpawner(_settings.ItemSpawnerSettings, _score, _levelBoundary, _itemPool, _player);
         }
 
