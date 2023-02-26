@@ -15,6 +15,7 @@ namespace SingleUseWorld
         private EnemySettings _settings;
         private EnemyHealth _health;
 
+        private EnemySpawner _spawner;
         private EffectSpawner _effectSpawner;
         #endregion
 
@@ -26,8 +27,6 @@ namespace SingleUseWorld
         #endregion
 
         #region Delegates & Events
-        public event Action<Enemy> Died = delegate { };
-        public event Action<Enemy> GroundHit = delegate { };
         #endregion
 
         #region Public Methods
@@ -68,6 +67,17 @@ namespace SingleUseWorld
             StartCoroutine(Wander());
         }
 
+        public void OnSpawned(Vector3 position, EnemySpawner spawner)
+        {
+            transform.position = position;
+            _spawner = spawner;
+        }
+
+        public void OnDespawned()
+        {
+            _spawner = null;
+        }
+
         public void TakeDamage(Damage damage)
         {
             _health.TakeDamage(damage);
@@ -77,8 +87,8 @@ namespace SingleUseWorld
         #region Private Methods
         private void OnDied(Damage damage)
         {
+            _spawner.OnEnemyDied(this);
             StopAllCoroutines();
-            Died.Invoke(this);
             _sight.SightAllowed = false;
             _grip.GripAllowed = false;
 
@@ -90,9 +100,9 @@ namespace SingleUseWorld
 
         private void OnGroundHit()
         {
-            GroundHit.Invoke(this);
             _body.StopSpin();
             _effectSpawner.SpawnEffect(EffectType.PoofDust, transform.position);
+            _spawner.DespawnEnemy(this);
         }
 
         private void OnMovementStateChanged(MovementState movementState)

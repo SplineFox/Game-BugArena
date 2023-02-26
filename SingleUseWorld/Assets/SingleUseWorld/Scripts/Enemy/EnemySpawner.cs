@@ -71,13 +71,15 @@ namespace SingleUseWorld
             enemy.transform.position = FindPositionForEnemy(enemy);
             enemy.Died += OnEnemyDied;
             enemy.GroundHit += OnEnemyGroundHit;
+            var position = FindPositionForEnemy(enemy);
+            enemy.OnSpawned(position, this);
             _enemies.Add(enemy);
+
         }
 
-        private void DespawnEnemy(Enemy enemy)
+        public void DespawnEnemy(Enemy enemy)
         {
-            enemy.Died -= OnEnemyDied;
-            enemy.GroundHit -= OnEnemyGroundHit;
+            enemy.OnDespawned();
             _enemies.Remove(enemy);
             _enemyPool.Release(enemy);
         }
@@ -91,15 +93,9 @@ namespace SingleUseWorld
             }
         }
 
-        private void OnEnemyDied(Enemy enemy)
+        public void OnEnemyDied(Enemy enemy)
         {
-            _hitTimer.StopTime(0.09f);
-            _cameraShaker.Shake(1f, 0.4f);
-        }
-
-        private void OnEnemyGroundHit(Enemy enemy)
-        {
-            DespawnEnemy(enemy);
+            EnemyDied.Invoke(enemy);
         }
 
         private Vector3 FindPositionForEnemy(Enemy enemy)
