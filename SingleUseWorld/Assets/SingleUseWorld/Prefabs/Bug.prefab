@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5696049504297167786}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6844996599176899992
 SpriteRenderer:
@@ -127,10 +127,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 37067494913446278}
+  m_Children: []
   m_Father: {fileID: 5696049504297167786}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &145573734218187308
 Animator:
@@ -222,7 +221,6 @@ MonoBehaviour:
   _idleArmedAnimName: IdleArmed
   _moveArmedAnimName: MoveArmed
   _knockedAnimName: Knocked
-  _stepDustView: {fileID: 1255893053277186890, guid: 1162bcb4a5faff74e8d02fb4d79bd4a4, type: 3}
 --- !u!1 &5696049504297167787
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +255,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 37067494913446278}
   - {fileID: 8894646190247381435}
   - {fileID: 6586122800537328036}
   m_Father: {fileID: 0}
@@ -398,7 +397,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8894646190247381435}
+  m_Father: {fileID: 5696049504297167786}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1702818958446252962
