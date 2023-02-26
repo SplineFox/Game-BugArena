@@ -6,6 +6,8 @@ namespace SingleUseWorld
     public class EnemySettings : ScriptableObject
     {
         #region Fields
+        public int PointsPerKill = 5;
+
         public EnemyHealth.Settings HealthSettings;
         public EnemySight.Settings SightSettings;
         public EnemyGrip.Settings GripSettings;
