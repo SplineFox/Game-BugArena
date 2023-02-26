@@ -30,6 +30,11 @@ namespace SingleUseWorld
             get => _health;
         }
 
+        public float NormalizedValue
+        {
+            get => _health / _settings.InitialHealth;
+        }
+
         public bool IsDead
         {
             get => _health == 0;
@@ -38,6 +43,7 @@ namespace SingleUseWorld
 
         #region Delegates & Events
         public Action Died = delegate { };
+        public Action Changed = delegate { };
         #endregion
 
         #region Constructors
@@ -60,6 +66,7 @@ namespace SingleUseWorld
 
             var newHealth = _health - damage;
             _health = Mathf.Max(0f, newHealth);
+            Changed.Invoke();
 
             if (IsDead)
             {
@@ -85,6 +92,7 @@ namespace SingleUseWorld
             {
                 elapsedTime += Time.deltaTime;
                 _health = Mathf.Lerp(initialHealth, targetHealth, elapsedTime / duration);
+                Changed.Invoke();
                 yield return null;
             }
             _recoveryCoroutine = null;

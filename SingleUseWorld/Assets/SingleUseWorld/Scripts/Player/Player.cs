@@ -43,6 +43,7 @@ namespace SingleUseWorld
             _movement.StateChanged += OnMovementStateChanged;
             _projectile.GroundCollision += OnGroundHit;
             _health.Died += OnDied;
+            _health.Changed += OnHealthChanged;
         }
 
         public void OnDestroy()
@@ -51,6 +52,7 @@ namespace SingleUseWorld
             _movement.StateChanged -= OnMovementStateChanged;
             _projectile.GroundCollision -= OnGroundHit;
             _health.Died -= OnDied;
+            _health.Changed -= OnHealthChanged;
         }
 
         void IControllable.StartMovement()
@@ -100,6 +102,11 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
+        private void OnHealthChanged()
+        {
+            _body.SetShakeIntensity(1f - _health.NormalizedValue);
+        }
+
         private void OnDied()
         {
             _armament.PickupAllowed = false;
@@ -107,6 +114,7 @@ namespace SingleUseWorld
 
             var damage = GenerateRandomDamage();
             _movement.Knockback(damage.horizontalKnockback, damage.verticalKnockback);
+            _body.SetShakeIntensity(0f);
             _body.SetFacingDirection(damage.direction);
             _body.StartSpin(damage.spinKnockback);
             _body.ShowFlash(0.1f);

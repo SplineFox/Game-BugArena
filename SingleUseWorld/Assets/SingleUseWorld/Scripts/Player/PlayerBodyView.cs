@@ -22,6 +22,10 @@ namespace SingleUseWorld
         private int _moveArmedAnimId = 0;
         private int _knockedAnimId = 0;
 
+        private bool _isShaking = false;
+        private float _shakeOffset = 0.15f;
+        private float _shakeIntensity = 0f;
+
         private EffectSpawner _effectSpawner;
         #endregion
 
@@ -37,6 +41,12 @@ namespace SingleUseWorld
 
             _animator = GetComponent<Animator>();
             CacheAnimatorParameters();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            UpdateShake();
         }
         #endregion
 
@@ -77,6 +87,12 @@ namespace SingleUseWorld
             _animator.Play(_knockedAnimId);
             ResetRoll();
         }
+
+        public void SetShakeIntensity(float shakeIntensity)
+        {
+            _shakeIntensity = shakeIntensity;
+            _isShaking = _shakeIntensity > 0;
+        }
         #endregion
 
         #region Private Methods
@@ -86,6 +102,18 @@ namespace SingleUseWorld
         private void OnStepFrame(AnimationEvent animationEvent)
         {
             _effectSpawner.SpawnEffect(EffectType.StepDust, transform.position);
+        }
+
+        private void UpdateShake()
+        {
+            if (!_isShaking)
+                return;
+
+            float shakeMagnitude = _shakeOffset * _shakeIntensity;
+            float x = UnityEngine.Random.Range(-1f, 1f) * shakeMagnitude;
+            float y = UnityEngine.Random.Range(-1f, 1f) * shakeMagnitude;
+
+            transform.localPosition = new Vector3(x, y, 0f);
         }
 
         private void CacheAnimatorParameters()
