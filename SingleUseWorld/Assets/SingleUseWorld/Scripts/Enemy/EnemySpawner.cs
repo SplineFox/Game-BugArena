@@ -10,46 +10,40 @@ namespace SingleUseWorld
         [Serializable]
         public class Settings
         {
-            public int InitialEnemiesAmount = 5;
-            public int MaximumEnemiesAmount = 10;
             public float SpawnDistance = 5f;
         }
         #endregion
 
         #region Fields
         private Settings _settings;
-        private Score _score;
         private LevelBoundary _levelBoundary;
         private EnemyPool _enemyPool;
         private Player _player;
-
-        private HitTimer _hitTimer;
-        private CameraShaker _cameraShaker;
 
         private List<Enemy> _enemies;
         private int _desiredEnemiesAmount;
         #endregion
 
+        #region Delegates & Events
+        public event Action<Enemy> EnemyDied = delegate { };
+        #endregion
+
         #region Constructors
-        public EnemySpawner(Settings settings, Score score, LevelBoundary levelBoundary, EnemyPool enemyPool, Player player, HitTimer hitTimer, CameraShaker cameraShaker)
+        public EnemySpawner(Settings settings, LevelBoundary levelBoundary, EnemyPool enemyPool, Player player)
         {
             _settings = settings;
-            _score = score;
             _levelBoundary = levelBoundary;
             _enemyPool = enemyPool;
             _player = player;
-            _hitTimer = hitTimer;
-            _cameraShaker = cameraShaker;
 
             _enemies = new List<Enemy>();
+            _desiredEnemiesAmount = 0;
         }
         #endregion
 
         #region LifeCycle Methods
         public void Tick()
         {
-            _desiredEnemiesAmount = _settings.InitialEnemiesAmount + Math.Min(25, Mathf.FloorToInt(_score.Points/150));
-
             if(_enemies.Count < _desiredEnemiesAmount)
             {
                 var enemiesAmountToSpawn = _desiredEnemiesAmount - _enemies.Count;
@@ -62,15 +56,16 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
+        public void SetDesiredAmount(int desiredEnemiesAmount)
+        {
+            _desiredEnemiesAmount = desiredEnemiesAmount;
+        }
         #endregion
 
         #region Private Methods
         private void SpawnEnemy()
         {
             var enemy = _enemyPool.Get(EnemyType.Wanderer);
-            enemy.transform.position = FindPositionForEnemy(enemy);
-            enemy.Died += OnEnemyDied;
-            enemy.GroundHit += OnEnemyGroundHit;
             var position = FindPositionForEnemy(enemy);
             enemy.OnSpawned(position, this);
             _enemies.Add(enemy);

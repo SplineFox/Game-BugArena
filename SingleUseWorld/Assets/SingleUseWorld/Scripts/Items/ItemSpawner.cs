@@ -10,8 +10,6 @@ namespace SingleUseWorld
         [Serializable]
         public class Settings
         {
-            public int InitialItemsAmount = 5;
-            public int MaximumItemsAmount = 10;
             public float SpawnDistance = 2.5f;
             public List<ItemProbability> ItemsProbabilities;
         }
@@ -26,7 +24,6 @@ namespace SingleUseWorld
 
         #region Fields
         private Settings _settings;
-        private Score _score;
         private LevelBoundary _levelBoundary;
         private ItemPool _itemPool;
         private Player _player;
@@ -38,16 +35,16 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public ItemSpawner(Settings settings, Score score, LevelBoundary levelBoundary, ItemPool itemPool, Player player)
+        public ItemSpawner(Settings settings, LevelBoundary levelBoundary, ItemPool itemPool, Player player)
         {
             _settings = settings;
-            _score = score;
             _levelBoundary = levelBoundary;
             _itemPool = itemPool;
             _player = player;
 
             _items = new List<Item>();
             _itemsRoulette = new WeightedProbability<ItemType>();
+            _desiredItemsAmount = 0;
 
             foreach (var itemProbability in settings.ItemsProbabilities)
             {
@@ -59,8 +56,6 @@ namespace SingleUseWorld
         #region LifeCycle Methods
         public void Tick()
         {
-            _desiredItemsAmount = _settings.InitialItemsAmount + Math.Min(25, Mathf.FloorToInt(_score.Points / 150));
-
             if (_items.Count < _desiredItemsAmount)
             {
                 var itemsAmountToSpawn = _desiredItemsAmount - _items.Count;
@@ -73,6 +68,10 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
+        public void SetDesiredAmount(int desiredItemsAmount)
+        {
+            _desiredItemsAmount = desiredItemsAmount;
+        }
         #endregion
 
         #region Private Methods

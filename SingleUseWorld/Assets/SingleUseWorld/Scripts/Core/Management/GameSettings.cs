@@ -41,6 +41,9 @@ namespace SingleUseWorld
         [Header("Spawners")]
         public EnemySpawner.Settings EnemySpawnerSettings;
         public ItemSpawner.Settings ItemSpawnerSettings;
+        [Space]
+        [Header("Core")]
+        public Difficulty.Settings DifficultySettings;
         #endregion
     }
 }

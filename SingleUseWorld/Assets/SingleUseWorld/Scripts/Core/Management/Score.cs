@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SingleUseWorld
@@ -16,6 +17,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Delegates & Events
+        public event Action Changed = delegate { };
         #endregion
 
         #region Constructors
@@ -29,6 +31,7 @@ namespace SingleUseWorld
         public void AddPoints(int points)
         {
             _points += points;
+            Changed.Invoke();
         }
         #endregion
 

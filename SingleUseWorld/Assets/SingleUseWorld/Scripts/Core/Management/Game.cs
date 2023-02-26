@@ -18,6 +18,7 @@ namespace SingleUseWorld
         [SerializeField] private Transform _effectPoolContainer = default;
 
         private Score _score;
+        private Difficulty _difficulty;
         private LevelBoundary _levelBoundary;
 
         private Player _player;
@@ -112,8 +113,10 @@ namespace SingleUseWorld
             _itemPool = new ItemPool(_skullItemPool, _bowItemPool, _bombItemPool, _swordItemPool);
             
             // Spawners
-            _enemySpawner = new EnemySpawner(_settings.EnemySpawnerSettings, _score, _levelBoundary, _enemyPool, _player, _hitTimer, _cameraShaker);
-            _itemSpawner = new ItemSpawner(_settings.ItemSpawnerSettings, _score, _levelBoundary, _itemPool, _player);
+            _enemySpawner = new EnemySpawner(_settings.EnemySpawnerSettings, _levelBoundary, _enemyPool, _player);
+            _itemSpawner = new ItemSpawner(_settings.ItemSpawnerSettings, _levelBoundary, _itemPool, _player);
+
+            _difficulty = new Difficulty(_settings.DifficultySettings, _score, _enemySpawner, _itemSpawner);
         }
 
         private void Deinitialize()
