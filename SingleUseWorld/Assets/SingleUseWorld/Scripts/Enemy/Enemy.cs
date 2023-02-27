@@ -24,6 +24,11 @@ namespace SingleUseWorld
         {
             get => EnemyType.Wanderer;
         }
+
+        public int PointsPerKill
+        {
+            get => _settings.PointsPerKill;
+        }
         #endregion
 
         #region Delegates & Events

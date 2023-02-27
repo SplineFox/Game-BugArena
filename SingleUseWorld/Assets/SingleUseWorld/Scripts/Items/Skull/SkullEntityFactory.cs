@@ -8,11 +8,18 @@ namespace SingleUseWorld
         [SerializeField] private SkullEntity _skullEntityPrefab;
         [SerializeField] private SkullEntitySettings _skullEntitySettings;
 
+        private Score _score;
+
         #region Public Mehods
+        public void Inject(Score score)
+        {
+            _score = score;
+        }
+
         public ItemEntity Create()
         {
             var skullEntity = CreateInstance<SkullEntity>(_skullEntityPrefab);
-            skullEntity.OnCreate(_skullEntitySettings);
+            skullEntity.OnCreate(_skullEntitySettings, _score);
             return skullEntity;
         }
         #endregion

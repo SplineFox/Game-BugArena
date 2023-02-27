@@ -15,7 +15,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize(EffectSpawner effectSpawner)
+        public void Inject(EffectSpawner effectSpawner)
         {
             _effectSpawner = effectSpawner;
         }

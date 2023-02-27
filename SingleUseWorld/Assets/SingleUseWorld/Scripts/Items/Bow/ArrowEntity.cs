@@ -11,6 +11,9 @@ namespace SingleUseWorld
 
         private Projectile2D _projectile;
         private ArrowEntitySettings _settings;
+
+        private Score _score;
+        private int _hitCombo;
         #endregion
 
         #region Properties
@@ -28,9 +31,11 @@ namespace SingleUseWorld
             Assert.IsNotNull(_projectileTrigger, "ArrowEntity: ProjectileTrigger is not assigned!");
         }
 
-        public void OnCreate(ArrowEntitySettings settings)
+        public void OnCreate(ArrowEntitySettings settings, Score score)
         {
             _settings = settings;
+            _score = score;
+
             _projectile.WallCollision += OnWallHit;
             _projectileTrigger.EnemyHit += OnEnemyHit;
         }
@@ -70,6 +75,10 @@ namespace SingleUseWorld
 
             var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
             enemy.TakeDamage(damage);
+
+            _hitCombo++;
+            int multiplier = Mathf.Min(_hitCombo, 4);
+            _score.AddPoints(enemy.PointsPerKill * multiplier);
         }
 
         private void OnWallHit()

@@ -7,6 +7,10 @@ namespace SingleUseWorld
         #region Fields
         private Projectile2D _projectile;
         private BombEntitySettings _settings;
+
+        private EffectSpawner _effectSpawner;
+        private Score _score;
+        private int _hitCombo;
         #endregion
 
         #region Properties
@@ -23,9 +27,12 @@ namespace SingleUseWorld
             _projectile = GetComponent<Projectile2D>();
         }
 
-        public void OnCreate(BombEntitySettings settings)
+        public void OnCreate(BombEntitySettings settings, Score score, EffectSpawner effectSpawner)
         {
             _settings = settings;
+            _score = score;
+            _effectSpawner = effectSpawner;
+
             _projectile.GroundCollision += OnGroundHit;
         }
 
@@ -59,6 +66,7 @@ namespace SingleUseWorld
 
         private void CheckDamageZone()
         {
+            var scorePoints = 0;
             var collisions = Physics2D.OverlapCircleAll(transform.position, _settings.DamageRadius, _settings.DamageMask);
             foreach (var collision in collisions)
             {
@@ -79,8 +87,13 @@ namespace SingleUseWorld
 
                     var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
                     enemy.TakeDamage(damage);
+
+                    _hitCombo++;
+                    scorePoints += enemy.PointsPerKill;
                 }
             }
+            int multiplier = Mathf.Min(_hitCombo, 5);
+            _score.AddPoints(scorePoints * multiplier);
         }
         #endregion
     }

@@ -19,6 +19,12 @@ namespace SingleUseWorld
         public BombItemFactory BombItemFactory;
         public SwordItemFactory SwordItemFactory;
         [Space]
+        [Header("Entities factories")]
+        public SkullEntityFactory SkullEntityFactory;
+        public ArrowEntityFactory ArrowEntityFactory;
+        public BombEntityFactory BombEntityFactory;
+        public SwordEntityFactory SwordEntityFactory;
+        [Space]
         [Header("Effect factories")]
         public EffectFactory StepDustEffectFactory;
         public EffectFactory PoofDustEffectFactory;

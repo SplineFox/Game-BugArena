@@ -8,11 +8,18 @@ namespace SingleUseWorld
         [SerializeField] private ArrowEntity _arowEntityPrefab;
         [SerializeField] private ArrowEntitySettings _arowEntitySettings;
 
+        private Score _score;
+
         #region Public Mehods
+        public void Inject(Score score)
+        {
+            _score = score;
+        }
+
         public ItemEntity Create()
         {
             var arrowEntity = CreateInstance<ArrowEntity>(_arowEntityPrefab);
-            arrowEntity.OnCreate(_arowEntitySettings);
+            arrowEntity.OnCreate(_arowEntitySettings, _score);
             return arrowEntity;
         }
         #endregion

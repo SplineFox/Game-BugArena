@@ -10,6 +10,9 @@ namespace SingleUseWorld
         [SerializeField] private ProjectileTrigger _projectileTrigger = default;
 
         private SwordEntitySettings _settings;
+
+        private Score _score;
+        private int _hitCombo;
         #endregion
 
         #region Properties
@@ -26,9 +29,11 @@ namespace SingleUseWorld
             Assert.IsNotNull(_projectileTrigger, "SwordEntity: ProjectileTrigger is not assigned!");
         }
 
-        public void OnCreate(SwordEntitySettings settings)
+        public void OnCreate(SwordEntitySettings settings, Score score)
         {
             _settings = settings;
+            _score = score;
+
             _projectileTrigger.EnemyHit += OnEnemyHit;
         }
 
@@ -69,6 +74,10 @@ namespace SingleUseWorld
 
             var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
             enemy.TakeDamage(damage);
+
+            _hitCombo++;
+            int multiplier = Mathf.Min(_hitCombo, 4);
+            _score.AddPoints(enemy.PointsPerKill * multiplier);
         }
 
         private IEnumerator RotateTo(float angle, float duration)

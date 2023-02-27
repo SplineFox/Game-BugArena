@@ -8,11 +8,18 @@ namespace SingleUseWorld
         [SerializeField] private SwordEntity _swordEntityPrefab;
         [SerializeField] private SwordEntitySettings _swordEntitySettings;
 
+        private Score _score;
+
         #region Public Mehods
+        public void Inject(Score score)
+        {
+            _score = score;
+        }
+
         public ItemEntity Create()
         {
             var swordEntity = CreateInstance<SwordEntity>(_swordEntityPrefab);
-            swordEntity.OnCreate(_swordEntitySettings);
+            swordEntity.OnCreate(_swordEntitySettings, _score);
             return swordEntity;
         }
         #endregion

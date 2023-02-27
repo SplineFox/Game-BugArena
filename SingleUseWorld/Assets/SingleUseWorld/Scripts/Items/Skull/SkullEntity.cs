@@ -13,6 +13,8 @@ namespace SingleUseWorld
         private bool _hitEnemy;
         private Projectile2D _projectile;
         private SkullEntitySettings _settings;
+
+        private Score _score;
         #endregion
 
         #region Properties
@@ -32,9 +34,11 @@ namespace SingleUseWorld
             Assert.IsNotNull(_shadow, "SkullEntity: ShadowView is not assigned!");
         }
 
-        public void OnCreate(SkullEntitySettings settings)
+        public void OnCreate(SkullEntitySettings settings, Score score)
         {
             _settings = settings;
+            _score = score;
+
             _hitEnemy = false;
             _projectileTrigger.EnemyHit += OnEnemyHit;
             _projectile.GroundCollision += OnGroundHit;
@@ -79,6 +83,7 @@ namespace SingleUseWorld
 
             var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
             enemy.TakeDamage(damage);
+            _score.AddPoints(enemy.PointsPerKill);
 
             // rebound
             var verticalRebound = _settings.ReboundVerticalSpeed.GetRandomValue();

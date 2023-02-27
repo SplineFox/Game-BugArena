@@ -87,8 +87,13 @@ namespace SingleUseWorld
             _effectPool = new EffectPool(_stepDustEffectPool, _poofDustEffectPool);
             _effectSpawner = new EffectSpawner(_effectPool);
 
-            _settings.PlayerFactory.Initialize(_effectSpawner);
-            _settings.EnemyFactory.Initialize(_effectSpawner);
+            _settings.PlayerFactory.Inject(_effectSpawner);
+            _settings.EnemyFactory.Inject(_effectSpawner);
+
+            _settings.SkullEntityFactory.Inject(_score);
+            _settings.ArrowEntityFactory.Inject(_score);
+            _settings.SwordEntityFactory.Inject(_score);
+            _settings.BombEntityFactory.Inject(_score, _effectSpawner);
 
             // Controllers
             _cameraController = new CameraController(_camera, _virtualCamera);
