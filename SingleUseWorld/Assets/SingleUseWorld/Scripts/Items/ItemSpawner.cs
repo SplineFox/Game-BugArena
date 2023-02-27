@@ -26,7 +26,7 @@ namespace SingleUseWorld
         private Settings _settings;
         private LevelBoundary _levelBoundary;
         private ItemPool _itemPool;
-        private Player _player;
+        private PlayerSpawner _playerSpawner;
 
         private List<Item> _items;
         private int _desiredItemsAmount;
@@ -35,12 +35,12 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public ItemSpawner(Settings settings, LevelBoundary levelBoundary, ItemPool itemPool, Player player)
+        public ItemSpawner(Settings settings, LevelBoundary levelBoundary, ItemPool itemPool, PlayerSpawner playerSpawner)
         {
             _settings = settings;
             _levelBoundary = levelBoundary;
             _itemPool = itemPool;
-            _player = player;
+            _playerSpawner = playerSpawner;
 
             _items = new List<Item>();
             _itemsRoulette = new WeightedProbability<ItemType>();
@@ -114,7 +114,7 @@ namespace SingleUseWorld
             do
             {
                 positionToSpawn = _levelBoundary.GetRandomPositionInside();
-                distanceToPlayer = Vector3.Distance(positionToSpawn, _player.transform.position);
+                distanceToPlayer = Vector3.Distance(positionToSpawn, _playerSpawner.PlayerPosition);
                 collision = Physics2D.OverlapCircle(positionToSpawn, 1f);
             }
             while (distanceToPlayer < _settings.SpawnDistance && collision != null);

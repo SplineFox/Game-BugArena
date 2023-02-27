@@ -15,23 +15,32 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize(PlayerInput playerInput, Player player,
-            CameraController cameraController, TargetController targetController)
+        public PlayerController(PlayerInput playerInput, CameraController cameraController, TargetController targetController)
         {
             _playerInput = playerInput;
-            _player = player;
-
             _cameraController = cameraController;
             _targetController = targetController;
 
-            _mouseAim = new MouseAim(_cameraController.Camera, player.transform);
-
-            Subscribe();
+            _mouseAim = new MouseAim(_cameraController.Camera);
         }
 
-        public void Deinitialize()
+        public void SetPlayer(Player player)
         {
-            Unsubscribe();
+            if (_player != null)
+            {
+                _mouseAim.SetAnchor(null);
+                _targetController.SetAnchor(null);
+                Unsubscribe();
+                _player = null;
+            }
+
+            if (player != null)
+            {
+                _player = player;
+                Subscribe();
+                _mouseAim.SetAnchor(player.transform);
+                _targetController.SetAnchor(player.transform);
+            }
         }
         #endregion
 

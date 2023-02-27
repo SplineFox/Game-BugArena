@@ -24,16 +24,24 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public MouseAim(Camera camera, Transform origin)
+        public MouseAim(Camera camera)
         {
             _camera = camera;
-            _anchor = origin;
+            _anchor = null;
         }
         #endregion
 
         #region Public Methods
+        public void SetAnchor(Transform anchor)
+        {
+            _anchor = anchor;
+        }
+
         public void Update(Vector2 mouseScreenPosition)
         {
+            if (!_anchor)
+                return;
+
             _mouseWorldPosition = _camera.ScreenToWorldPoint(mouseScreenPosition);
             _mouseWorldPosition.z = _anchor.position.z;
 

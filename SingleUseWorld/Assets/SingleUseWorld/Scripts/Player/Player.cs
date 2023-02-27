@@ -17,7 +17,12 @@ namespace SingleUseWorld
         private PlayerSpeed _speed;
         private PlayerGripHandler _gripHandler;
 
+        private PlayerSpawner _spawner;
         private EffectSpawner _effectSpawner;
+        #endregion
+
+        #region Delegates & Events
+        public event Action Died = delegate { };
         #endregion
 
         #region LifeCycle Methods
@@ -53,6 +58,17 @@ namespace SingleUseWorld
             _projectile.GroundCollision -= OnGroundHit;
             _health.Died -= OnDied;
             _health.Changed -= OnHealthChanged;
+        }
+
+        public void OnSpawned(Vector3 position, PlayerSpawner spawner)
+        {
+            transform.position = position;
+            _spawner = spawner;
+        }
+
+        public void OnDespawned()
+        {
+            _spawner = null;
         }
 
         void IControllable.StartMovement()
@@ -109,6 +125,8 @@ namespace SingleUseWorld
 
         private void OnDied()
         {
+            Died.Invoke();
+
             _armament.PickupAllowed = false;
             _gripHandler.Reset();
 
@@ -140,7 +158,7 @@ namespace SingleUseWorld
             if (_health.IsDead)
             {
                 _effectSpawner.SpawnEffect(EffectType.PoofDust, transform.position);
-                gameObject.SetActive(false);
+                _spawner.DespawnPlayer();
             }
         }
 

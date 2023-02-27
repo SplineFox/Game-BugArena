@@ -21,7 +21,6 @@ namespace SingleUseWorld
         private Difficulty _difficulty;
         private LevelBoundary _levelBoundary;
 
-        private Player _player;
         private PlayerController _playerController;
         private CameraController _cameraController;
         private TargetController _targetController;
@@ -45,6 +44,7 @@ namespace SingleUseWorld
         private EnemySpawner _enemySpawner;
         private ItemSpawner _itemSpawner;
         private EffectSpawner _effectSpawner;
+        private PlayerSpawner _playerSpawner;
         #endregion
 
         #region LifeCycle Methods
@@ -91,11 +91,9 @@ namespace SingleUseWorld
             _settings.EnemyFactory.Initialize(_effectSpawner);
 
             // Controllers
-            _player = _settings.PlayerFactory.Create();
-            _playerController = new PlayerController();
             _cameraController = new CameraController(_camera, _virtualCamera);
-            _targetController = new TargetController(_player.transform, _cameraController);
-            _playerController.Initialize(_settings.PlayerInput, _player, _cameraController, _targetController);
+            _targetController = new TargetController(_cameraController);
+            _playerController = new PlayerController(_settings.PlayerInput, _cameraController, _targetController);
 
             // Low-level Enemy pools
             _wandererEnemyPool = new MonoPool<Enemy>(_settings.EnemyFactory, _enemyPoolContainer, _settings.WandererEnemyPoolSettings);
@@ -111,12 +109,15 @@ namespace SingleUseWorld
             // High-level pools
             _enemyPool = new EnemyPool(_wandererEnemyPool, _chaserEnemyPool, _exploderEnemyPool);
             _itemPool = new ItemPool(_skullItemPool, _bowItemPool, _bombItemPool, _swordItemPool);
-            
+
             // Spawners
-            _enemySpawner = new EnemySpawner(_settings.EnemySpawnerSettings, _levelBoundary, _enemyPool, _player);
-            _itemSpawner = new ItemSpawner(_settings.ItemSpawnerSettings, _levelBoundary, _itemPool, _player);
+            _playerSpawner = new PlayerSpawner(_levelBoundary, _settings.PlayerFactory, _playerController);
+            _enemySpawner = new EnemySpawner(_settings.EnemySpawnerSettings, _levelBoundary, _enemyPool, _playerSpawner);
+            _itemSpawner = new ItemSpawner(_settings.ItemSpawnerSettings, _levelBoundary, _itemPool, _playerSpawner);
 
             _difficulty = new Difficulty(_settings.DifficultySettings, _score, _enemySpawner, _itemSpawner);
+
+            _playerSpawner.SpawnPlayer();
         }
 
         private void Deinitialize()

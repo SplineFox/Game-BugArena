@@ -16,6 +16,11 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
+        public Vector3 GetCenter()
+        {
+            return _boxCollider.transform.position;
+        }
+
         public Vector3 GetRandomPositionInside()
         {
             var position = new Vector3(

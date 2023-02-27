@@ -17,18 +17,23 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public TargetController(Transform anchor, CameraController cameraController)
+        public TargetController(CameraController cameraController)
         {
-            _anchor = anchor;
-            _target = CreateTarget();
-
-            _target.transform.SetParent(_anchor);
+            _anchor = null;
             _cameraController = cameraController;
-            _cameraController.SetTarget(_target.transform);
+
+            _target = CreateTarget();
         }
         #endregion
 
         #region Public Methods
+        public void SetAnchor(Transform anchor)
+        {
+            _anchor = anchor;
+            _target.transform.SetParent(_anchor);
+            _cameraController.SetTarget(_target.transform);
+        }
+
         public void SetPosition(Vector2 normalizedPosition)
         {
             Vector3 offsetPosition = normalizedPosition * _offset;

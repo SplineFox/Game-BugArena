@@ -18,7 +18,7 @@ namespace SingleUseWorld
         private Settings _settings;
         private LevelBoundary _levelBoundary;
         private EnemyPool _enemyPool;
-        private Player _player;
+        private PlayerSpawner _playerSpawner;
 
         private List<Enemy> _enemies;
         private int _desiredEnemiesAmount;
@@ -29,12 +29,12 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public EnemySpawner(Settings settings, LevelBoundary levelBoundary, EnemyPool enemyPool, Player player)
+        public EnemySpawner(Settings settings, LevelBoundary levelBoundary, EnemyPool enemyPool, PlayerSpawner playerSpawner)
         {
             _settings = settings;
             _levelBoundary = levelBoundary;
             _enemyPool = enemyPool;
-            _player = player;
+            _playerSpawner = playerSpawner;
 
             _enemies = new List<Enemy>();
             _desiredEnemiesAmount = 0;
@@ -102,7 +102,7 @@ namespace SingleUseWorld
             do
             {
                 positionToSpawn = _levelBoundary.GetRandomPositionInside();
-                distanceToPlayer = Vector3.Distance(positionToSpawn, _player.transform.position);
+                distanceToPlayer = Vector3.Distance(positionToSpawn, _playerSpawner.PlayerPosition);
                 collision = Physics2D.OverlapCircle(positionToSpawn, 1f);
             } 
             while (distanceToPlayer < _settings.SpawnDistance && collision != null);
