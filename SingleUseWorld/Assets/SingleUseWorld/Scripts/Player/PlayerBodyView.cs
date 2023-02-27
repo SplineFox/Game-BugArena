@@ -87,6 +87,10 @@ namespace SingleUseWorld
             _animator.Play(_knockedAnimId);
             ResetRoll();
         }
+        public void ResetShake()
+        {
+            transform.localPosition = Vector3.zero;
+        }
 
         public void SetShakeIntensity(float shakeIntensity)
         {

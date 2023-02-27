@@ -115,6 +115,7 @@ namespace SingleUseWorld
             var damage = GenerateRandomDamage();
             _movement.Knockback(damage.horizontalKnockback, damage.verticalKnockback);
             _body.SetShakeIntensity(0f);
+            _body.ResetShake();
             _body.SetFacingDirection(damage.direction);
             _body.StartSpin(damage.spinKnockback);
             _body.ShowFlash(0.1f);
