@@ -121,6 +121,7 @@ namespace SingleUseWorld
         private void OnHealthChanged()
         {
             _body.SetShakeIntensity(1f - _health.NormalizedValue);
+            _body.SetSweatIntensity(1f - _health.NormalizedValue);
         }
 
         private void OnDied()
@@ -132,7 +133,7 @@ namespace SingleUseWorld
 
             var damage = GenerateRandomDamage();
             _movement.Knockback(damage.horizontalKnockback, damage.verticalKnockback);
-            _body.SetShakeIntensity(0f);
+            _body.ResetSweat();
             _body.ResetShake();
             _body.SetFacingDirection(damage.direction);
             _body.StartSpin(damage.spinKnockback);

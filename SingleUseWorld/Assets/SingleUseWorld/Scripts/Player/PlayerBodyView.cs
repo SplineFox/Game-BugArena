@@ -10,17 +10,20 @@ namespace SingleUseWorld
         #region Fields
         private Animator _animator = default;
 
+        [SerializeField] private Animator _sweatAnimator = default;
         [SerializeField] private string _idleUnarmedAnimName = "IdleUnarmed";
         [SerializeField] private string _moveUnarmedAnimName = "MoveUnarmed";
         [SerializeField] private string _idleArmedAnimName = "IdleArmed";
         [SerializeField] private string _moveArmedAnimName = "MoveArmed";
         [SerializeField] private string _knockedAnimName = "Knocked";
+        [SerializeField] private string _isSweatingParamName = "IsSweating";
 
         private int _idleUnarmedAnimId = 0;
         private int _moveUnarmedAnimId = 0;
         private int _idleArmedAnimId = 0;
         private int _moveArmedAnimId = 0;
         private int _knockedAnimId = 0;
+        private int _isSweatingParamId = 0;
 
         private bool _isShaking = false;
         private float _shakeOffset = 0.15f;
@@ -87,8 +90,22 @@ namespace SingleUseWorld
             _animator.Play(_knockedAnimId);
             ResetRoll();
         }
+
+        public void ResetSweat()
+        {
+            SetSweatIntensity(0f);
+        }
+
+        public void SetSweatIntensity(float sweatIntensity)
+        {
+            var isSweating = sweatIntensity > 0.4f;
+            
+            if(_sweatAnimator.GetBool(_isSweatingParamId) != isSweating)
+                _sweatAnimator.SetBool(_isSweatingParamId, isSweating);
+        }
         public void ResetShake()
         {
+            SetShakeIntensity(0f);
             transform.localPosition = Vector3.zero;
         }
 
@@ -119,7 +136,6 @@ namespace SingleUseWorld
 
             transform.localPosition = new Vector3(x, y, 0f);
         }
-
         private void CacheAnimatorParameters()
         {
             _idleUnarmedAnimId = Animator.StringToHash(_idleUnarmedAnimName);
@@ -127,6 +143,8 @@ namespace SingleUseWorld
             _idleArmedAnimId = Animator.StringToHash(_idleArmedAnimName);
             _moveArmedAnimId = Animator.StringToHash(_moveArmedAnimName);
             _knockedAnimId = Animator.StringToHash(_knockedAnimName);
+
+            _isSweatingParamId = Animator.StringToHash(_isSweatingParamName);
         }
         #endregion
     }
