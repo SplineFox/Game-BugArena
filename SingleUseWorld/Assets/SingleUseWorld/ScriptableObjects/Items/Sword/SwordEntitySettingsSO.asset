@@ -25,4 +25,4 @@ MonoBehaviour:
     start: 45
     end: 90
   RotationAngle: 100
-  RotationDuration: 0.25
+  RotationDuration: 0.2

@@ -24,4 +24,4 @@ MonoBehaviour:
   KnockbackSpinSpeed:
     start: 45
     end: 90
-  LaunchSpeed: 20
+  LaunchSpeed: 25
