@@ -136,7 +136,7 @@ namespace SingleUseWorld
             _body.ResetShake();
             _body.SetFacingDirection(damage.direction);
             _body.StartSpin(damage.spinKnockback);
-            _body.ShowFlash(0.1f);
+            _body.ShowFlash(0.2f);
         }
 
         private Damage GenerateRandomDamage()
