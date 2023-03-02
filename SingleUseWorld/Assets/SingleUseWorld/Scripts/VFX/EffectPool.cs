@@ -7,13 +7,17 @@ namespace SingleUseWorld
         #region Fields
         private MonoPool<Effect> _stepDustEffectPool;
         private MonoPool<Effect> _poofDustEffectPool;
+        private MonoPool<Effect> _smokeEffectPool;
+        private MonoPool<Effect> _blastEffectPool;
         #endregion
 
         #region Constructors
-        public EffectPool(MonoPool<Effect> stepDustEffectPool, MonoPool<Effect> poofDustEffectPool)
+        public EffectPool(MonoPool<Effect> stepDustEffectPool, MonoPool<Effect> poofDustEffectPool, MonoPool<Effect> smokeEffectPool, MonoPool<Effect> blastEffectPool)
         {
             _stepDustEffectPool = stepDustEffectPool;
             _poofDustEffectPool = poofDustEffectPool;
+            _smokeEffectPool = smokeEffectPool;
+            _blastEffectPool = blastEffectPool;
         }
         #endregion
 
@@ -28,6 +32,12 @@ namespace SingleUseWorld
                     break;
                 case EffectType.PoofDust:
                     effect = _poofDustEffectPool.Get();
+                    break;
+                case EffectType.Smoke:
+                    effect = _smokeEffectPool.Get();
+                    break;
+                case EffectType.Blast:
+                    effect = _blastEffectPool.Get();
                     break;
                 default:
                     effect = _poofDustEffectPool.Get();
@@ -45,6 +55,12 @@ namespace SingleUseWorld
                     break;
                 case EffectType.PoofDust:
                     _poofDustEffectPool.Release(effect);
+                    break;
+                case EffectType.Smoke:
+                    _smokeEffectPool.Release(effect);
+                    break;
+                case EffectType.Blast:
+                    _blastEffectPool.Release(effect);
                     break;
             }
         }

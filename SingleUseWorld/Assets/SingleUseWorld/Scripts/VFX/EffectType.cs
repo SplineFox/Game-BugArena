@@ -5,6 +5,13 @@ namespace SingleUseWorld
     public enum EffectType
     {
         StepDust,
-        PoofDust
+        PoofDust,
+        Smoke,
+        Blast
+    }
+
+    public enum ComplexEffectType
+    {
+        Explosion
     }
 }

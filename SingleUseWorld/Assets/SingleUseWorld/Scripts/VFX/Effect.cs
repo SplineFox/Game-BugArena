@@ -9,6 +9,7 @@ namespace SingleUseWorld
         private Animator _animator;
         private EffectSpawner _spawner;
         private EffectType _effectType;
+        private EffectAppearance _effectAppearance;
         #endregion
 
         #region Properties
@@ -22,6 +23,11 @@ namespace SingleUseWorld
         protected virtual void Awake()
         {
             _animator = GetComponent<Animator>();
+        }
+
+        protected virtual void Update()
+        {
+            transform.position = transform.position + (_effectAppearance.velocity * Time.deltaTime);
         }
         #endregion
 
@@ -38,10 +44,15 @@ namespace SingleUseWorld
         {
         }
 
-        public void OnSpawned(Vector3 position, EffectSpawner spawner)
+        public void OnSpawned(EffectSpawner spawner, EffectAppearance effectAppearance)
         {
-            transform.position = position;
             _spawner = spawner;
+            _effectAppearance = effectAppearance;
+
+            transform.position = _effectAppearance.position;
+            transform.eulerAngles = _effectAppearance.rotation;
+
+            _animator.ForceStateNormalizedTime(_effectAppearance.playbackStart);
         }
 
         public void OnDespawned()

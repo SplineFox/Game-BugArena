@@ -61,6 +61,7 @@ namespace SingleUseWorld
         private void OnGroundHit()
         {
             CheckDamageZone();
+            _effectSpawner.SpawnEffect(ComplexEffectType.Explosion, transform.position);
             Destroy(gameObject);
         }
 

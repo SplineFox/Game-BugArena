@@ -28,6 +28,8 @@ namespace SingleUseWorld
         [Header("Effect factories")]
         public EffectFactory StepDustEffectFactory;
         public EffectFactory PoofDustEffectFactory;
+        public EffectFactory SmokeEffectFactory;
+        public EffectFactory BlastEffectFactory;
         [Space]
         [Header("Enemy pools")]
         public MonoPoolSettings WandererEnemyPoolSettings;
@@ -43,6 +45,8 @@ namespace SingleUseWorld
         [Header("Effect pools")]
         public MonoPoolSettings StepDustEffectPool;
         public MonoPoolSettings PoofDustEffectPool;
+        public MonoPoolSettings SmokeEffectPool;
+        public MonoPoolSettings BlastEffectPool;
         [Space]
         [Header("Spawners")]
         public EnemySpawner.Settings EnemySpawnerSettings;

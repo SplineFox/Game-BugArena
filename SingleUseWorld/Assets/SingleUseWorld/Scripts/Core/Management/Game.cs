@@ -36,6 +36,8 @@ namespace SingleUseWorld
 
         private MonoPool<Effect> _stepDustEffectPool;
         private MonoPool<Effect> _poofDustEffectPool;
+        private MonoPool<Effect> _smokeEffectPool;
+        private MonoPool<Effect> _blastEffectPool;
 
         private EnemyPool _enemyPool;
         private ItemPool _itemPool;
@@ -83,8 +85,10 @@ namespace SingleUseWorld
             // Low-level Effect pools
             _stepDustEffectPool = new MonoPool<Effect>(_settings.StepDustEffectFactory, _effectPoolContainer, _settings.StepDustEffectPool);
             _poofDustEffectPool = new MonoPool<Effect>(_settings.PoofDustEffectFactory, _effectPoolContainer, _settings.PoofDustEffectPool);
+            _smokeEffectPool = new MonoPool<Effect>(_settings.SmokeEffectFactory, _effectPoolContainer, _settings.SmokeEffectPool);
+            _blastEffectPool = new MonoPool<Effect>(_settings.BlastEffectFactory, _effectPoolContainer, _settings.BlastEffectPool);
 
-            _effectPool = new EffectPool(_stepDustEffectPool, _poofDustEffectPool);
+            _effectPool = new EffectPool(_stepDustEffectPool, _poofDustEffectPool, _smokeEffectPool, _blastEffectPool);
             _effectSpawner = new EffectSpawner(_effectPool);
 
             _settings.PlayerFactory.Inject(_effectSpawner);

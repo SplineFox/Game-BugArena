@@ -26,12 +26,6 @@ namespace SingleUseWorld
 
         }
         #endregion
-	
-    	#region Internal Methods
-        #endregion
-
-        #region Protected Methods
-        #endregion
 
         #region Private Methods
         private IEnumerator Wait(float duration)
