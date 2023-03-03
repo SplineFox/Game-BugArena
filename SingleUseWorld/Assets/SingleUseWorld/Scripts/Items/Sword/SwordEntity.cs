@@ -12,6 +12,8 @@ namespace SingleUseWorld
         private SwordEntitySettings _settings;
 
         private Score _score;
+        private HitTimer _hitTimer;
+        private CameraShaker _cameraShaker;
         private int _hitCombo;
         #endregion
 
@@ -29,10 +31,12 @@ namespace SingleUseWorld
             Assert.IsNotNull(_projectileTrigger, "SwordEntity: ProjectileTrigger is not assigned!");
         }
 
-        public void OnCreate(SwordEntitySettings settings, Score score)
+        public void OnCreate(SwordEntitySettings settings, Score score, HitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;
+            _hitTimer = hitTimer;
+            _cameraShaker = cameraShaker;
 
             _projectileTrigger.EnemyHit += OnEnemyHit;
         }
@@ -78,6 +82,12 @@ namespace SingleUseWorld
             _hitCombo++;
             int multiplier = Mathf.Min(_hitCombo, 4);
             _score.AddPoints(enemy.PointsPerKill * multiplier);
+
+            if(_hitCombo == 1)
+            {
+                _hitTimer.StopTime(0.1f);
+                _cameraShaker.Shake(3f, 0.1f);
+            }
         }
 
         private IEnumerator RotateTo(float angle, float duration)

@@ -9,6 +9,8 @@ namespace SingleUseWorld
         private BombEntitySettings _settings;
 
         private EffectSpawner _effectSpawner;
+        private HitTimer _hitTimer;
+        private CameraShaker _cameraShaker;
         private Score _score;
         private int _hitCombo;
         #endregion
@@ -27,11 +29,13 @@ namespace SingleUseWorld
             _projectile = GetComponent<Projectile2D>();
         }
 
-        public void OnCreate(BombEntitySettings settings, Score score, EffectSpawner effectSpawner)
+        public void OnCreate(BombEntitySettings settings, Score score, EffectSpawner effectSpawner, HitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;
             _effectSpawner = effectSpawner;
+            _hitTimer = hitTimer;
+            _cameraShaker = cameraShaker;
 
             _projectile.GroundCollision += OnGroundHit;
         }
@@ -93,8 +97,13 @@ namespace SingleUseWorld
                     scorePoints += enemy.PointsPerKill;
                 }
             }
-            int multiplier = Mathf.Min(_hitCombo, 5);
-            _score.AddPoints(scorePoints * multiplier);
+            if(_hitCombo != 0)
+            {
+                int multiplier = Mathf.Min(_hitCombo, 5);
+                _score.AddPoints(scorePoints * multiplier);
+                _hitTimer.StopTime(0.1f);
+            }
+            _cameraShaker.Shake(5f, 0.4f);
         }
         #endregion
     }

@@ -9,17 +9,21 @@ namespace SingleUseWorld
         [SerializeField] private SkullEntitySettings _skullEntitySettings;
 
         private Score _score;
+        private HitTimer _hitTimer;
+        private CameraShaker _cameraShaker;
 
         #region Public Mehods
-        public void Inject(Score score)
+        public void Inject(Score score, HitTimer hitTimer, CameraShaker cameraShaker)
         {
             _score = score;
+            _hitTimer = hitTimer;
+            _cameraShaker = cameraShaker;
         }
 
         public ItemEntity Create()
         {
             var skullEntity = CreateInstance<SkullEntity>(_skullEntityPrefab);
-            skullEntity.OnCreate(_skullEntitySettings, _score);
+            skullEntity.OnCreate(_skullEntitySettings, _score, _hitTimer, _cameraShaker);
             return skullEntity;
         }
         #endregion

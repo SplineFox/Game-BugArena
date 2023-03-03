@@ -13,6 +13,8 @@ namespace SingleUseWorld
         private ArrowEntitySettings _settings;
 
         private Score _score;
+        private HitTimer _hitTimer;
+        private CameraShaker _cameraShaker;
         private int _hitCombo;
         #endregion
 
@@ -31,10 +33,12 @@ namespace SingleUseWorld
             Assert.IsNotNull(_projectileTrigger, "ArrowEntity: ProjectileTrigger is not assigned!");
         }
 
-        public void OnCreate(ArrowEntitySettings settings, Score score)
+        public void OnCreate(ArrowEntitySettings settings, Score score, HitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;
+            _hitTimer = hitTimer;
+            _cameraShaker = cameraShaker;
 
             _projectile.WallCollision += OnWallHit;
             _projectileTrigger.EnemyHit += OnEnemyHit;
@@ -79,6 +83,10 @@ namespace SingleUseWorld
             _hitCombo++;
             int multiplier = Mathf.Min(_hitCombo, 4);
             _score.AddPoints(enemy.PointsPerKill * multiplier);
+
+            var intencity = _hitCombo == 1 ? 1f : 0.5f;
+            _hitTimer.StopTime(intencity * 0.12f);
+            _cameraShaker.Shake(intencity * 2.5f, intencity * 0.2f);
         }
 
         private void OnWallHit()

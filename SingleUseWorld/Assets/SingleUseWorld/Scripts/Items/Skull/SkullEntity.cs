@@ -15,6 +15,8 @@ namespace SingleUseWorld
         private SkullEntitySettings _settings;
 
         private Score _score;
+        private HitTimer _hitTimer;
+        private CameraShaker _cameraShaker;
         #endregion
 
         #region Properties
@@ -34,10 +36,12 @@ namespace SingleUseWorld
             Assert.IsNotNull(_shadow, "SkullEntity: ShadowView is not assigned!");
         }
 
-        public void OnCreate(SkullEntitySettings settings, Score score)
+        public void OnCreate(SkullEntitySettings settings, Score score, HitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;
+            _hitTimer = hitTimer;
+            _cameraShaker = cameraShaker;
 
             _hitEnemy = false;
             _projectileTrigger.EnemyHit += OnEnemyHit;
@@ -84,6 +88,8 @@ namespace SingleUseWorld
             var damage = new Damage(damageAmount, damageDirection, horizontalKnockback, verticalKnockback, spinKnockback);
             enemy.TakeDamage(damage);
             _score.AddPoints(enemy.PointsPerKill);
+            _hitTimer.StopTime(0.1f);
+            _cameraShaker.Shake(1.8f, 0.1f);
 
             // rebound
             var verticalRebound = _settings.ReboundVerticalSpeed.GetRandomValue();

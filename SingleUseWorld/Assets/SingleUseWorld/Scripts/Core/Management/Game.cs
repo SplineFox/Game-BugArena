@@ -94,10 +94,10 @@ namespace SingleUseWorld
             _settings.PlayerFactory.Inject(_effectSpawner);
             _settings.EnemyFactory.Inject(_effectSpawner);
 
-            _settings.SkullEntityFactory.Inject(_score);
-            _settings.ArrowEntityFactory.Inject(_score);
-            _settings.SwordEntityFactory.Inject(_score);
-            _settings.BombEntityFactory.Inject(_score, _effectSpawner);
+            _settings.SkullEntityFactory.Inject(_score, _hitTimer, _cameraShaker);
+            _settings.ArrowEntityFactory.Inject(_score, _hitTimer, _cameraShaker);
+            _settings.SwordEntityFactory.Inject(_score, _hitTimer, _cameraShaker);
+            _settings.BombEntityFactory.Inject(_score, _effectSpawner, _hitTimer, _cameraShaker);
 
             // Controllers
             _cameraController = new CameraController(_camera, _virtualCamera);
