@@ -72,9 +72,9 @@ MonoBehaviour:
     MaxSize: 2
     PoolExpandMethod: 1
   EnemySpawnerSettings:
-    SpawnDistance: 5
+    SpawnDistance: 3
   ItemSpawnerSettings:
-    SpawnDistance: 2.5
+    SpawnDistance: 2
     ItemsProbabilities:
     - Type: 0
       Weight: 30
