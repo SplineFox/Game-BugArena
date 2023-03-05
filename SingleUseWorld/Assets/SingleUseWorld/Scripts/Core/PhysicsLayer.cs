@@ -15,6 +15,7 @@ namespace SingleUseWorld
         EnemyTrigger,
         ItemEntityTrigger,
 
-        LevelBoundary
+        LevelBoundary,
+        WorldBoundary,
     }
 }
