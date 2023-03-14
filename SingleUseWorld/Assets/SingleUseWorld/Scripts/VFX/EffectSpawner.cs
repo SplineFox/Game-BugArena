@@ -6,32 +6,32 @@ namespace SingleUseWorld
     public class EffectSpawner
     {
         #region Fields
-        private EffectPool _effectPool;
+        private EffectFactory _effectFactory;
+        private EffectAppearanceFactory _appearanceFactory;
         private List<Effect> _effects;
-        private EffectAppearanceBuilder _appearance;
         #endregion
 
         #region Constructors
-        public EffectSpawner(EffectPool effectPool)
+        public EffectSpawner(EffectFactory effectFactory, EffectAppearanceFactory appearanceFactory)
         {
-            _effectPool = effectPool;
-            _effects = new List<Effect>();
-            _appearance = new EffectAppearanceBuilder();
+            _effectFactory = effectFactory;
+            _appearanceFactory = appearanceFactory;
         }
         #endregion
 
         #region Public Methods
         public void SpawnEffect(EffectType effectType, Vector3 position)
         {
-            var effect = _effectPool.Get(effectType);
-            var effectAppearance = GetAppearance(effectType, position);
+            var effect = _effectFactory.Create(effectType);
+            var effectAppearance = _appearanceFactory.Create(effectType, position);
+
             effect.OnSpawned(this, effectAppearance);
             _effects.Add(effect);
         }
 
         private void SpawnEffect(EffectType effectType, EffectAppearance effectAppearance)
         {
-            var effect = _effectPool.Get(effectType);
+            var effect = _effectFactory.Create(effectType);
             effect.OnSpawned(this, effectAppearance);
             _effects.Add(effect);
         }
@@ -50,10 +50,10 @@ namespace SingleUseWorld
         {
             effect.OnDespawned();
             _effects.Remove(effect);
-            _effectPool.Release(effect);
+            Object.Destroy(effect);
         }
 
-        private void DespawnAllEffects()
+        public void DespawnAllEffects()
         {
             for (int index = _effects.Count - 1; index >= 0; index--)
             {
@@ -66,11 +66,8 @@ namespace SingleUseWorld
         #region Private Methods
         private void SpawnExplosion(Vector3 position)
         {
-            _appearance.Reset();
-            _appearance.WithPosition(position)
-                       .WithRandomRotation()
-                       .WithRandomVelocity(Vector3.right, 1.25f);
-            SpawnEffect(EffectType.Smoke, _appearance.Build());
+            var appearance = _appearanceFactory.Create(ComplexEffectType.Explosion, position);
+            SpawnEffect(EffectType.Smoke, appearance);
 
             for (int i = 0; i < 3; i++)
             {
@@ -79,29 +76,6 @@ namespace SingleUseWorld
             SpawnEffect(EffectType.Blast, position);
         }
 
-        private EffectAppearance GetAppearance(EffectType effectType, Vector3 position)
-        {
-            _appearance.Reset();
-            _appearance.WithPosition(position);
-            switch (effectType)
-            {
-                case EffectType.StepDust:
-                case EffectType.PoofDust:
-                    _appearance.WithRandomRotation()
-                               .WithRandomVelocity(Vector3.right, 1f);
-                    break;
-                case EffectType.Smoke:
-                    _appearance.WithRandomOffset(2f)
-                               .WithRandomRotation()
-                               .WithRandomVelocity(Vector3.right, 1.25f)
-                               .WithRandomPlaybackTime(0.4f);
-                    break;
-                case EffectType.Blast:
-                    _appearance.WithRandomRotation();
-                    break;
-            }
-            return _appearance.Build();
-        }
         #endregion
     }
 }

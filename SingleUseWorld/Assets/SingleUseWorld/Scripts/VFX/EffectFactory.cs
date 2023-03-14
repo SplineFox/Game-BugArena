@@ -2,21 +2,44 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "EffectFactorySO", menuName = "SingleUseWorld/Factories/Effects/Effect Factory SO")]
-    public class EffectFactory : ScriptableFactory, IMonoFactory<Effect>
+    public class EffectFactory : MonoFactory
     {
-        #region Fields
-        [SerializeField] private Effect _effectPrefab;
-        [SerializeField] private EffectType _effectType;
-        #endregion
+        private readonly IPrefabProvider _prefabProvider;
 
-        #region Public Methods
-        public Effect Create()
+        public EffectFactory(IPrefabProvider prefabProvider)
         {
-            var effect = CreateInstance<Effect>(_effectPrefab);
-            effect.OnCreate(_effectType);
+            _prefabProvider = prefabProvider;
+        }
+
+        public Effect Create(EffectType effectType)
+        {
+            var effectPrefab = PrefabFor(effectType);
+
+            var effect = Object.Instantiate(effectPrefab);
+            effect.OnCreate(effectType);
+
             return effect;
         }
-        #endregion
+
+        private Effect PrefabFor(EffectType effectType)
+        {
+            Effect effectPrefab = null;
+            switch (effectType)
+            {
+                case EffectType.StepDust:
+                    effectPrefab = _prefabProvider.Load<Effect>(PrefabPath.StepDust);
+                    break;
+                case EffectType.PoofDust:
+                    effectPrefab = _prefabProvider.Load<Effect>(PrefabPath.PoofDust);
+                    break;
+                case EffectType.Smoke:
+                    effectPrefab = _prefabProvider.Load<Effect>(PrefabPath.Smoke);
+                    break;
+                case EffectType.Blast:
+                    effectPrefab = _prefabProvider.Load<Effect>(PrefabPath.Blast);
+                    break;
+            }
+            return effectPrefab;
+        }
     }
 }

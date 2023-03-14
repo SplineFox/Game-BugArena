@@ -3,7 +3,7 @@ using UnityEngine;
 namespace SingleUseWorld
 {
     [RequireComponent(typeof(Animator))]
-    public class Effect : MonoBehaviour, IPoolable
+    public class Effect : MonoBehaviour
     {
         #region Fields
         private Animator _animator;
@@ -39,10 +39,6 @@ namespace SingleUseWorld
 
         public void OnDestroy()
         { }
-
-        void IPoolable.OnReset()
-        {
-        }
 
         public void OnSpawned(EffectSpawner spawner, EffectAppearance effectAppearance)
         {
