@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class EffectFactory : MonoFactory
+    public class EffectFactory : IEffectFactory
     {
         private readonly IPrefabProvider _prefabProvider;
 

@@ -7,11 +7,11 @@ namespace SingleUseWorld
         #region Fields
         private readonly IPrefabProvider _prefabProvider;
         private readonly IConfigProvider _configProvider;
-        private readonly EffectSpawner _effectSpawner;
+        private readonly IEffectSpawner _effectSpawner;
         #endregion
 
         #region Public Methods
-        public PlayerFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, EffectSpawner effectSpawner)
+        public PlayerFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IEffectSpawner effectSpawner)
         {
             _prefabProvider = prefabProvider;
             _configProvider = configProvider;

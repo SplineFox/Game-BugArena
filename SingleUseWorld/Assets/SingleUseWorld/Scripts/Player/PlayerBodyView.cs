@@ -29,7 +29,7 @@ namespace SingleUseWorld
         private float _shakeOffset = 0.15f;
         private float _shakeIntensity = 0f;
 
-        private EffectSpawner _effectSpawner;
+        private IEffectSpawner _effectSpawner;
         #endregion
 
         #region Delegates & Events
@@ -54,7 +54,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void Initialize(EffectSpawner effectSpawner)
+        public void Initialize(IEffectSpawner effectSpawner)
         {
             _effectSpawner = effectSpawner;
         }

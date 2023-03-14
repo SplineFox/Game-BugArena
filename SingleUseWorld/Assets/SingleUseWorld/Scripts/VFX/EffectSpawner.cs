@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class EffectSpawner
+    public class EffectSpawner : IEffectSpawner
     {
         #region Fields
-        private EffectFactory _effectFactory;
-        private EffectAppearanceFactory _appearanceFactory;
+        private IEffectFactory _effectFactory;
+        private IEffectAppearanceFactory _appearanceFactory;
         private List<Effect> _effects;
         #endregion
 
         #region Constructors
-        public EffectSpawner(EffectFactory effectFactory, EffectAppearanceFactory appearanceFactory)
+        public EffectSpawner(IEffectFactory effectFactory, IEffectAppearanceFactory appearanceFactory)
         {
             _effectFactory = effectFactory;
             _appearanceFactory = appearanceFactory;
@@ -25,13 +25,6 @@ namespace SingleUseWorld
             var effect = _effectFactory.Create(effectType);
             var effectAppearance = _appearanceFactory.Create(effectType, position);
 
-            effect.OnSpawned(this, effectAppearance);
-            _effects.Add(effect);
-        }
-
-        private void SpawnEffect(EffectType effectType, EffectAppearance effectAppearance)
-        {
-            var effect = _effectFactory.Create(effectType);
             effect.OnSpawned(this, effectAppearance);
             _effects.Add(effect);
         }
@@ -64,6 +57,13 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
+        private void SpawnEffect(EffectType effectType, EffectAppearance effectAppearance)
+        {
+            var effect = _effectFactory.Create(effectType);
+            effect.OnSpawned(this, effectAppearance);
+            _effects.Add(effect);
+        }
+
         private void SpawnExplosion(Vector3 position)
         {
             var appearance = _appearanceFactory.Create(ComplexEffectType.Explosion, position);

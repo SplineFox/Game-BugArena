@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class EffectAppearanceFactory
+    public class EffectAppearanceFactory : IEffectAppearanceFactory
     {
         private EffectAppearanceBuilder _appearance;
 

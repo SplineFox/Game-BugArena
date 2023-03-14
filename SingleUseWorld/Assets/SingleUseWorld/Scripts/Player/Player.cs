@@ -18,7 +18,7 @@ namespace SingleUseWorld
         private PlayerGripHandler _gripHandler;
 
         private PlayerSpawner _spawner;
-        private EffectSpawner _effectSpawner;
+        private IEffectSpawner _effectSpawner;
         #endregion
 
         #region Delegates & Events
@@ -33,7 +33,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void OnCreate(PlayerSettings settings, EffectSpawner effectSpawner)
+        public void OnCreate(PlayerSettings settings, IEffectSpawner effectSpawner)
         {
             _settings = settings;
             _effectSpawner = effectSpawner;
