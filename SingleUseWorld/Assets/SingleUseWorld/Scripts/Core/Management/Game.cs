@@ -100,9 +100,10 @@ namespace SingleUseWorld
             _settings.BombEntityFactory.Inject(_score, _effectSpawner, _hitTimer, _cameraShaker);
 
             // Controllers
+            var playerInput = new PlayerInput();
             _cameraController = new CameraController(_camera, _virtualCamera);
             _targetController = new TargetController(_cameraController);
-            _playerController = new PlayerController(_settings.PlayerInput, _cameraController, _targetController);
+            _playerController = new PlayerController(playerInput, _cameraController, _targetController);
 
             // Low-level Enemy pools
             _wandererEnemyPool = new MonoPool<Enemy>(_settings.EnemyFactory, _enemyPoolContainer, _settings.WandererEnemyPoolSettings);

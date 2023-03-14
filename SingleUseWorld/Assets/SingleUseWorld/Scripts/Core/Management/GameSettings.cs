@@ -7,7 +7,6 @@ namespace SingleUseWorld
     {
         #region Fields
         [Header("Player")]
-        public PlayerInput PlayerInput;
         public PlayerFactory PlayerFactory;
         [Space]
         [Header("Enemy factories")]
