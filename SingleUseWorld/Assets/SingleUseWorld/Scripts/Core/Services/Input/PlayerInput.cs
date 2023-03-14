@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "PlayerInputSO", menuName = "SingleUseWorld/Input/Player Input SO")]
-    public class PlayerInput : ScriptableObject, PlayerInputActions.IGameplayActions
+    public class PlayerInput : IPlayerInput, IDisposable, PlayerInputActions.IGameplayActions
     {
         #region Fields
         private PlayerInputActions _inputActions;
@@ -23,13 +22,14 @@ namespace SingleUseWorld
         public event Action PausePerformed = delegate { };
         #endregion
 
-        #region LifeCycle Methods
-        private void OnEnable()
+        #region Constructors
+        public PlayerInput()
         {
             InitializeInputActions();
             EnableGameplayInput();
         }
-        private void OnDisable()
+
+        public void Dispose()
         {
             DisableGameplayInput();
         }
