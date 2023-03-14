@@ -2,11 +2,10 @@
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "SkullEntityFactorySO", menuName = "SingleUseWorld/Factories/Items/SkullEntity Factory SO")]
-    public class SkullEntityFactory : ScriptableFactory, IMonoFactory<ItemEntity>
+    public class SkullEntityFactory : IFactory<ItemEntity>
     {
-        [SerializeField] private SkullEntity _skullEntityPrefab;
-        [SerializeField] private SkullEntitySettings _skullEntitySettings;
+        private SkullEntity _skullEntityPrefab;
+        private SkullEntitySettings _skullEntitySettings;
 
         private Score _score;
         private HitTimer _hitTimer;
@@ -22,7 +21,7 @@ namespace SingleUseWorld
 
         public ItemEntity Create()
         {
-            var skullEntity = CreateInstance<SkullEntity>(_skullEntityPrefab);
+            var skullEntity = Object.Instantiate(_skullEntityPrefab);
             skullEntity.OnCreate(_skullEntitySettings, _score, _hitTimer, _cameraShaker);
             return skullEntity;
         }

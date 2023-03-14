@@ -2,8 +2,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "BombEntityFactorySO", menuName = "SingleUseWorld/Factories/Items/BombEntity Factory SO")]
-    public class BombEntityFactory : ScriptableFactory, IMonoFactory<ItemEntity>
+    public class BombEntityFactory : IFactory<ItemEntity>
     {
         [SerializeField] private BombEntity _bombEntityPrefab;
         [SerializeField] private BombEntitySettings _bombEntitySettings;
@@ -24,7 +23,7 @@ namespace SingleUseWorld
 
         public ItemEntity Create()
         {
-            var bombEntity = CreateInstance<BombEntity>(_bombEntityPrefab);
+            var bombEntity = Object.Instantiate(_bombEntityPrefab);
             bombEntity.OnCreate(_bombEntitySettings, _score, _effectSpawner, _hitTimer, _cameraShaker);
             return bombEntity;
         }

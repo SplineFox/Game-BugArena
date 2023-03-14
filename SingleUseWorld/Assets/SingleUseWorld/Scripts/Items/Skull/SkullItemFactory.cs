@@ -2,20 +2,19 @@
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "SkullItemFactorySO", menuName = "SingleUseWorld/Factories/Items/SkullItem Factory SO")]
-    public class SkullItemFactory : ScriptableFactory, IMonoFactory<Item>
+    public class SkullItemFactory : IFactory<Item>
     {
         #region Fields
-        [SerializeField] private Item _skullItemPrefab;
-        [SerializeField] private ItemSettings _itemSettings;
-        [SerializeField] private ItemTypeSettings _itemTypeSettings;
-        [SerializeField] private SkullEntityFactory _skullEntityFactory;
+        private Item _skullItemPrefab;
+        private ItemSettings _itemSettings;
+        private ItemTypeSettings _itemTypeSettings;
+        private SkullEntityFactory _skullEntityFactory;
         #endregion
 
         #region Public Methods
         public Item Create()
         {
-            var skullItem = CreateInstance<Item>(_skullItemPrefab);
+            var skullItem = Object.Instantiate(_skullItemPrefab);
             skullItem.OnCreate(_itemSettings, _itemTypeSettings, _skullEntityFactory);
             return skullItem;
         }

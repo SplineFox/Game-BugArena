@@ -2,11 +2,10 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "ArrowEntityFactorySO", menuName = "SingleUseWorld/Factories/Items/ArrowEntity Factory SO")]
-    public class ArrowEntityFactory : ScriptableFactory, IMonoFactory<ItemEntity>
+    public class ArrowEntityFactory : IFactory<ItemEntity>
     {
-        [SerializeField] private ArrowEntity _arowEntityPrefab;
-        [SerializeField] private ArrowEntitySettings _arowEntitySettings;
+        private ArrowEntity _arowEntityPrefab;
+        private ArrowEntitySettings _arowEntitySettings;
 
         private Score _score;
         private HitTimer _hitTimer;
@@ -22,7 +21,7 @@ namespace SingleUseWorld
 
         public ItemEntity Create()
         {
-            var arrowEntity = CreateInstance<ArrowEntity>(_arowEntityPrefab);
+            var arrowEntity = Object.Instantiate(_arowEntityPrefab);
             arrowEntity.OnCreate(_arowEntitySettings, _score, _hitTimer, _cameraShaker);
             return arrowEntity;
         }

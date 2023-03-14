@@ -7,7 +7,7 @@ namespace SingleUseWorld
     public class MonoPool<TPrefab> where TPrefab : MonoBehaviour, IPoolable
     {
         #region Fields
-        private IMonoFactory<TPrefab> _factory;
+        private IFactory<TPrefab> _factory;
         private Transform _containerTransform;
 
         private Stack<TPrefab> _availableItems;
@@ -35,7 +35,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Construcors
-        public MonoPool(IMonoFactory<TPrefab> factory, Transform containerTransform, MonoPoolSettings settings)
+        public MonoPool(IFactory<TPrefab> factory, Transform containerTransform, MonoPoolSettings settings)
         {
             _containerTransform = containerTransform;
             _factory = factory;

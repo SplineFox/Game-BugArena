@@ -2,20 +2,19 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "SwordItemFactorySO", menuName = "SingleUseWorld/Factories/Items/SwordItem Factory SO")]
-    public class SwordItemFactory : ScriptableFactory, IMonoFactory<Item>
+    public class SwordItemFactory : IFactory<Item>
     {
         #region Fields
-        [SerializeField] private Item _swordItemPrefab;
-        [SerializeField] private ItemSettings _itemSettings;
-        [SerializeField] private ItemTypeSettings _itemTypeSettings;
-        [SerializeField] private SwordEntityFactory _swordEntityFactory;
+        private Item _swordItemPrefab;
+        private ItemSettings _itemSettings;
+        private ItemTypeSettings _itemTypeSettings;
+        private SwordEntityFactory _swordEntityFactory;
         #endregion
 
         #region Public Methods
         public Item Create()
         {
-            var swordItem = CreateInstance<Item>(_swordItemPrefab);
+            var swordItem = Object.Instantiate(_swordItemPrefab);
             swordItem.OnCreate(_itemSettings, _itemTypeSettings, _swordEntityFactory);
             return swordItem;
         }

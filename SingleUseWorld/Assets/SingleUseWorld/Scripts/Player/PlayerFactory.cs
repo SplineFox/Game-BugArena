@@ -2,26 +2,30 @@
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "PlayerFactorySO", menuName = "SingleUseWorld/Factories/Player/Player Factory SO")]
-    public class PlayerFactory : ScriptableFactory, IMonoFactory<Player>
+    public class PlayerFactory : IFactory<Player>
     {
         #region Fields
-        [SerializeField] private Player _playerPrefab;
-        [SerializeField] private PlayerSettings _playerSettings;
-
-        private EffectSpawner _effectSpawner;
+        private readonly IPrefabProvider _prefabProvider;
+        private readonly IConfigProvider _configProvider;
+        private readonly EffectSpawner _effectSpawner;
         #endregion
 
         #region Public Methods
-        public void Inject(EffectSpawner effectSpawner)
+        public PlayerFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, EffectSpawner effectSpawner)
         {
+            _prefabProvider = prefabProvider;
+            _configProvider = configProvider;
             _effectSpawner = effectSpawner;
         }
 
         public Player Create()
         {
-            var player = CreateInstance<Player>(_playerPrefab);
-            player.OnCreate(_playerSettings, _effectSpawner);
+            var playerPrefab = _prefabProvider.Load<Player>(PrefabPath.Player);
+            var playerSettings = _configProvider.Load<PlayerSettings>(ConfigPath.PlayerSettings);
+            
+            var player = Object.Instantiate(playerPrefab);
+            player.OnCreate(playerSettings, _effectSpawner);
+            
             return player;
         }
         #endregion

@@ -1,15 +1,13 @@
 ﻿using SingleUseWorld.FSM;
-using System;
 using UnityEngine;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "EnemyFactorySO", menuName = "SingleUseWorld/Factories/Enemies/Enemy Factory SO")]
-    public sealed class EnemyFactory : ScriptableFactory, IMonoFactory<Enemy>
+    public sealed class EnemyFactory : IFactory<Enemy>
     {
         #region Fields
-        [SerializeField] private Enemy _enemyPrefab;
-        [SerializeField] private EnemySettings _enemySettings;
+        private Enemy _enemyPrefab;
+        private EnemySettings _enemySettings;
 
         private EffectSpawner _effectSpawner;
         #endregion
@@ -22,7 +20,7 @@ namespace SingleUseWorld
 
         public Enemy Create()
         {
-            var enemy = CreateInstance<Enemy>(_enemyPrefab);
+            var enemy = Object.Instantiate(_enemyPrefab);
             enemy.OnCreate(_enemySettings, _effectSpawner);
             return enemy;
         }

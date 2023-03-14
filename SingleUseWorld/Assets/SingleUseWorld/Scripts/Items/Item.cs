@@ -14,7 +14,7 @@ namespace SingleUseWorld
         private Collider2D _collider = default;
         private Rigidbody2D _rigidbody = default;
 
-        private IMonoFactory<ItemEntity> _entityFactory = default;
+        private IFactory<ItemEntity> _entityFactory = default;
         private ItemSettings _settings = default;
         private ItemTypeSettings _typeSettings = default;
         #endregion
@@ -50,7 +50,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void OnCreate(ItemSettings settings, ItemTypeSettings typeSettings, IMonoFactory<ItemEntity> entityFactory)
+        public void OnCreate(ItemSettings settings, ItemTypeSettings typeSettings, IFactory<ItemEntity> entityFactory)
         {
             _settings = settings;
             _typeSettings = typeSettings;

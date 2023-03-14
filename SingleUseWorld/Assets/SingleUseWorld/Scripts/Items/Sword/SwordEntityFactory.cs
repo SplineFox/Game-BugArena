@@ -2,11 +2,10 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    [CreateAssetMenu(fileName = "SwordEntityFactorySO", menuName = "SingleUseWorld/Factories/Items/SwordEntity Factory SO")]
-    public class SwordEntityFactory : ScriptableFactory, IMonoFactory<ItemEntity>
+    public class SwordEntityFactory : IFactory<ItemEntity>
     {
-        [SerializeField] private SwordEntity _swordEntityPrefab;
-        [SerializeField] private SwordEntitySettings _swordEntitySettings;
+        private SwordEntity _swordEntityPrefab;
+        private SwordEntitySettings _swordEntitySettings;
 
         private Score _score;
         private HitTimer _hitTimer;
@@ -22,7 +21,7 @@ namespace SingleUseWorld
 
         public ItemEntity Create()
         {
-            var swordEntity = CreateInstance<SwordEntity>(_swordEntityPrefab);
+            var swordEntity = Object.Instantiate(_swordEntityPrefab);
             swordEntity.OnCreate(_swordEntitySettings, _score, _hitTimer, _cameraShaker);
             return swordEntity;
         }
