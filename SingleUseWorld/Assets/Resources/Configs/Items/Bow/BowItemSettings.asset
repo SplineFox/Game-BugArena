@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e823a2800b8cc774f890d0feeb8cc45b, type: 3}
-  m_Name: ItemSettingsSO
+  m_Script: {fileID: 11500000, guid: 8b6aa928324ed5343ae578e56b794cb3, type: 3}
+  m_Name: BowItemSettings
   m_EditorClassIdentifier: 
-  SpeedFactor: 0.85
+  Type: 3
+  SpeedFactor: 0.8

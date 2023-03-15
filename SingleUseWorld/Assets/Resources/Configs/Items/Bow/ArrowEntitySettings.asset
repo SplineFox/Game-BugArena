@@ -9,20 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de7a17428b8cce43b847672e042f311, type: 3}
-  m_Name: SwordEntitySettingsSO
+  m_Script: {fileID: 11500000, guid: 23c6147071c95384da2bb6c2bff8232f, type: 3}
+  m_Name: ArrowEntitySettings
   m_EditorClassIdentifier: 
-  LaunchHeight: 0
-  LaunchOffset: 0.25
+  LaunchHeight: 0.5
+  LaunchOffset: 1
   DamageAmount: 100
   KnockbackHorizontalSpeed:
+    start: 8
+    end: 10
+  KnockbackVerticalSpeed:
     start: 3
     end: 4
-  KnockbackVerticalSpeed:
-    start: 4
-    end: 5
   KnockbackSpinSpeed:
     start: 45
     end: 90
-  RotationAngle: 100
-  RotationDuration: 0.2
+  LaunchSpeed: 25

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b6aa928324ed5343ae578e56b794cb3, type: 3}
-  m_Name: BombItemSettingsSO
+  m_Name: BombItemSettings
   m_EditorClassIdentifier: 
   Type: 5
   SpeedFactor: 0.8
