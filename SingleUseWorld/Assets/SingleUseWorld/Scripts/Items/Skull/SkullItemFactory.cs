@@ -5,17 +5,27 @@ namespace SingleUseWorld
     public class SkullItemFactory : IFactory<Item>
     {
         #region Fields
-        private Item _skullItemPrefab;
-        private ItemSettings _itemSettings;
-        private ItemTypeSettings _itemTypeSettings;
-        private SkullEntityFactory _skullEntityFactory;
+        private readonly IPrefabProvider _prefabProvider;
+        private readonly IConfigProvider _configProvider;
+        private readonly IFactory<ItemEntity> _entityFactory;
         #endregion
 
         #region Public Methods
+        public SkullItemFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IFactory<ItemEntity> entityFactory)
+        {
+            _prefabProvider = prefabProvider;
+            _configProvider = configProvider;
+            _entityFactory = entityFactory;
+        }
+
         public Item Create()
         {
-            var skullItem = Object.Instantiate(_skullItemPrefab);
-            skullItem.OnCreate(_itemSettings, _itemTypeSettings, _skullEntityFactory);
+            var skullItemPrefab = _prefabProvider.Load<Item>(PrefabPath.SkullItem);
+            var itemSettings = _configProvider.Load<ItemSettings>(ConfigPath.ItemSettings);
+            var skullItemSettings = _configProvider.Load<ItemTypeSettings>(ConfigPath.SkullItemSettings);
+
+            var skullItem = Object.Instantiate(skullItemPrefab);
+            skullItem.OnCreate(itemSettings, skullItemSettings, _entityFactory);
             return skullItem;
         }
         #endregion

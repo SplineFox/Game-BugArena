@@ -5,17 +5,27 @@ namespace SingleUseWorld
     public class BowItemFactory : IFactory<Item>
     {
         #region Fields
-        private Item _bowItemPrefab;
-        private ItemSettings _itemSettings;
-        private ItemTypeSettings _itemTypeSettings;
-        private ArrowEntityFactory _arrowEntityFactory;
+        private readonly IPrefabProvider _prefabProvider;
+        private readonly IConfigProvider _configProvider;
+        private readonly IFactory<ItemEntity> _entityFactory;
         #endregion
 
         #region Public Methods
+        public BowItemFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IFactory<ItemEntity> entityFactory)
+        {
+            _prefabProvider = prefabProvider;
+            _configProvider = configProvider;
+            _entityFactory = entityFactory;
+        }
+
         public Item Create()
         {
-            var bowItem = Object.Instantiate(_bowItemPrefab);
-            bowItem.OnCreate(_itemSettings, _itemTypeSettings, _arrowEntityFactory);
+            var bowItemPrefab = _prefabProvider.Load<Item>(PrefabPath.BowItem);
+            var itemSettings = _configProvider.Load<ItemSettings>(ConfigPath.ItemSettings);
+            var bowItemSettings = _configProvider.Load<ItemTypeSettings>(ConfigPath.BowItemSettings);
+
+            var bowItem = Object.Instantiate(bowItemPrefab);
+            bowItem.OnCreate(itemSettings, bowItemSettings, _entityFactory);
             return bowItem;
         }
         #endregion

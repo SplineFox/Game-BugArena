@@ -5,17 +5,27 @@ namespace SingleUseWorld
     public class BombItemFactory : IFactory<Item>
     {
         #region Fields
-        [SerializeField] private Item _bombItemPrefab;
-        [SerializeField] private ItemSettings _itemSettings;
-        [SerializeField] private ItemTypeSettings _itemTypeSettings;
-        [SerializeField] private BombEntityFactory _bombEntityFactory;
+        private readonly IPrefabProvider _prefabProvider;
+        private readonly IConfigProvider _configProvider;
+        private readonly IFactory<ItemEntity> _entityFactory;
         #endregion
 
         #region Public Methods
+        public BombItemFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IFactory<ItemEntity> entityFactory)
+        {
+            _prefabProvider = prefabProvider;
+            _configProvider = configProvider;
+            _entityFactory = entityFactory;
+        }
+
         public Item Create()
         {
-            var bombItem = Object.Instantiate(_bombItemPrefab);
-            bombItem.OnCreate(_itemSettings, _itemTypeSettings, _bombEntityFactory);
+            var bombItemPrefab = _prefabProvider.Load<Item>(PrefabPath.BombItem);
+            var itemSettings = _configProvider.Load<ItemSettings>(ConfigPath.ItemSettings);
+            var bombItemSettings = _configProvider.Load<ItemTypeSettings>(ConfigPath.BombItemSettings);
+
+            var bombItem = Object.Instantiate(bombItemPrefab);
+            bombItem.OnCreate(itemSettings, bombItemSettings, _entityFactory);
             return bombItem;
         }
         #endregion
