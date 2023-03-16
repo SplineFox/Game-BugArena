@@ -45,6 +45,71 @@ namespace SingleUseWorld
                 _diContainer.Resolve<IEffectAppearanceFactory>()
                 ));
 
+            RegisterEntityFactories();
+            RegisterItemFactories();
+        }
+
+        private void RegisterEntityFactories()
+        {
+            _diContainer.Register<BombEntityFactory>(new BombEntityFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<IEffectSpawner>(),
+                _diContainer.Resolve<Score>(),
+                _diContainer.Resolve<HitTimer>(),
+                _diContainer.Resolve<CameraShaker>()
+                ));
+
+            _diContainer.Register<ArrowEntityFactory>(new ArrowEntityFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<Score>(),
+                _diContainer.Resolve<HitTimer>(),
+                _diContainer.Resolve<CameraShaker>()
+                ));
+
+            _diContainer.Register<SkullEntityFactory>(new SkullEntityFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<Score>(),
+                _diContainer.Resolve<HitTimer>(),
+                _diContainer.Resolve<CameraShaker>()
+                ));
+
+            _diContainer.Register<SwordEntityFactory>(new SwordEntityFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<Score>(),
+                _diContainer.Resolve<HitTimer>(),
+                _diContainer.Resolve<CameraShaker>()
+                ));
+        }
+
+        private void RegisterItemFactories()
+        {
+            _diContainer.Register<BombItemFactory>(new BombItemFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<BombEntityFactory>()
+                ));
+
+            _diContainer.Register<BowItemFactory>(new BowItemFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<ArrowEntityFactory>()
+                ));
+
+            _diContainer.Register<SkullItemFactory>(new SkullItemFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<SkullEntityFactory>()
+                ));
+
+            _diContainer.Register<SwordItemFactory>(new SwordItemFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<SwordEntityFactory>()
+                ));
         }
     }
 }
