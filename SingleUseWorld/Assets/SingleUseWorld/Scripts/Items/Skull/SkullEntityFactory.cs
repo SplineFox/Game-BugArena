@@ -4,25 +4,32 @@ namespace SingleUseWorld
 {
     public class SkullEntityFactory : IFactory<ItemEntity>
     {
-        private SkullEntity _skullEntityPrefab;
-        private SkullEntitySettings _skullEntitySettings;
+        private IPrefabProvider _prefabProvider;
+        private IConfigProvider _configProvider;
 
         private Score _score;
         private HitTimer _hitTimer;
         private CameraShaker _cameraShaker;
 
-        #region Public Mehods
-        public void Inject(Score score, HitTimer hitTimer, CameraShaker cameraShaker)
+        public SkullEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider,
+            Score score, HitTimer hitTimer, CameraShaker cameraShaker)
         {
+            _prefabProvider = prefabProvider;
+            _configProvider = configProvider;
+
             _score = score;
             _hitTimer = hitTimer;
             _cameraShaker = cameraShaker;
         }
 
+        #region Public Mehods
         public ItemEntity Create()
         {
-            var skullEntity = Object.Instantiate(_skullEntityPrefab);
-            skullEntity.OnCreate(_skullEntitySettings, _score, _hitTimer, _cameraShaker);
+            var skullEntityPrefab = _prefabProvider.Load<SkullEntity>(PrefabPath.SkullEntity);
+            var skullEntitySettings = _configProvider.Load<SkullEntitySettings>(ConfigPath.SkullEntitySettings);
+
+            var skullEntity = Object.Instantiate(skullEntityPrefab);
+            skullEntity.OnCreate(skullEntitySettings, _score, _hitTimer, _cameraShaker);
             return skullEntity;
         }
         #endregion

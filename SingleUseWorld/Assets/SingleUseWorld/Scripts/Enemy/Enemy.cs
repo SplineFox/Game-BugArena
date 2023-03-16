@@ -16,7 +16,7 @@ namespace SingleUseWorld
         private EnemyHealth _health;
 
         private EnemySpawner _spawner;
-        private EffectSpawner _effectSpawner;
+        private IEffectSpawner _effectSpawner;
         #endregion
 
         #region Properties
@@ -35,7 +35,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void OnCreate(EnemySettings settings, EffectSpawner effectSpawner)
+        public void OnCreate(EnemySettings settings, IEffectSpawner effectSpawner)
         {
             _settings = settings;
             _effectSpawner = effectSpawner;

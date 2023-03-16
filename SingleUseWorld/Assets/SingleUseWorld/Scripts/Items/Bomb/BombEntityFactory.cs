@@ -4,27 +4,34 @@ namespace SingleUseWorld
 {
     public class BombEntityFactory : IFactory<ItemEntity>
     {
-        [SerializeField] private BombEntity _bombEntityPrefab;
-        [SerializeField] private BombEntitySettings _bombEntitySettings;
+        private IPrefabProvider _prefabProvider;
+        private IConfigProvider _configProvider;
+        private IEffectSpawner _effectSpawner;
 
         private Score _score;
-        private EffectSpawner _effectSpawner;
         private HitTimer _hitTimer;
         private CameraShaker _cameraShaker;
 
-        #region Public Mehods
-        public void Inject(Score score, EffectSpawner effectSpawner, HitTimer hitTimer, CameraShaker cameraShaker)
+        public BombEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IEffectSpawner effectSpawner,
+            Score score, HitTimer hitTimer, CameraShaker cameraShaker)
         {
-            _score = score;
+            _prefabProvider = prefabProvider;
+            _configProvider = configProvider;
             _effectSpawner = effectSpawner;
+
+            _score = score;
             _hitTimer = hitTimer;
             _cameraShaker = cameraShaker;
         }
 
+        #region Public Mehods
         public ItemEntity Create()
         {
-            var bombEntity = Object.Instantiate(_bombEntityPrefab);
-            bombEntity.OnCreate(_bombEntitySettings, _score, _effectSpawner, _hitTimer, _cameraShaker);
+            var bombEntityPrefab = _prefabProvider.Load<BombEntity>(PrefabPath.BombItem);
+            var bombEntitySettings = _configProvider.Load<BombEntitySettings>(ConfigPath.BombEntitySettings);
+
+            var bombEntity = Object.Instantiate(bombEntityPrefab);
+            bombEntity.OnCreate(bombEntitySettings, _score, _effectSpawner, _hitTimer, _cameraShaker);
             return bombEntity;
         }
         #endregion

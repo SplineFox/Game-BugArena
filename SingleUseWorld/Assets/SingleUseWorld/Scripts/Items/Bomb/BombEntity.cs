@@ -8,7 +8,7 @@ namespace SingleUseWorld
         private Projectile2D _projectile;
         private BombEntitySettings _settings;
 
-        private EffectSpawner _effectSpawner;
+        private IEffectSpawner _effectSpawner;
         private HitTimer _hitTimer;
         private CameraShaker _cameraShaker;
         private Score _score;
@@ -29,7 +29,7 @@ namespace SingleUseWorld
             _projectile = GetComponent<Projectile2D>();
         }
 
-        public void OnCreate(BombEntitySettings settings, Score score, EffectSpawner effectSpawner, HitTimer hitTimer, CameraShaker cameraShaker)
+        public void OnCreate(BombEntitySettings settings, Score score, IEffectSpawner effectSpawner, HitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;
