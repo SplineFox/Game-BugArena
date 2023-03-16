@@ -5,6 +5,7 @@ namespace SingleUseWorld
     public static class ConfigPath
     {
         public const string PlayerSettings      = "Configs/Player/PlayerSettings";
+        public const string EnemySettings      = "Configs/Enemies/EnemySettings";
 
         public const string ItemSettings        = "Configs/Items/ItemSettings";
 
