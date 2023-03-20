@@ -7,41 +7,32 @@ namespace SingleUseWorld
         #region Fields
         private LevelBoundary _levelBoundary;
         private PlayerFactory _playerFactory;
-        private PlayerController _playerController;
+        private Transform _playerContainer;
         private Player _player;
         #endregion
 
-        #region Properties
-        public Vector3 PlayerPosition
-        {
-            get
-            {
-                return (_player)? _player.transform.position : Vector3.zero;
-            }
-        }
-        #endregion
-
         #region Constructors
-        public PlayerSpawner(LevelBoundary levelBoundary, PlayerFactory playerFactory, PlayerController playerController)
+        public PlayerSpawner(LevelBoundary levelBoundary, Transform playerContainer, PlayerFactory playerFactory)
         {
             _levelBoundary = levelBoundary;
             _playerFactory = playerFactory;
-            _playerController = playerController;
+            _playerContainer = playerContainer;
             _player = null;
         }
         #endregion
 
         #region Public Methods
-        public void SpawnPlayer()
+        public Player SpawnPlayer()
         {
             if (_player)
-                return;
+                return null;
 
             _player = _playerFactory.Create();
+            _player.transform.parent = _playerContainer;
             var position = _levelBoundary.GetCenter();
             
             _player.OnSpawned(position, this);
-            _playerController.SetPlayer(_player);
+            return _player;
         }
 
         public void DespawnPlayer()
@@ -50,7 +41,6 @@ namespace SingleUseWorld
                 return;
 
             _player.OnDespawned();
-            _playerController.SetPlayer(null);
 
             GameObject.Destroy(_player.gameObject);
             _player = null;
