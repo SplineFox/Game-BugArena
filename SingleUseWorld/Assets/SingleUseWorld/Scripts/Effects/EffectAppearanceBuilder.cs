@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class EffectAppearanceBuilder : MonoBehaviour
+    public class EffectAppearanceBuilder
     {
         #region Fields
         private Vector3 _position;
