@@ -7,7 +7,7 @@ namespace SingleUseWorld
     public class CameraShaker : MonoBehaviour
     {
         #region Fields
-        [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera = default;
+        [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
         private CinemachineBasicMultiChannelPerlin _cinemachinePerlin;
         #endregion
 
@@ -19,8 +19,9 @@ namespace SingleUseWorld
         #endregion
 
         #region LifeCycle Methods
-        public void Awake()
+        private void Awake()
         {
+            _cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
             _cinemachinePerlin = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         }
         #endregion
@@ -31,7 +32,7 @@ namespace SingleUseWorld
             _cinemachinePerlin.m_AmplitudeGain = intensity;
             
             if (duration != 0f)
-                StartCoroutine(Wait(duration));
+                StartCoroutine(ShakeCoroutine(duration));
         }
 
         public void StopShake()
@@ -42,7 +43,7 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        private IEnumerator Wait(float duration)
+        private IEnumerator ShakeCoroutine(float duration)
         {
             yield return new WaitForSeconds(duration);
             _cinemachinePerlin.m_AmplitudeGain = 0f;

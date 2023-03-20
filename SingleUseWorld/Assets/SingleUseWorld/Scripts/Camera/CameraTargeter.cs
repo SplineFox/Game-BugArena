@@ -1,27 +1,28 @@
+using Cinemachine;
 using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class TargetController
+    public class CameraTargeter : MonoBehaviour
     {
         #region Constants
         private string CAMERA_TARGET_NAME = "CameraTarget";
         #endregion
 
         #region Fields
+        private CinemachineVirtualCamera _virtualCamera;
+
         private Transform _anchor;
         private GameObject _target;
-
-        private CameraController _cameraController;
         private float _offset = 1.5f;
         #endregion
 
         #region Constructors
-        public TargetController(CameraController cameraController)
+        private void Awake()
         {
-            _anchor = null;
-            _cameraController = cameraController;
+            _virtualCamera = GetComponent<CinemachineVirtualCamera>();
 
+            _anchor = null;
             _target = CreateTarget();
         }
         #endregion
@@ -31,7 +32,7 @@ namespace SingleUseWorld
         {
             _anchor = anchor;
             _target.transform.SetParent(_anchor);
-            _cameraController.SetTarget(_target.transform);
+            _virtualCamera.Follow = _target.transform;
         }
 
         public void SetPosition(Vector2 normalizedPosition)
