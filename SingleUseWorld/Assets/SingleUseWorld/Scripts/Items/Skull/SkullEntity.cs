@@ -15,7 +15,7 @@ namespace SingleUseWorld
         private SkullEntitySettings _settings;
 
         private Score _score;
-        private HitTimer _hitTimer;
+        private IHitTimer _hitTimer;
         private CameraShaker _cameraShaker;
         #endregion
 
@@ -36,7 +36,7 @@ namespace SingleUseWorld
             Assert.IsNotNull(_shadow, "SkullEntity: ShadowView is not assigned!");
         }
 
-        public void OnCreate(SkullEntitySettings settings, Score score, HitTimer hitTimer, CameraShaker cameraShaker)
+        public void OnCreate(SkullEntitySettings settings, Score score, IHitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;

@@ -6,20 +6,16 @@ namespace SingleUseWorld
     {
         private IPrefabProvider _prefabProvider;
         private IConfigProvider _configProvider;
+        private IScoreAccessService _scoreAccessService;
+        private IVisualFeedback _visualFeedback;
 
-        private Score _score;
-        private HitTimer _hitTimer;
-        private CameraShaker _cameraShaker;
-
-        public SkullEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider,
-            Score score, HitTimer hitTimer, CameraShaker cameraShaker)
+        public SkullEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, 
+            IScoreAccessService scoreAccessService, IVisualFeedback visualFeedback)
         {
             _prefabProvider = prefabProvider;
             _configProvider = configProvider;
-
-            _score = score;
-            _hitTimer = hitTimer;
-            _cameraShaker = cameraShaker;
+            _scoreAccessService = scoreAccessService;
+            _visualFeedback = visualFeedback;
         }
 
         #region Public Mehods
@@ -29,7 +25,7 @@ namespace SingleUseWorld
             var skullEntitySettings = _configProvider.Load<SkullEntitySettings>(ConfigPath.SkullEntitySettings);
 
             var skullEntity = Object.Instantiate(skullEntityPrefab);
-            skullEntity.OnCreate(skullEntitySettings, _score, _hitTimer, _cameraShaker);
+            skullEntity.OnCreate(skullEntitySettings, _scoreAccessService.Score, _visualFeedback.Timer, _visualFeedback.Shaker);
             return skullEntity;
         }
         #endregion

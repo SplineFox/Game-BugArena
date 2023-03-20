@@ -6,20 +6,16 @@ namespace SingleUseWorld
     {
         private IPrefabProvider _prefabProvider;
         private IConfigProvider _configProvider;
-
-        private Score _score;
-        private HitTimer _hitTimer;
-        private CameraShaker _cameraShaker;
+        private IScoreAccessService _scoreAccessService;
+        private IVisualFeedback _visualFeedback;
 
         public SwordEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider,
-            Score score, HitTimer hitTimer, CameraShaker cameraShaker)
+            IScoreAccessService scoreAccessService, IVisualFeedback visualFeedback)
         {
             _prefabProvider = prefabProvider;
             _configProvider = configProvider;
-
-            _score = score;
-            _hitTimer = hitTimer;
-            _cameraShaker = cameraShaker;
+            _scoreAccessService = scoreAccessService;
+            _visualFeedback = visualFeedback;
         }
 
         #region Public Mehods
@@ -29,7 +25,7 @@ namespace SingleUseWorld
             var swordEntitySettings = _configProvider.Load<SwordEntitySettings>(ConfigPath.SwordEntitySettings);
 
             var swordEntity = Object.Instantiate(swordEntityPrefab);
-            swordEntity.OnCreate(swordEntitySettings, _score, _hitTimer, _cameraShaker);
+            swordEntity.OnCreate(swordEntitySettings, _scoreAccessService.Score, _visualFeedback.Timer, _visualFeedback.Shaker);
             return swordEntity;
         }
         #endregion

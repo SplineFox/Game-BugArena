@@ -12,7 +12,7 @@ namespace SingleUseWorld
         private SwordEntitySettings _settings;
 
         private Score _score;
-        private HitTimer _hitTimer;
+        private IHitTimer _hitTimer;
         private CameraShaker _cameraShaker;
         private int _hitCombo;
         #endregion
@@ -31,7 +31,7 @@ namespace SingleUseWorld
             Assert.IsNotNull(_projectileTrigger, "SwordEntity: ProjectileTrigger is not assigned!");
         }
 
-        public void OnCreate(SwordEntitySettings settings, Score score, HitTimer hitTimer, CameraShaker cameraShaker)
+        public void OnCreate(SwordEntitySettings settings, Score score, IHitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;

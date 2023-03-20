@@ -6,20 +6,16 @@ namespace SingleUseWorld
     {
         private IPrefabProvider _prefabProvider;
         private IConfigProvider _configProvider;
+        private IScoreAccessService _scoreAccessService;
+        private IVisualFeedback _visualFeedback;
 
-        private Score _score;
-        private HitTimer _hitTimer;
-        private CameraShaker _cameraShaker;
-
-        public ArrowEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider,
-            Score score, HitTimer hitTimer, CameraShaker cameraShaker)
+        public ArrowEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IScoreAccessService scoreAccessService,
+            IVisualFeedback visualFeedback)
         {
             _prefabProvider = prefabProvider;
             _configProvider = configProvider;
-
-            _score = score;
-            _hitTimer = hitTimer;
-            _cameraShaker = cameraShaker;
+            _scoreAccessService = scoreAccessService;
+            _visualFeedback = visualFeedback;
         }
 
         #region Public Mehods
@@ -29,7 +25,7 @@ namespace SingleUseWorld
             var arrowEntitySettings = _configProvider.Load<ArrowEntitySettings>(ConfigPath.ArrowEntitySettings);
 
             var arrowEntity = Object.Instantiate(arrowEntityPrefab);
-            arrowEntity.OnCreate(arrowEntitySettings, _score, _hitTimer, _cameraShaker);
+            arrowEntity.OnCreate(arrowEntitySettings, _scoreAccessService.Score, _visualFeedback.Timer, _visualFeedback.Shaker);
             return arrowEntity;
         }
         #endregion

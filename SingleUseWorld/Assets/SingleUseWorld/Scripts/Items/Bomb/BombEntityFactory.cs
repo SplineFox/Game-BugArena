@@ -7,21 +7,18 @@ namespace SingleUseWorld
         private IPrefabProvider _prefabProvider;
         private IConfigProvider _configProvider;
         private IEffectSpawner _effectSpawner;
-
-        private Score _score;
-        private HitTimer _hitTimer;
-        private CameraShaker _cameraShaker;
+        private IScoreAccessService _scoreAccessService;
+        private IVisualFeedback _visualFeedback;
 
         public BombEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IEffectSpawner effectSpawner,
-            Score score, HitTimer hitTimer, CameraShaker cameraShaker)
+            IScoreAccessService scoreAccessService, IVisualFeedback visualFeedback)
         {
             _prefabProvider = prefabProvider;
             _configProvider = configProvider;
             _effectSpawner = effectSpawner;
 
-            _score = score;
-            _hitTimer = hitTimer;
-            _cameraShaker = cameraShaker;
+            _scoreAccessService = scoreAccessService;
+            _visualFeedback = visualFeedback;
         }
 
         #region Public Mehods
@@ -31,7 +28,7 @@ namespace SingleUseWorld
             var bombEntitySettings = _configProvider.Load<BombEntitySettings>(ConfigPath.BombEntitySettings);
 
             var bombEntity = Object.Instantiate(bombEntityPrefab);
-            bombEntity.OnCreate(bombEntitySettings, _score, _effectSpawner, _hitTimer, _cameraShaker);
+            bombEntity.OnCreate(bombEntitySettings, _scoreAccessService.Score, _effectSpawner, _visualFeedback.Timer, _visualFeedback.Shaker);
             return bombEntity;
         }
         #endregion
