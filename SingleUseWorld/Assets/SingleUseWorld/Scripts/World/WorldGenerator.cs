@@ -262,11 +262,10 @@ namespace SingleUseWorld
             _levelBoundaryContainer.gameObject.layer = layer;
 
             var boxCollider2D = _levelBoundaryContainer.gameObject.AddComponent<BoxCollider2D>();
+            _levelBoundary = _levelBoundaryContainer.gameObject.AddComponent<LevelBoundary>();
             boxCollider2D.isTrigger = true;
             var levelSize = Vector2.Scale(Size, GetGroundIncrement());
             boxCollider2D.size = levelSize - new Vector2(_levelBoundarySafeZone, _levelBoundarySafeZone) * 2;
-
-            _levelBoundary = new LevelBoundary(boxCollider2D);
 
             var levelBoundary_N = new GameObject("Level Boundary N");
             var levelBoundary_S = new GameObject("Level Boundary S");
