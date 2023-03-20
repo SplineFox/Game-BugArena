@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SingleUseWorld
@@ -17,11 +18,20 @@ namespace SingleUseWorld
 
         public void Enter()
         {
+            LoadScoreOrInitializeNew();
             _stateMachine.Enter<LoadArenaState>();
         }
 
         public void Exit()
         {
+        }
+
+        private void LoadScoreOrInitializeNew()
+        {
+            var scoreAccessService = _diContainer.Resolve<IScoreAccessService>();
+            var saveLoadService = _diContainer.Resolve<ISaveLoadService>();
+
+            scoreAccessService.Score = saveLoadService.LoadScore() ?? new Score();
         }
     }
 }

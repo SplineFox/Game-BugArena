@@ -33,10 +33,32 @@ namespace SingleUseWorld
 
         private void RegisterServices()
         {
-            _diContainer.Register<IPlayerInput>(new PlayerInput());
+            RegisterBaseServices();
+            RegisterDataServices();
+            RegisterEffectServices();
+
+            RegisterPlayerFactory();
+            RegisterEntityFactories();
+            RegisterItemFactories();
+            RegisterEnemyFactory();
+        }
+
+        private void RegisterBaseServices()
+        {
             _diContainer.Register<IPrefabProvider>(new PrefabProvider());
             _diContainer.Register<IConfigProvider>(new ConfigProvider());
+            _diContainer.Register<IPlayerInput>(new PlayerInput());
+            _diContainer.Register<IHitTimer>(new HitTimer(_diContainer.Resolve<ICoroutineRunner>()));
+        }
 
+        private void RegisterDataServices()
+        {
+            _diContainer.Register<IScoreAccessService>(new ScoreAccessService());
+            _diContainer.Register<ISaveLoadService>(new SaveLoadService(_diContainer.Resolve<IScoreAccessService>()));
+        }
+
+        private void RegisterEffectServices()
+        {
             _diContainer.Register<IEffectFactory>(new EffectFactory(_diContainer.Resolve<IPrefabProvider>()));
             _diContainer.Register<IEffectAppearanceFactory>(new EffectAppearanceFactory());
 
@@ -45,8 +67,7 @@ namespace SingleUseWorld
                 _diContainer.Resolve<IEffectAppearanceFactory>()
                 ));
 
-            RegisterEntityFactories();
-            RegisterItemFactories();
+            _diContainer.Register<IVisualFeedback>(new VisualFeedback());
         }
 
         private void RegisterEntityFactories()
@@ -55,33 +76,29 @@ namespace SingleUseWorld
                 _diContainer.Resolve<IPrefabProvider>(),
                 _diContainer.Resolve<IConfigProvider>(),
                 _diContainer.Resolve<IEffectSpawner>(),
-                _diContainer.Resolve<Score>(),
-                _diContainer.Resolve<HitTimer>(),
-                _diContainer.Resolve<CameraShaker>()
+                _diContainer.Resolve<IScoreAccessService>(),
+                _diContainer.Resolve<IVisualFeedback>()
                 ));
 
             _diContainer.Register<ArrowEntityFactory>(new ArrowEntityFactory(
                 _diContainer.Resolve<IPrefabProvider>(),
                 _diContainer.Resolve<IConfigProvider>(),
-                _diContainer.Resolve<Score>(),
-                _diContainer.Resolve<HitTimer>(),
-                _diContainer.Resolve<CameraShaker>()
+                _diContainer.Resolve<IScoreAccessService>(),
+                _diContainer.Resolve<IVisualFeedback>()
                 ));
 
             _diContainer.Register<SkullEntityFactory>(new SkullEntityFactory(
                 _diContainer.Resolve<IPrefabProvider>(),
                 _diContainer.Resolve<IConfigProvider>(),
-                _diContainer.Resolve<Score>(),
-                _diContainer.Resolve<HitTimer>(),
-                _diContainer.Resolve<CameraShaker>()
+                _diContainer.Resolve<IScoreAccessService>(),
+                _diContainer.Resolve<IVisualFeedback>()
                 ));
 
             _diContainer.Register<SwordEntityFactory>(new SwordEntityFactory(
                 _diContainer.Resolve<IPrefabProvider>(),
                 _diContainer.Resolve<IConfigProvider>(),
-                _diContainer.Resolve<Score>(),
-                _diContainer.Resolve<HitTimer>(),
-                _diContainer.Resolve<CameraShaker>()
+                _diContainer.Resolve<IScoreAccessService>(),
+                _diContainer.Resolve<IVisualFeedback>()
                 ));
         }
 
@@ -110,6 +127,24 @@ namespace SingleUseWorld
                 _diContainer.Resolve<IConfigProvider>(),
                 _diContainer.Resolve<SwordEntityFactory>()
                 ));
+        }
+
+        private void RegisterPlayerFactory()
+        {
+            _diContainer.Register<PlayerFactory>(new PlayerFactory(
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IConfigProvider>(),
+                _diContainer.Resolve<IEffectSpawner>()
+                ));
+        }
+
+        private void RegisterEnemyFactory()
+        {
+            _diContainer.Register<EnemyFactory>(new EnemyFactory(
+            _diContainer.Resolve<IPrefabProvider>(),
+            _diContainer.Resolve<IConfigProvider>(),
+            _diContainer.Resolve<IEffectSpawner>()
+            ));
         }
     }
 }
