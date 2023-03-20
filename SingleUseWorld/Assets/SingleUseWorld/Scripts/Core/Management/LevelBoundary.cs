@@ -2,16 +2,16 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class LevelBoundary
+    public class LevelBoundary : MonoBehaviour
     {
         #region Fields
         private BoxCollider2D _boxCollider;
         #endregion
 
-        #region Constructors
-        public LevelBoundary(BoxCollider2D boxCollider)
+        #region LifeCycle Methods
+        private void Awake()
         {
-            _boxCollider = boxCollider;
+            _boxCollider = GetComponent<BoxCollider2D>();
         }
         #endregion
 
