@@ -93,7 +93,7 @@ namespace SingleUseWorld
         {
             while (true)
             {
-                var spinDelta = Vector3.forward * Time.deltaTime * spinSpeedPerSecond;
+                var spinDelta = spinSpeedPerSecond * Time.deltaTime * Vector3.forward;
                 transform.Rotate(spinDelta);
                 yield return null;
             }
