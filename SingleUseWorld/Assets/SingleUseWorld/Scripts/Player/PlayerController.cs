@@ -5,41 +5,37 @@ namespace SingleUseWorld
     public class PlayerController
     {
         #region Fields
-        private PlayerInput _playerInput;
-        private IControllable _player;
+        private IControllable _controllable;
 
-        private CameraController _cameraController;
-        private TargetController _targetController;
-
+        private IPlayerInput _playerInput;
         private MouseAim _mouseAim;
+        private CameraTargeter _cameraTargeter;
         #endregion
 
         #region Public Methods
-        public PlayerController(PlayerInput playerInput, CameraController cameraController, TargetController targetController)
+        public PlayerController(IPlayerInput playerInput, MouseAim mouseAim, CameraTargeter cameraTargeter)
         {
             _playerInput = playerInput;
-            _cameraController = cameraController;
-            _targetController = targetController;
-
-            _mouseAim = new MouseAim(_cameraController.Camera);
+            _mouseAim = mouseAim;
+            _cameraTargeter = cameraTargeter;
         }
 
         public void SetPlayer(Player player)
         {
-            if (_player != null)
+            if (_controllable != null)
             {
                 _mouseAim.SetAnchor(null);
-                _targetController.SetAnchor(null);
+                _cameraTargeter.SetAnchor(null);
                 Unsubscribe();
-                _player = null;
+                _controllable = null;
             }
 
             if (player != null)
             {
-                _player = player;
+                _controllable = player;
                 Subscribe();
                 _mouseAim.SetAnchor(player.transform);
-                _targetController.SetAnchor(player.transform);
+                _cameraTargeter.SetAnchor(player.transform);
             }
         }
         #endregion
@@ -49,31 +45,31 @@ namespace SingleUseWorld
         {
             _playerInput.MouseMovePerformed += this.UpdateAim;
 
-            _playerInput.MoveStarted += _player.StartMovement;
-            _playerInput.MovePerformed += _player.SetMovementDirection;
-            _playerInput.MoveCanceled += _player.StopMovement;
+            _playerInput.MoveStarted += _controllable.StartMovement;
+            _playerInput.MovePerformed += _controllable.SetMovementDirection;
+            _playerInput.MoveCanceled += _controllable.StopMovement;
 
-            _playerInput.UsePerformed += _player.Use;
-            _playerInput.DropPerformed += _player.Drop;
+            _playerInput.UsePerformed += _controllable.Use;
+            _playerInput.DropPerformed += _controllable.Drop;
         }
 
         private void Unsubscribe()
         {
             _playerInput.MouseMovePerformed -= this.UpdateAim;
 
-            _playerInput.MoveStarted -= _player.StartMovement;
-            _playerInput.MovePerformed -= _player.SetMovementDirection;
-            _playerInput.MoveCanceled -= _player.StopMovement;
+            _playerInput.MoveStarted -= _controllable.StartMovement;
+            _playerInput.MovePerformed -= _controllable.SetMovementDirection;
+            _playerInput.MoveCanceled -= _controllable.StopMovement;
 
-            _playerInput.UsePerformed -= _player.Use;
-            _playerInput.DropPerformed -= _player.Drop;
+            _playerInput.UsePerformed -= _controllable.Use;
+            _playerInput.DropPerformed -= _controllable.Drop;
         }
 
         private void UpdateAim(Vector2 mouseScreenPosition)
         {
             _mouseAim.Update(mouseScreenPosition);
-            _targetController.SetPosition(_mouseAim.AimValue);
-            _player.SetArmamentDirection(_mouseAim.AimDirection);
+            _cameraTargeter.SetPosition(_mouseAim.AimValue);
+            _controllable.SetArmamentDirection(_mouseAim.AimDirection);
         }
         #endregion
     }
