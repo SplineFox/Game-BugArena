@@ -4,21 +4,23 @@ namespace SingleUseWorld
 {
     public class Bootstrap : MonoBehaviour, ICoroutineRunner
     {
-        #region Fields
-        private GameStateMachine _gameStateMachine;
-        #endregion
-
         #region LifeCycle Methods
         private void Awake()
         {
             var diContainer = new DIContainer();
             var sceneLoader = new SceneLoader(this);
 
-            _gameStateMachine = new GameStateMachine(sceneLoader, diContainer);
-            _gameStateMachine.Enter<BootstrapState>();
+            diContainer.Register<ICoroutineRunner>(this);
+            diContainer.Register<ITickableManager>(gameObject.AddComponent<TickableManager>());
+
+            var gameStateMachine = new GameStateMachine(sceneLoader, diContainer);
+            gameStateMachine.Enter<BootstrapState>();
 
             DontDestroyOnLoad(this);
         }
+        #endregion
+
+        #region Private Methods
         #endregion
     }
 }
