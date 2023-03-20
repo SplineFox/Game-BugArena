@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    internal interface IPlayerInput
+    public interface IPlayerInput
     {
         event Action<Vector2> MouseMovePerformed;
         event Action<Vector2> MovePerformed;
