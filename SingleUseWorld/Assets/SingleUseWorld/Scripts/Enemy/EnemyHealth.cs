@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public sealed class EnemyHealth : MonoBehaviour
+    public sealed class EnemyHealth
     {
         #region Nested Classes
         [Serializable]
