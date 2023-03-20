@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SingleUseWorld
 {
-    public class EnemySpawner
+    public class EnemySpawner : ITickable
     {
         #region Nested Classes
         [Serializable]
@@ -18,7 +18,7 @@ namespace SingleUseWorld
         private Settings _settings;
         private LevelBoundary _levelBoundary;
         private EnemyPool _enemyPool;
-        private PlayerSpawner _playerSpawner;
+        private Player _player;
 
         private List<Enemy> _enemies;
         private int _desiredEnemiesAmount;
@@ -29,33 +29,24 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public EnemySpawner(Settings settings, LevelBoundary levelBoundary, EnemyPool enemyPool, PlayerSpawner playerSpawner)
+        public EnemySpawner(Settings settings, LevelBoundary levelBoundary, EnemyPool enemyPool, Player player)
         {
             _settings = settings;
             _levelBoundary = levelBoundary;
             _enemyPool = enemyPool;
-            _playerSpawner = playerSpawner;
+            _player = player;
 
             _enemies = new List<Enemy>();
             _desiredEnemiesAmount = 0;
         }
         #endregion
 
-        #region LifeCycle Methods
-        public void Tick()
-        {
-            if(_enemies.Count < _desiredEnemiesAmount)
-            {
-                var enemiesAmountToSpawn = _desiredEnemiesAmount - _enemies.Count;
-                for (int index = 0; index < enemiesAmountToSpawn; index++)
-                {
-                    SpawnEnemy();
-                }
-            }
-        }
-        #endregion
-
         #region Public Methods
+        public void Tick(float deltaTime)
+        {
+            SpawnEnemies();
+        }
+
         public void SetDesiredAmount(int desiredEnemiesAmount)
         {
             _desiredEnemiesAmount = desiredEnemiesAmount;
@@ -79,7 +70,19 @@ namespace SingleUseWorld
             _enemyPool.Release(enemy);
         }
 
-        private void DespawnAllEnemies()
+        public void SpawnEnemies()
+        {
+            if (_enemies.Count < _desiredEnemiesAmount)
+            {
+                var enemiesAmountToSpawn = _desiredEnemiesAmount - _enemies.Count;
+                for (int index = 0; index < enemiesAmountToSpawn; index++)
+                {
+                    SpawnEnemy();
+                }
+            }
+        }
+
+        public void DespawnEnemies()
         {
             for (int index = _enemies.Count - 1; index >= 0; index--)
             {
@@ -102,7 +105,7 @@ namespace SingleUseWorld
             do
             {
                 positionToSpawn = _levelBoundary.GetRandomPositionInside();
-                distanceToPlayer = Vector3.Distance(positionToSpawn, _playerSpawner.PlayerPosition);
+                distanceToPlayer = Vector3.Distance(positionToSpawn, _player.transform.position);
                 collision = Physics2D.OverlapCircle(positionToSpawn, 1f);
             } 
             while (distanceToPlayer < _settings.SpawnDistance && collision != null);

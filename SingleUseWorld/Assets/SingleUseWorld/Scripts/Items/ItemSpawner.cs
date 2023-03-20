@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SingleUseWorld
 {
-    public class ItemSpawner
+    public class ItemSpawner : ITickable
     {
         #region Nested Classes
         [Serializable]
@@ -26,7 +26,7 @@ namespace SingleUseWorld
         private Settings _settings;
         private LevelBoundary _levelBoundary;
         private ItemPool _itemPool;
-        private PlayerSpawner _playerSpawner;
+        private Player _player;
 
         private List<Item> _items;
         private int _desiredItemsAmount;
@@ -35,12 +35,12 @@ namespace SingleUseWorld
         #endregion
 
         #region Constructors
-        public ItemSpawner(Settings settings, LevelBoundary levelBoundary, ItemPool itemPool, PlayerSpawner playerSpawner)
+        public ItemSpawner(Settings settings, LevelBoundary levelBoundary, ItemPool itemPool, Player player)
         {
             _settings = settings;
             _levelBoundary = levelBoundary;
             _itemPool = itemPool;
-            _playerSpawner = playerSpawner;
+            _player = player;
 
             _items = new List<Item>();
             _itemsRoulette = new WeightedProbability<ItemType>();
@@ -53,8 +53,20 @@ namespace SingleUseWorld
         }
         #endregion
 
-        #region LifeCycle Methods
-        public void Tick()
+        #region Public Methods
+        public void Tick(float deltaTime)
+        {
+            SpawnItems();
+        }
+
+        public void SetDesiredAmount(int desiredItemsAmount)
+        {
+            _desiredItemsAmount = desiredItemsAmount;
+        }
+        #endregion
+
+        #region Private Methods
+        private void SpawnItems()
         {
             if (_items.Count < _desiredItemsAmount)
             {
@@ -65,16 +77,7 @@ namespace SingleUseWorld
                 }
             }
         }
-        #endregion
 
-        #region Public Methods
-        public void SetDesiredAmount(int desiredItemsAmount)
-        {
-            _desiredItemsAmount = desiredItemsAmount;
-        }
-        #endregion
-
-        #region Private Methods
         private void SpawnItem()
         {
             var itemType = _itemsRoulette.Next();
@@ -91,7 +94,7 @@ namespace SingleUseWorld
             _itemPool.Release(item);
         }
 
-        private void DespawnAllEnemies()
+        public void DespawnAllItems()
         {
             for (int index = _items.Count - 1; index >= 0; index--)
             {
@@ -114,7 +117,7 @@ namespace SingleUseWorld
             do
             {
                 positionToSpawn = _levelBoundary.GetRandomPositionInside();
-                distanceToPlayer = Vector3.Distance(positionToSpawn, _playerSpawner.PlayerPosition);
+                distanceToPlayer = Vector3.Distance(positionToSpawn, _player.transform.position);
                 collision = Physics2D.OverlapCircle(positionToSpawn, 1f);
             }
             while (distanceToPlayer < _settings.SpawnDistance && collision != null);
