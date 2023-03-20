@@ -3,10 +3,20 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class HitTimer : MonoBehaviour
+    public class HitTimer : IHitTimer
     {
         #region Fields
+        private readonly ICoroutineRunner _coroutineRunner;
+
         private bool _isWaiting;
+        private Coroutine _waitCoroutine;
+        #endregion
+
+        #region Constructors
+        public HitTimer(ICoroutineRunner coroutineRunner)
+        {
+            _coroutineRunner = coroutineRunner;
+        }
         #endregion
 
         #region Public Methods
@@ -17,14 +27,14 @@ namespace SingleUseWorld
 
             _isWaiting = true;
             Time.timeScale = 0.0f;
-            StartCoroutine(Wait(duration));
+            _waitCoroutine = _coroutineRunner.StartCoroutine(Wait(duration));
         }
 
         public void ResumeTime()
         {
             _isWaiting = false;
             Time.timeScale = 1.0f;
-            StopAllCoroutines();
+            _coroutineRunner.StopCoroutine(_waitCoroutine);
         }
         #endregion
 
