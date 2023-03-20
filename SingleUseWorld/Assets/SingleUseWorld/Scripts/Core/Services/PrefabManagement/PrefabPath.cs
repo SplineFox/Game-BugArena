@@ -22,5 +22,6 @@ namespace SingleUseWorld
         public const string SkullEntity     = "Prefabs/SkullEntity";
         public const string SwordEntity     = "Prefabs/SwordEntity";
 
+        public const string ArenaCamera     = "Prefabs/MainCamera";
     }
 }
