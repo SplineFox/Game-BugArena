@@ -16,6 +16,7 @@ namespace SingleUseWorld
         {
             _effectFactory = effectFactory;
             _appearanceFactory = appearanceFactory;
+            _effects = new List<Effect>();
         }
         #endregion
 
@@ -43,7 +44,7 @@ namespace SingleUseWorld
         {
             effect.OnDespawned();
             _effects.Remove(effect);
-            Object.Destroy(effect);
+            Object.Destroy(effect.gameObject);
         }
 
         public void DespawnAllEffects()
