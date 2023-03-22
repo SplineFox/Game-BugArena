@@ -18,6 +18,16 @@ namespace SingleUseWorld
             _tickableManager = _diContainer.Resolve<ITickableManager>();
         }
 
+        public GameObject CreateHud()
+        {
+            var hudPrefab = _prefabProvider.Load<GameObject>(PrefabPath.ArenaHud);
+            var hud = Object.Instantiate(hudPrefab);
+            var scoreCounter = hud.GetComponentInChildren<ScoreCounter>();
+
+            scoreCounter.Construct(_diContainer.Resolve<IScoreAccessService>().Score);
+            return hud;
+        }
+
         public PlayerController CreatePlayerController(Player player, MouseAim mouseAim, CameraTargeter cameraTargeter)
         {
             var playerInput = _diContainer.Resolve<IPlayerInput>();
