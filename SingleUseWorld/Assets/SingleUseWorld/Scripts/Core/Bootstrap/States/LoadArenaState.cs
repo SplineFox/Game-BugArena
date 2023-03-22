@@ -36,25 +36,22 @@ namespace SingleUseWorld
 
         private void InitializeArena()
         {
-            var arenaContext = LocateArenaContext();
+
+            var arenaContext = FindArenaContext();
             var arenaCamera = arenaContext.ArenaCamera;
-            InitializeVisualFeedback(arenaCamera.Shaker);
-
-            var playerSpawner = _arenaFactory.CreatePlayerSpawner(arenaContext.LevelBoundary, arenaContext.PlayerContainer);
-            var player = playerSpawner.SpawnPlayer();
-            var enemySpawner = _arenaFactory.CreateEnemySpawner(arenaContext.LevelBoundary, arenaContext.EnemyContainer, player);
-            var itemSpawner = _arenaFactory.CreateItemSpawner(arenaContext.LevelBoundary, arenaContext.ItemContainer, player);
+            var player = _diContainer.Resolve<PlayerFactory>().Create();
             
-            var arena = new Arena(playerSpawner, enemySpawner, itemSpawner);
-
-            var mouseAim = new MouseAim(arenaCamera.Main);
+            _arenaFactory.CreateHud();
+            InitializeVisualFeedback(arenaCamera.Shaker);
+            InitializeSpawners(arenaContext, player);
+            InitializeController(arenaCamera, player);
         }
 
-        private ArenaContext LocateArenaContext()
+        private ArenaContext FindArenaContext()
         {
             var arenaContext = GameObject.FindObjectOfType<ArenaContext>();
             if (arenaContext == null)
-                throw new NullReferenceException($"Failed to find object of type \"{nameof(ArenaContext)}\"");
+                throw new NullReferenceException($"Failed to find object of type \"{typeof(ArenaContext)}\"");
 
             return arenaContext;
         }
@@ -66,6 +63,25 @@ namespace SingleUseWorld
 
             visualFeedback.Timer = hitTimer;
             visualFeedback.Shaker = cameraShaker;
+        }
+
+        private void InitializeSpawners(ArenaContext arenaContext, Player player)
+        {
+            var playerSpawner = _arenaFactory.CreatePlayerSpawner(arenaContext.LevelBoundary, arenaContext.PlayerContainer, player);
+            var enemySpawner = _arenaFactory.CreateEnemySpawner(arenaContext.LevelBoundary, arenaContext.EnemyContainer, player);
+            var itemSpawner = _arenaFactory.CreateItemSpawner(arenaContext.LevelBoundary, arenaContext.ItemContainer, player);
+
+            var difficultySettings = _diContainer.Resolve<IConfigProvider>().Load<ArenaSettings>(ConfigPath.ArenaSettings).DifficultySettings;
+            var score = _diContainer.Resolve<IScoreAccessService>().Score;
+            var difficulty = new Difficulty(difficultySettings, score, enemySpawner, itemSpawner);
+            var arena = new Arena(playerSpawner, enemySpawner, itemSpawner);
+        }
+
+        private void InitializeController(ArenaCamera arenaCamera, Player player)
+        {
+            var mouseAim = new MouseAim(arenaCamera.Main);
+            var playerController = _arenaFactory.CreatePlayerController(player, mouseAim, arenaCamera.Targeter);
+            playerController.SetPlayer(player);
         }
     }
 }
