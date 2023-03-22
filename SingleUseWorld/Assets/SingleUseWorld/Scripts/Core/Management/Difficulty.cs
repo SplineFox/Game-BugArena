@@ -18,10 +18,10 @@ namespace SingleUseWorld
         #endregion
 
         #region Fields
-        private Settings _settings;
-        private Score _score;
-        private EnemySpawner _enemySpawner;
-        private ItemSpawner _itemSpawner;
+        private readonly Settings _settings;
+        private readonly Score _score;
+        private readonly EnemySpawner _enemySpawner;
+        private readonly ItemSpawner _itemSpawner;
         #endregion
 
         #region Constructors
