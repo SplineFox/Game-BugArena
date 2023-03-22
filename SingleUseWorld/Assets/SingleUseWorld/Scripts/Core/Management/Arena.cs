@@ -13,13 +13,28 @@ namespace SingleUseWorld
             _playerSpawner = playerSpawner;
             _enemySpawner = enemySpawner;
             _itemSpawner = itemSpawner;
+
+            Populate();
         }
 
         public void Reset()
         {
+            Depopulate();
+            Populate();
+        }
+
+        private void Populate()
+        {
+            _playerSpawner.SpawnPlayer();
+            _enemySpawner.SpawnEnemies();
+            _itemSpawner.SpawnItems();
+        }
+
+        private void Depopulate()
+        {
             _playerSpawner.DespawnPlayer();
             _enemySpawner.DespawnEnemies();
-            _itemSpawner.DespawnAllItems();
+            _itemSpawner.DespawnItems();
         }
     }
 }
