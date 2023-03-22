@@ -66,18 +66,6 @@ namespace SingleUseWorld
         #endregion
 
         #region Private Methods
-        private void SpawnItems()
-        {
-            if (_items.Count < _desiredItemsAmount)
-            {
-                var itemsAmountToSpawn = _desiredItemsAmount - _items.Count;
-                for (int index = 0; index < itemsAmountToSpawn; index++)
-                {
-                    SpawnItem();
-                }
-            }
-        }
-
         private void SpawnItem()
         {
             var itemType = _itemsRoulette.Next();
@@ -94,7 +82,19 @@ namespace SingleUseWorld
             _itemPool.Release(item);
         }
 
-        public void DespawnAllItems()
+        public void SpawnItems()
+        {
+            if (_items.Count < _desiredItemsAmount)
+            {
+                var itemsAmountToSpawn = _desiredItemsAmount - _items.Count;
+                for (int index = 0; index < itemsAmountToSpawn; index++)
+                {
+                    SpawnItem();
+                }
+            }
+        }
+
+        public void DespawnItems()
         {
             for (int index = _items.Count - 1; index >= 0; index--)
             {
