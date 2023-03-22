@@ -24,7 +24,7 @@ namespace SingleUseWorld
         #region Public Mehods
         public ItemEntity Create()
         {
-            var bombEntityPrefab = _prefabProvider.Load<BombEntity>(PrefabPath.BombItem);
+            var bombEntityPrefab = _prefabProvider.Load<BombEntity>(PrefabPath.BombEntity);
             var bombEntitySettings = _configProvider.Load<BombEntitySettings>(ConfigPath.BombEntitySettings);
 
             var bombEntity = Object.Instantiate(bombEntityPrefab);
