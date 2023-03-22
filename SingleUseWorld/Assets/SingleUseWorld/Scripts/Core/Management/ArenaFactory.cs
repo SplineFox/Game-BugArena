@@ -18,10 +18,10 @@ namespace SingleUseWorld
             _tickableManager = _diContainer.Resolve<ITickableManager>();
         }
 
-        public PlayerSpawner CreatePlayerSpawner(LevelBoundary levelBoundary, Transform playerContainer)
+        public PlayerSpawner CreatePlayerSpawner(LevelBoundary levelBoundary, Transform playerContainer, Player player)
         {
             var playerFactory = _diContainer.Resolve<PlayerFactory>();
-            var playerSpawner = new PlayerSpawner(levelBoundary, playerContainer, playerFactory);
+            var playerSpawner = new PlayerSpawner(levelBoundary, playerContainer, player);
             return playerSpawner;
         }
 
