@@ -18,6 +18,13 @@ namespace SingleUseWorld
             _tickableManager = _diContainer.Resolve<ITickableManager>();
         }
 
+        public PlayerController CreatePlayerController(Player player, MouseAim mouseAim, CameraTargeter cameraTargeter)
+        {
+            var playerInput = _diContainer.Resolve<IPlayerInput>();
+            var playerController = new PlayerController(playerInput, mouseAim, cameraTargeter);
+            return playerController;
+        }
+
         public PlayerSpawner CreatePlayerSpawner(LevelBoundary levelBoundary, Transform playerContainer, Player player)
         {
             var playerFactory = _diContainer.Resolve<PlayerFactory>();
