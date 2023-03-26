@@ -32,8 +32,7 @@ namespace SingleUseWorld
         private void UpdateCounter()
         {
             var scoreDifference = _score.Points - _currentScore;
-            var scoreFactor = Mathf.InverseLerp(_scoreRangeFactor.start, _scoreRangeFactor.end, scoreDifference);
-            var scale = Mathf.Lerp(_scaleRange.start, _scaleRange.end, scoreFactor);
+            var scale = MathfUtil.Remap(scoreDifference, _scoreRangeFactor, _scaleRange);
             
             StopAllCoroutines();
             StartCoroutine(CountAnimation(_countAnimationDuration));
