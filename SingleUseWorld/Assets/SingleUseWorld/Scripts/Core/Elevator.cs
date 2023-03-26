@@ -79,7 +79,7 @@ namespace SingleUseWorld
             if (_height != 0)
             {
                 Gizmos.color = Color.green;
-                GizmosExtension.DrawLineSegment(transform.position, this.position);
+                GizmosUtil.DrawLineSegment(transform.position, this.position);
                 Gizmos.color = Color.white;
             }
         }

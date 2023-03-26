@@ -276,7 +276,7 @@ namespace SingleUseWorld
             if (_horizontalVelocity.magnitude != 0)
             {
                 Gizmos.color = Color.blue;
-                GizmosExtension.DrawArrow(transform.position, _horizontalVelocity.normalized);
+                GizmosUtil.DrawArrow(transform.position, _horizontalVelocity.normalized);
                 Gizmos.color = Color.white;
             }
         }
