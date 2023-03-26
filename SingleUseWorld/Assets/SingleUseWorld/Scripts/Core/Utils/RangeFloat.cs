@@ -24,5 +24,10 @@ namespace SingleUseWorld
         {
             return Mathf.Lerp(start, end, t);
         }
+
+        public float GetInverseLerpedValue(float value)
+        {
+            return Mathf.InverseLerp(start, end, value);
+        }
     }
 }
