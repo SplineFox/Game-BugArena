@@ -7,12 +7,14 @@ namespace SingleUseWorld
         private readonly GameStateMachine _stateMachine;
         private readonly DIContainer _diContainer;
         private readonly SceneLoader _sceneLoader;
+        private readonly SceneCurtain _sceneCurtain;
 
-        public BootstrapState(GameStateMachine stateMachine, DIContainer diContainer, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine, DIContainer diContainer, SceneLoader sceneLoader, SceneCurtain sceneCurtain)
         {
             _stateMachine = stateMachine;
             _diContainer = diContainer;
             _sceneLoader = sceneLoader;
+            _sceneCurtain = sceneCurtain;
 
             RegisterServices();
         }

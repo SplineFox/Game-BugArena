@@ -8,12 +8,14 @@ namespace SingleUseWorld
         private readonly GameStateMachine _stateMachine;
         private readonly DIContainer _diContainer;
         private readonly SceneLoader _sceneLoader;
+        private readonly SceneCurtain _sceneCurtain;
 
-        public LoadScoreState(GameStateMachine stateMachine, DIContainer diContainer, SceneLoader sceneLoader)
+        public LoadScoreState(GameStateMachine stateMachine, DIContainer diContainer, SceneLoader sceneLoader, SceneCurtain sceneCurtain)
         {
             _stateMachine = stateMachine;
             _diContainer = diContainer;
             _sceneLoader = sceneLoader;
+            _sceneCurtain = sceneCurtain;
         }
 
         public void Enter()

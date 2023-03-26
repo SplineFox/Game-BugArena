@@ -8,17 +8,20 @@ namespace SingleUseWorld
         private readonly GameStateMachine _stateMachine;
         private readonly DIContainer _diContainer;
         private readonly SceneLoader _sceneLoader;
+        private readonly SceneCurtain _sceneCurtain;
 
         private ArenaFactory _arenaFactory;
 
-        public LoadArenaState(GameStateMachine stateMachine, DIContainer diContainer, SceneLoader sceneLoader)
+        public LoadArenaState(GameStateMachine stateMachine, DIContainer diContainer, SceneLoader sceneLoader, SceneCurtain sceneCurtain)
         {
             _stateMachine = stateMachine;
             _diContainer = diContainer;
             _sceneLoader = sceneLoader;
+            _sceneCurtain = sceneCurtain;
 
             _arenaFactory = new ArenaFactory(_diContainer);
         }
+
         public void Enter()
         {
             _sceneLoader.Load(SceneName.Arena, OnArenaSceneLoaded);
@@ -36,7 +39,6 @@ namespace SingleUseWorld
 
         private void InitializeArena()
         {
-
             var arenaContext = FindArenaContext();
             var arenaCamera = arenaContext.ArenaCamera;
             var player = _diContainer.Resolve<PlayerFactory>().Create();
