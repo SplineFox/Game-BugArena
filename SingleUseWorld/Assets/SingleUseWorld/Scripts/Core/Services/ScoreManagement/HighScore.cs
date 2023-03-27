@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class Score
+    [Serializable]
+    public class HighScore
     {
         #region Fields
         private int _points = 0;
@@ -16,31 +17,17 @@ namespace SingleUseWorld
         }
         #endregion
 
-        #region Delegates & Events
-        public event Action Changed = delegate { };
-        #endregion
-
         #region Constructors
-        public Score(int points = 0)
+        public HighScore(int points = 0)
         {
             _points = points;
         }
         #endregion
 
         #region Public Methods
-        public void AddPoints(int points)
+        public void Update(int points)
         {
-            if (points == 0)
-                return;
-
-            _points += points;
-            Changed.Invoke();
-        }
-
-        public void Reset()
-        {
-            _points = 0;
-            Changed.Invoke();
+            _points = points;
         }
         #endregion
     }

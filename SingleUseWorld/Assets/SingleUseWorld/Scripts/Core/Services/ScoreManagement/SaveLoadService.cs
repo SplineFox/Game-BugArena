@@ -4,7 +4,7 @@ namespace SingleUseWorld
 {
     public class SaveLoadService : ISaveLoadService
     {
-        private const string ScoreKey = "Score";
+        private const string HighScoreKey = "HighScore";
 
         private readonly IScoreAccessService _scoreAccessService;
 
@@ -13,20 +13,20 @@ namespace SingleUseWorld
             _scoreAccessService = scoreAccessService;
         }
 
-        public void SaveScore()
+        public void SaveHightScore()
         {
-            Score score = _scoreAccessService.Score;
-            string json = JsonUtility.ToJson(score);
-            PlayerPrefs.SetString(ScoreKey, json);
+            HighScore highScore = _scoreAccessService.HighScore;
+            string json = JsonUtility.ToJson(highScore);
+            PlayerPrefs.SetString(HighScoreKey, json);
         }
 
-        public Score LoadScore()
+        public HighScore LoadHighScore()
         {
-            string json = PlayerPrefs.GetString(ScoreKey);
+            string json = PlayerPrefs.GetString(HighScoreKey);
             if (json == null) return null;
 
-            Score score = JsonUtility.FromJson<Score>(json);
-            return score;
+            HighScore highScore = JsonUtility.FromJson<HighScore>(json);
+            return highScore;
         }
     }
 }

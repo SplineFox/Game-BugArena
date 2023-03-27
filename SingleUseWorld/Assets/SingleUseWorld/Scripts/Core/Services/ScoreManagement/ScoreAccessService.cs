@@ -4,6 +4,12 @@ namespace SingleUseWorld
 {
     public class ScoreAccessService : IScoreAccessService
     {
-        public Score Score { get; set; }
+        public Score Score { get; private set; }
+        public HighScore HighScore { get; set; }
+
+        public ScoreAccessService()
+        {
+            Score = new Score(500);
+        }
     }
 }

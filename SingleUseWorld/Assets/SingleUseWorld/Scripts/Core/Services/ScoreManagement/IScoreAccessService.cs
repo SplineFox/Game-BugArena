@@ -2,6 +2,7 @@
 {
     public interface IScoreAccessService
     {
-        Score Score { get; set; }
+        Score Score { get; }
+        HighScore HighScore { get; set; }
     }
 }
