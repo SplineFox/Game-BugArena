@@ -23,14 +23,14 @@ namespace SingleUseWorld
             Populate();
         }
 
-        private void Populate()
+        public void Populate()
         {
             _playerSpawner.SpawnPlayer();
             _enemySpawner.SpawnEnemies();
             _itemSpawner.SpawnItems();
         }
 
-        private void Depopulate()
+        public void Depopulate()
         {
             _playerSpawner.DespawnPlayer();
             _enemySpawner.DespawnEnemies();
