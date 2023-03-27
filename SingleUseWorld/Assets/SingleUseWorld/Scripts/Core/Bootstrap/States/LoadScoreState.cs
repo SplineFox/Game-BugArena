@@ -20,7 +20,7 @@ namespace SingleUseWorld
 
         public void Enter()
         {
-            LoadScoreOrInitializeNew();
+            LoadHighScoreOrInitializeNew();
             _stateMachine.Enter<LoadArenaState>();
         }
 
@@ -28,12 +28,12 @@ namespace SingleUseWorld
         {
         }
 
-        private void LoadScoreOrInitializeNew()
+        private void LoadHighScoreOrInitializeNew()
         {
             var scoreAccessService = _diContainer.Resolve<IScoreAccessService>();
             var saveLoadService = _diContainer.Resolve<ISaveLoadService>();
 
-            scoreAccessService.Score = saveLoadService.LoadScore() ?? new Score();
+            scoreAccessService.HighScore = saveLoadService.LoadHighScore() ?? new HighScore();
         }
     }
 }

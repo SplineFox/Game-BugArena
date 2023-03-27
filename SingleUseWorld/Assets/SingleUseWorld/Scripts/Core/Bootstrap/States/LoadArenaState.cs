@@ -77,6 +77,9 @@ namespace SingleUseWorld
             var score = _diContainer.Resolve<IScoreAccessService>().Score;
             var difficulty = new Difficulty(difficultySettings, score, enemySpawner, itemSpawner);
             var arena = new Arena(playerSpawner, enemySpawner, itemSpawner);
+            
+            var arenaAccessService = _diContainer.Resolve<IArenaAccessService>();
+            arenaAccessService.Arena = arena;
         }
 
         private void InitializeController(ArenaCamera arenaCamera, Player player)

@@ -51,6 +51,7 @@ namespace SingleUseWorld
             _diContainer.Register<IConfigProvider>(new ConfigProvider());
             _diContainer.Register<IPlayerInput>(new PlayerInput());
             _diContainer.Register<IHitTimer>(new HitTimer(_diContainer.Resolve<ICoroutineRunner>()));
+            _diContainer.Register<IArenaAccessService>(new ArenaAccessService());
         }
 
         private void RegisterDataServices()
