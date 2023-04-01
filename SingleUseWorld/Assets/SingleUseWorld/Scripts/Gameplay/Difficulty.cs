@@ -9,9 +9,11 @@ namespace SingleUseWorld
         [Serializable]
         public class Settings
         {
+            public int PointsPerEnemy = 25;
             public int InitialEnemiesAmount = 5;
             public int MaximumEnemiesAmount = 10;
 
+            public int PointsPerItem = 25;
             public int InitialItemsAmount = 5;
             public int MaximumItemsAmount = 10;
         }
@@ -46,13 +48,13 @@ namespace SingleUseWorld
 
         private void UpdateEnemiesSpawnAmount()
         {
-            var desiredEnemiesAmount = _settings.InitialEnemiesAmount + Math.Min(25, Mathf.FloorToInt(_score.Points / 150));
+            var desiredEnemiesAmount = _settings.InitialEnemiesAmount + Math.Min(_settings.MaximumEnemiesAmount, Mathf.FloorToInt(_score.Points / _settings.PointsPerEnemy));
             _enemySpawner.SetDesiredAmount(desiredEnemiesAmount);
         }
 
         private void UpdateItemsSpawnAmount()
         {
-            var desiredItemsAmount = _settings.InitialItemsAmount + Math.Min(25, Mathf.FloorToInt(_score.Points / 150));
+            var desiredItemsAmount = _settings.InitialItemsAmount + Math.Min(_settings.MaximumItemsAmount, Mathf.FloorToInt(_score.Points / _settings.PointsPerItem));
             _itemSpawner.SetDesiredAmount(desiredItemsAmount);
         }
         #endregion
