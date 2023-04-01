@@ -22,6 +22,7 @@ namespace SingleUseWorld
             CacheMaterialProperties();
             ResetMaterialProperties();
             ScaleToLargestSide();
+            ResetCenter();
         }
 
         public void SetRadius(float radius)
@@ -35,6 +36,12 @@ namespace SingleUseWorld
 
             _curtainMaterial.SetFloat(_centerXPropID, uvPoint.x);
             _curtainMaterial.SetFloat(_centerYPropID, uvPoint.y);
+        }
+
+        public void ResetCenter()
+        {
+            var screenPoint = _canvasRectTransform.rect.size / 2;
+            SetCenter(screenPoint);
         }
 
         private void ScaleToLargestSide()
