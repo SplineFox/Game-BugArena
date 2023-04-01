@@ -9,5 +9,7 @@ namespace SingleUseWorld
     public interface IArenaAccessService
     {
         Arena Arena { get; set; }
+        PlayerSpawner PlayerSpawner { get; set; }
+        ScoreCounter ScoreCounter { get; set; }
     }
 }
