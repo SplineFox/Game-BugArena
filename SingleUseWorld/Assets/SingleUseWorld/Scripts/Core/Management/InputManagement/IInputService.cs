@@ -3,7 +3,14 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public interface IPlayerInput
+    public enum InputType
+    {
+        Gameplay,
+        Menu,
+        None
+    }
+
+    public interface IInputService
     {
         event Action<Vector2> MouseMovePerformed;
         event Action<Vector2> MovePerformed;
@@ -15,7 +22,10 @@ namespace SingleUseWorld
         event Action DropPerformed;
         event Action PausePerformed;
 
-        void EnableGameplayInput();
-        void DisableGameplayInput();
+        event Action<Vector2> MenuMouseMovePerformed;
+        event Action MenuMouseClickPerformed;
+        event Action MenuUnPausePerformed;
+
+        void SwitchTo(InputType inputType);
     }
 }

@@ -7,13 +7,13 @@ namespace SingleUseWorld
         #region Fields
         private IControllable _controllable;
 
-        private IPlayerInput _playerInput;
+        private IInputService _playerInput;
         private MouseAim _mouseAim;
         private CameraTargeter _cameraTargeter;
         #endregion
 
         #region Public Methods
-        public PlayerController(IPlayerInput playerInput, MouseAim mouseAim, CameraTargeter cameraTargeter)
+        public PlayerController(IInputService playerInput, MouseAim mouseAim, CameraTargeter cameraTargeter)
         {
             _playerInput = playerInput;
             _mouseAim = mouseAim;

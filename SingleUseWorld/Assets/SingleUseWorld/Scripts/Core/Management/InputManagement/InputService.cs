@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace SingleUseWorld
 {
-    public class PlayerInput : IPlayerInput, IDisposable, PlayerInputActions.IGameplayActions
+    public class InputService : IInputService, PlayerInputActions.IGameplayActions, PlayerInputActions.IMenuActions
     {
         #region Fields
         private PlayerInputActions _inputActions;
@@ -20,22 +20,21 @@ namespace SingleUseWorld
         public event Action UsePerformed = delegate { };
         public event Action DropPerformed = delegate { };
         public event Action PausePerformed = delegate { };
+
+        public event Action<Vector2> MenuMouseMovePerformed = delegate { };
+        public event Action MenuMouseClickPerformed = delegate { };
+        public event Action MenuUnPausePerformed = delegate { };
         #endregion
 
         #region Constructors
-        public PlayerInput()
+        public InputService()
         {
             InitializeInputActions();
-            EnableGameplayInput();
-        }
-
-        public void Dispose()
-        {
-            DisableGameplayInput();
+            SwitchTo(InputType.Gameplay);
         }
         #endregion
 
-        #region Public Methods
+        #region Gameplay Actions
         public void OnMove(InputAction.CallbackContext context)
         {
             switch (context.phase)
@@ -87,15 +86,60 @@ namespace SingleUseWorld
                 PausePerformed.Invoke();
             }
         }
+        #endregion
 
-        public void EnableGameplayInput()
+        #region Menu Actions
+        public void OnMenuMousePoint(InputAction.CallbackContext context)
         {
-            _inputActions.Gameplay.Enable();
+            if (context.phase == InputActionPhase.Performed)
+            {
+                var value = context.ReadValue<Vector2>();
+                MenuMouseMovePerformed.Invoke(value);
+            }
         }
 
-        public void DisableGameplayInput()
+        public void OnMenuMouseMove(InputAction.CallbackContext context)
         {
-            _inputActions.Gameplay.Disable();
+            if (context.phase == InputActionPhase.Performed)
+            {
+                var value = context.ReadValue<Vector2>();
+                MenuMouseMovePerformed.Invoke(value);
+            }
+        }
+
+        public void OnMenuMouseClick(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                MenuMouseClickPerformed.Invoke();
+            }
+        }
+
+        public void OnMenuUnpause(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                MenuUnPausePerformed.Invoke();
+            }
+        }
+
+        public void SwitchTo(InputType inputType)
+        {
+            switch (inputType)
+            {
+                case InputType.Gameplay:
+                    _inputActions.Gameplay.Enable();
+                    _inputActions.Menu.Disable();
+                    break;
+                case InputType.Menu:
+                    _inputActions.Menu.Enable();
+                    _inputActions.Gameplay.Disable();
+                    break;
+                case InputType.None:
+                    _inputActions.Menu.Disable();
+                    _inputActions.Gameplay.Disable();
+                    break;
+            }
         }
         #endregion
 
@@ -106,6 +150,7 @@ namespace SingleUseWorld
             {
                 _inputActions = new PlayerInputActions();
                 _inputActions.Gameplay.SetCallbacks(this);
+                _inputActions.Menu.SetCallbacks(this);
             }
         }
         #endregion

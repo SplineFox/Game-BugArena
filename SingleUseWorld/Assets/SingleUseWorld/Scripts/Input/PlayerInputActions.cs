@@ -221,7 +221,23 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
             ""id"": ""20b4d857-6069-4d96-974c-f0fa5cea5937"",
             ""actions"": [
                 {
-                    ""name"": ""MouseMove"",
+                    ""name"": ""MenuMousePoint"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""582a2bc8-600e-462d-97d7-c69646c72aa4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MenuMouseClick"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""a6fae171-1e77-4ff5-b226-29af30a2a4ae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MenuMouseMove"",
                     ""type"": ""PassThrough"",
                     ""id"": ""45967a31-d3c2-41c3-ae32-76f77ce44fad"",
                     ""expectedControlType"": ""Vector2"",
@@ -229,23 +245,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Confirm"",
-                    ""type"": ""Button"",
-                    ""id"": ""0cfcfd85-60ca-41f1-a88f-ada93b3ba0e0"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Cancel"",
-                    ""type"": ""Button"",
-                    ""id"": ""edfb0bf2-e206-4380-a166-653e15b5294e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Unpause"",
+                    ""name"": ""MenuUnpause"",
                     ""type"": ""Button"",
                     ""id"": ""97dcda36-2740-43b5-989b-daf2820fa08b"",
                     ""expectedControlType"": ""Button"",
@@ -261,29 +261,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""MouseMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""46cde439-09e1-4d5c-8f50-4e10cf88c9ab"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""Confirm"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""30bbd960-bbd0-45e2-b101-86b7c5f96810"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""Cancel"",
+                    ""action"": ""MenuMouseMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -294,7 +272,84 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardAndMouse"",
-                    ""action"": ""Unpause"",
+                    ""action"": ""MenuUnpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11c6fd7d-bc25-4450-b639-91f1ea378d67"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MenuMousePoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02c2b6c6-2bce-4fe6-a9c6-06984f3f7d55"",
+                    ""path"": ""<Pen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MenuMousePoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ab88222-ba18-49b0-92ae-16ebbb05a6b3"",
+                    ""path"": ""<Touchscreen>/touch*/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""MenuMousePoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9efdcb2a-4bc0-4648-9b95-f1fa7de80c5a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;KeyboardAndMouse"",
+                    ""action"": ""MenuMouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""194070ee-f859-47da-ba98-b538cbbcc2c5"",
+                    ""path"": ""<Pen>/tip"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""MenuMouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6ad999f-dadd-489c-8974-787cfb693650"",
+                    ""path"": ""<Touchscreen>/touch*/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""MenuMouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0f44e05-29db-4817-bf42-874910e1a5f0"",
+                    ""path"": ""<XRController>/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR"",
+                    ""action"": ""MenuMouseClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -329,10 +384,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_MouseMove = m_Menu.FindAction("MouseMove", throwIfNotFound: true);
-        m_Menu_Confirm = m_Menu.FindAction("Confirm", throwIfNotFound: true);
-        m_Menu_Cancel = m_Menu.FindAction("Cancel", throwIfNotFound: true);
-        m_Menu_Unpause = m_Menu.FindAction("Unpause", throwIfNotFound: true);
+        m_Menu_MenuMousePoint = m_Menu.FindAction("MenuMousePoint", throwIfNotFound: true);
+        m_Menu_MenuMouseClick = m_Menu.FindAction("MenuMouseClick", throwIfNotFound: true);
+        m_Menu_MenuMouseMove = m_Menu.FindAction("MenuMouseMove", throwIfNotFound: true);
+        m_Menu_MenuUnpause = m_Menu.FindAction("MenuUnpause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -447,18 +502,18 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     // Menu
     private readonly InputActionMap m_Menu;
     private IMenuActions m_MenuActionsCallbackInterface;
-    private readonly InputAction m_Menu_MouseMove;
-    private readonly InputAction m_Menu_Confirm;
-    private readonly InputAction m_Menu_Cancel;
-    private readonly InputAction m_Menu_Unpause;
+    private readonly InputAction m_Menu_MenuMousePoint;
+    private readonly InputAction m_Menu_MenuMouseClick;
+    private readonly InputAction m_Menu_MenuMouseMove;
+    private readonly InputAction m_Menu_MenuUnpause;
     public struct MenuActions
     {
         private @PlayerInputActions m_Wrapper;
         public MenuActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MouseMove => m_Wrapper.m_Menu_MouseMove;
-        public InputAction @Confirm => m_Wrapper.m_Menu_Confirm;
-        public InputAction @Cancel => m_Wrapper.m_Menu_Cancel;
-        public InputAction @Unpause => m_Wrapper.m_Menu_Unpause;
+        public InputAction @MenuMousePoint => m_Wrapper.m_Menu_MenuMousePoint;
+        public InputAction @MenuMouseClick => m_Wrapper.m_Menu_MenuMouseClick;
+        public InputAction @MenuMouseMove => m_Wrapper.m_Menu_MenuMouseMove;
+        public InputAction @MenuUnpause => m_Wrapper.m_Menu_MenuUnpause;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,34 +523,34 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_MenuActionsCallbackInterface != null)
             {
-                @MouseMove.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseMove;
-                @MouseMove.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseMove;
-                @MouseMove.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseMove;
-                @Confirm.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnConfirm;
-                @Confirm.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnConfirm;
-                @Confirm.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnConfirm;
-                @Cancel.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnCancel;
-                @Cancel.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnCancel;
-                @Cancel.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnCancel;
-                @Unpause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
-                @Unpause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
-                @Unpause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+                @MenuMousePoint.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMousePoint;
+                @MenuMousePoint.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMousePoint;
+                @MenuMousePoint.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMousePoint;
+                @MenuMouseClick.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMouseClick;
+                @MenuMouseClick.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMouseClick;
+                @MenuMouseClick.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMouseClick;
+                @MenuMouseMove.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMouseMove;
+                @MenuMouseMove.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMouseMove;
+                @MenuMouseMove.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuMouseMove;
+                @MenuUnpause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuUnpause;
+                @MenuUnpause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuUnpause;
+                @MenuUnpause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuUnpause;
             }
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @MouseMove.started += instance.OnMouseMove;
-                @MouseMove.performed += instance.OnMouseMove;
-                @MouseMove.canceled += instance.OnMouseMove;
-                @Confirm.started += instance.OnConfirm;
-                @Confirm.performed += instance.OnConfirm;
-                @Confirm.canceled += instance.OnConfirm;
-                @Cancel.started += instance.OnCancel;
-                @Cancel.performed += instance.OnCancel;
-                @Cancel.canceled += instance.OnCancel;
-                @Unpause.started += instance.OnUnpause;
-                @Unpause.performed += instance.OnUnpause;
-                @Unpause.canceled += instance.OnUnpause;
+                @MenuMousePoint.started += instance.OnMenuMousePoint;
+                @MenuMousePoint.performed += instance.OnMenuMousePoint;
+                @MenuMousePoint.canceled += instance.OnMenuMousePoint;
+                @MenuMouseClick.started += instance.OnMenuMouseClick;
+                @MenuMouseClick.performed += instance.OnMenuMouseClick;
+                @MenuMouseClick.canceled += instance.OnMenuMouseClick;
+                @MenuMouseMove.started += instance.OnMenuMouseMove;
+                @MenuMouseMove.performed += instance.OnMenuMouseMove;
+                @MenuMouseMove.canceled += instance.OnMenuMouseMove;
+                @MenuUnpause.started += instance.OnMenuUnpause;
+                @MenuUnpause.performed += instance.OnMenuUnpause;
+                @MenuUnpause.canceled += instance.OnMenuUnpause;
             }
         }
     }
@@ -519,9 +574,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     }
     public interface IMenuActions
     {
-        void OnMouseMove(InputAction.CallbackContext context);
-        void OnConfirm(InputAction.CallbackContext context);
-        void OnCancel(InputAction.CallbackContext context);
-        void OnUnpause(InputAction.CallbackContext context);
+        void OnMenuMousePoint(InputAction.CallbackContext context);
+        void OnMenuMouseClick(InputAction.CallbackContext context);
+        void OnMenuMouseMove(InputAction.CallbackContext context);
+        void OnMenuUnpause(InputAction.CallbackContext context);
     }
 }
