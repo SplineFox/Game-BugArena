@@ -31,7 +31,10 @@ namespace SingleUseWorld
         private List<Item> _items;
         private int _desiredItemsAmount;
         private WeightedProbability<ItemType> _itemsRoulette;
+        #endregion
 
+        #region Properties
+        public bool ShouldSpawn { get; set; }
         #endregion
 
         #region Constructors
@@ -56,7 +59,8 @@ namespace SingleUseWorld
         #region Public Methods
         public void Tick(float deltaTime)
         {
-            SpawnItems();
+            if(ShouldSpawn)
+                SpawnItems();
         }
 
         public void SetDesiredAmount(int desiredItemsAmount)

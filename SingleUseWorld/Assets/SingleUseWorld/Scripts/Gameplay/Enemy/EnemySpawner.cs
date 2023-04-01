@@ -24,6 +24,10 @@ namespace SingleUseWorld
         private int _desiredEnemiesAmount;
         #endregion
 
+        #region Properties
+        public bool ShouldSpawn { get; set; }
+        #endregion
+
         #region Delegates & Events
         public event Action<Enemy> EnemyDied = delegate { };
         #endregion
@@ -44,7 +48,8 @@ namespace SingleUseWorld
         #region Public Methods
         public void Tick(float deltaTime)
         {
-            SpawnEnemies();
+            if(ShouldSpawn)
+                SpawnEnemies();
         }
 
         public void SetDesiredAmount(int desiredEnemiesAmount)
