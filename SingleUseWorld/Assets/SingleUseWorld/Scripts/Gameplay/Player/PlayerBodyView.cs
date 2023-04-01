@@ -127,7 +127,7 @@ namespace SingleUseWorld
 
         private void UpdateShake()
         {
-            if (!_isShaking)
+            if (!_isShaking || Time.deltaTime == 0)
                 return;
 
             float shakeMagnitude = _shakeOffset * _shakeIntensity;
