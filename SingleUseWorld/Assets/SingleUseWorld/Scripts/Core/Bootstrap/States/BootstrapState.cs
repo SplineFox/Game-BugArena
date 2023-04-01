@@ -37,6 +37,7 @@ namespace SingleUseWorld
         {
             RegisterBaseServices();
             RegisterDataServices();
+            RegisterMenuServices();
             RegisterEffectServices();
 
             RegisterPlayerFactory();
@@ -50,8 +51,22 @@ namespace SingleUseWorld
             _diContainer.Register<IPrefabProvider>(new PrefabProvider());
             _diContainer.Register<IConfigProvider>(new ConfigProvider());
             _diContainer.Register<IInputService>(new InputService());
+
+            _diContainer.Register<IPauseService>(new PauseService());
             _diContainer.Register<IHitTimer>(new HitTimer(_diContainer.Resolve<ICoroutineRunner>()));
+
             _diContainer.Register<IArenaAccessService>(new ArenaAccessService());
+        }
+
+        private void RegisterMenuServices()
+        {
+            _diContainer.Register<IMenuFactory>(new MenuFactory(
+                _stateMachine,
+                _diContainer.Resolve<IPrefabProvider>(),
+                _diContainer.Resolve<IInputService>(),
+                _diContainer.Resolve<IPauseService>(),
+                _diContainer.Resolve<IScoreAccessService>()));
+            _diContainer.Register<IMenuService>(new MenuService(_diContainer.Resolve<IMenuFactory>()));
         }
 
         private void RegisterDataServices()
