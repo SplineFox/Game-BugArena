@@ -27,7 +27,10 @@ namespace SingleUseWorld
         #region Public Methods
         public void Update(int points)
         {
-            _points = points;
+            if(points > _points)
+            {
+                _points = points;
+            }
         }
         #endregion
     }
