@@ -9,22 +9,18 @@ namespace SingleUseWorld
         [SerializeField] private CircularCurtain _circularCurtain;
         [SerializeField] [Range(1f, 5f)] private float _duration;
 
-        public void Open(Vector2 screenPoint, Action onCurtainOpened = null)
+        public void Open(Action onCurtainOpened = null)
         {
-            StartCoroutine(Scale(0f, 1f, screenPoint, _duration));
-            onCurtainOpened?.Invoke();
+            StartCoroutine(Scale(0f, 1f, _duration, onCurtainOpened));
         }
 
-        public void Close(Vector2 screenPoint, Action onCurtainClosed = null)
+        public void Close(Action onCurtainClosed = null)
         {
-            StartCoroutine(Scale(1f, 0f, screenPoint, _duration));
-            onCurtainClosed?.Invoke();
+            StartCoroutine(Scale(1f, 0f, _duration, onCurtainClosed));
         }
 
-        private IEnumerator Scale(float fromRadius, float toRadius, Vector2 targetPoint, float duration)
+        private IEnumerator Scale(float fromRadius, float toRadius, float duration, Action onScaleFinished = null)
         {
-            _circularCurtain.SetCenter(targetPoint);
-
             var radius = 0f;
             var elapsedTime = 0f;
             while (elapsedTime <= duration)
@@ -35,6 +31,7 @@ namespace SingleUseWorld
                 yield return null;
             }
             _circularCurtain.SetRadius(toRadius);
+            onScaleFinished?.Invoke();
         }
 
 
