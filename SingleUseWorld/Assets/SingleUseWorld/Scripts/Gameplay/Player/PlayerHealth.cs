@@ -77,6 +77,11 @@ namespace SingleUseWorld
 
             _recoveryCoroutine = _player.StartCoroutine(RecoverHealth(_settings.RecoveryDuration));
         }
+
+        public void OnReset()
+        {
+            _health = _settings.InitialHealth;
+        }
         #endregion
 
         #region Private Methods

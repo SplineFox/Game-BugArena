@@ -32,11 +32,6 @@ namespace SingleUseWorld
         #endregion
 
         #region Public Methods
-        public void OnReset()
-        {
-            transform.Reset();
-        }
-
         public void PlayIdleAnimation()
         {
             _animator.Play(_idleAnimId);

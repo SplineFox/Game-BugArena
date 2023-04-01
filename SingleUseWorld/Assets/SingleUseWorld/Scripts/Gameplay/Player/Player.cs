@@ -71,6 +71,14 @@ namespace SingleUseWorld
             _spawner = null;
         }
 
+        public void OnReset()
+        {
+            _armament.PickupAllowed = true;
+            _body.OnReset();
+            _health.OnReset();
+            _movement.OnReset();
+        }
+
         void IControllable.StartMovement()
         {
             _movement.StartMovement();

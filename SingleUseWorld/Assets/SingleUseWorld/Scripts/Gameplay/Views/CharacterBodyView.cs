@@ -61,6 +61,11 @@ namespace SingleUseWorld
             if (_spinCoroutine != null)
                 StopCoroutine(_spinCoroutine);
         }
+
+        public void OnReset()
+        {
+            transform.Reset();
+        }
         #endregion
 
         #region Protected Methods
