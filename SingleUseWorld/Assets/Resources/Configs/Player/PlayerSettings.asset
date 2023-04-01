@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
   SpeedSettings:
-    InitialSpeed: 6
-    MinSpeed: 2
+    InitialSpeed: 7
+    MinSpeed: 2.5
   HealthSettings:
     InitialHealth: 100
     TimeTillRecovery: 0.25

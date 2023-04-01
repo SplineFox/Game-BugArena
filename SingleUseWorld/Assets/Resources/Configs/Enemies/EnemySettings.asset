@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc75b05165113f47ac309d8c35169ef, type: 3}
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
+  PointsPerKill: 5
   HealthSettings:
     InitialHealth: 100
   SightSettings:
-    OutSightRadius: 2
+    OutSightRadius: 2.2
     InSightRadius: 2.8
   GripSettings:
     GrabbingDamagePerSecond: 20
     GrabbingSlowDown: 0.22
   KnockbackInitialHeight: 0.4375
-  WanderSpeed: 1.4
-  ChaseSpeed: 3.6
+  WanderSpeed: 2
+  ChaseSpeed: 4.6
   WanderMovingTime:
     start: 0.5
     end: 1

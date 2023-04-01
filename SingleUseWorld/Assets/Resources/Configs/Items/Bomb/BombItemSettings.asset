@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BombItemSettings
   m_EditorClassIdentifier: 
   Type: 5
-  SpeedFactor: 0.8
+  SpeedFactor: 0.75

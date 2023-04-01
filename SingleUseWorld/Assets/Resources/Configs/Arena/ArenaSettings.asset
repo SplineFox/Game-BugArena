@@ -25,25 +25,25 @@ MonoBehaviour:
     MaxSize: 15
     PoolExpandMethod: 1
   SkullItemPoolSettings:
-    InitialSize: 5
-    MaxSize: 15
+    InitialSize: 15
+    MaxSize: 20
     PoolExpandMethod: 1
   BowItemPoolSettings:
-    InitialSize: 5
-    MaxSize: 15
+    InitialSize: 15
+    MaxSize: 20
     PoolExpandMethod: 1
   BombItemPoolSettings:
-    InitialSize: 5
-    MaxSize: 15
+    InitialSize: 15
+    MaxSize: 20
     PoolExpandMethod: 1
   SwordItemPoolSettings:
-    InitialSize: 5
-    MaxSize: 15
+    InitialSize: 15
+    MaxSize: 20
     PoolExpandMethod: 1
   EnemySpawnerSettings:
-    SpawnDistance: 5
+    SpawnDistance: 3
   ItemSpawnerSettings:
-    SpawnDistance: 2.5
+    SpawnDistance: 1.5
     ItemsProbabilities:
     - Type: 0
       Weight: 20
@@ -54,7 +54,9 @@ MonoBehaviour:
     - Type: 5
       Weight: 10
   DifficultySettings:
-    InitialEnemiesAmount: 15
-    MaximumEnemiesAmount: 30
+    PointsPerEnemy: 35
+    InitialEnemiesAmount: 20
+    MaximumEnemiesAmount: 55
+    PointsPerItem: 35
     InitialItemsAmount: 10
     MaximumItemsAmount: 15

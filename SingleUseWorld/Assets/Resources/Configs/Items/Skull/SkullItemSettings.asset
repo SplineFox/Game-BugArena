@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SkullItemSettings
   m_EditorClassIdentifier: 
   Type: 0
-  SpeedFactor: 0.8
+  SpeedFactor: 1
