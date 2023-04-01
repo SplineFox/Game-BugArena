@@ -40,7 +40,6 @@ namespace SingleUseWorld
         public void Reset()
         {
             _points = 0;
-            Changed.Invoke();
         }
         #endregion
     }
