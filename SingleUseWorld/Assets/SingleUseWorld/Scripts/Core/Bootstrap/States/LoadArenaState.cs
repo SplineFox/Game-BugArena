@@ -11,6 +11,8 @@ namespace SingleUseWorld
         private readonly SceneCurtain _sceneCurtain;
 
         private ArenaFactory _arenaFactory;
+        private IMenuFactory _menuFactory;
+        private IArenaAccessService _arenaAccessService;
 
         public LoadArenaState(GameStateMachine stateMachine, DIContainer diContainer, SceneLoader sceneLoader, SceneCurtain sceneCurtain)
         {
@@ -20,6 +22,8 @@ namespace SingleUseWorld
             _sceneCurtain = sceneCurtain;
 
             _arenaFactory = new ArenaFactory(_diContainer);
+            _menuFactory = _diContainer.Resolve<IMenuFactory>();
+            _arenaAccessService = _diContainer.Resolve<IArenaAccessService>();
         }
 
         public void Enter()
@@ -34,19 +38,7 @@ namespace SingleUseWorld
         private void OnArenaSceneLoaded()
         {
             InitializeArena();
-            _stateMachine.Enter<GameLoopState>();
-        }
-
-        private void InitializeArena()
-        {
-            var arenaContext = FindArenaContext();
-            var arenaCamera = arenaContext.ArenaCamera;
-            var player = _diContainer.Resolve<PlayerFactory>().Create();
-            
-            _arenaFactory.CreateHud();
-            InitializeVisualFeedback(arenaCamera.Shaker);
-            InitializeSpawners(arenaContext, player);
-            InitializeController(arenaCamera, player);
+            _stateMachine.Enter<StartState>();
         }
 
         private ArenaContext FindArenaContext()
@@ -58,6 +50,25 @@ namespace SingleUseWorld
             return arenaContext;
         }
 
+        private void InitializeArena()
+        {
+            var arenaContext = FindArenaContext();
+            var arenaCamera = arenaContext.ArenaCamera;
+
+            var player = _diContainer.Resolve<PlayerFactory>().Create();
+            _arenaFactory.CreateArena(arenaContext, player);
+
+            InitializeUI();
+            InitializeController(arenaCamera, player);
+            InitializeVisualFeedback(arenaCamera.Shaker);
+        }
+
+        private void InitializeUI()
+        {
+            _arenaFactory.CreateHud();
+            _menuFactory.CreateMenuRoot();
+        }
+
         private void InitializeVisualFeedback(CameraShaker cameraShaker)
         {
             var visualFeedback = _diContainer.Resolve<IVisualFeedback>();
@@ -67,25 +78,10 @@ namespace SingleUseWorld
             visualFeedback.Shaker = cameraShaker;
         }
 
-        private void InitializeSpawners(ArenaContext arenaContext, Player player)
-        {
-            var playerSpawner = _arenaFactory.CreatePlayerSpawner(arenaContext.LevelBoundary, arenaContext.PlayerContainer, player);
-            var enemySpawner = _arenaFactory.CreateEnemySpawner(arenaContext.LevelBoundary, arenaContext.EnemyContainer, player);
-            var itemSpawner = _arenaFactory.CreateItemSpawner(arenaContext.LevelBoundary, arenaContext.ItemContainer, player);
-
-            var difficultySettings = _diContainer.Resolve<IConfigProvider>().Load<ArenaSettings>(ConfigPath.ArenaSettings).DifficultySettings;
-            var score = _diContainer.Resolve<IScoreAccessService>().Score;
-            var difficulty = new Difficulty(difficultySettings, score, enemySpawner, itemSpawner);
-            var arena = new Arena(playerSpawner, enemySpawner, itemSpawner);
-            
-            var arenaAccessService = _diContainer.Resolve<IArenaAccessService>();
-            arenaAccessService.Arena = arena;
-        }
-
         private void InitializeController(ArenaCamera arenaCamera, Player player)
         {
             var mouseAim = new MouseAim(arenaCamera.Main);
-            var playerController = _arenaFactory.CreatePlayerController(player, mouseAim, arenaCamera.Targeter);
+            var playerController = _arenaFactory.CreatePlayerController(mouseAim, arenaCamera.Targeter);
             playerController.SetPlayer(player);
         }
     }
