@@ -24,10 +24,12 @@ namespace SingleUseWorld
             _currentState = null;
             _states = new Dictionary<Type, IState>()
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, _diContainer, _sceneLoader, _sceneCurtain),
-                [typeof(LoadScoreState)] = new LoadScoreState(this, _diContainer, _sceneLoader, _sceneCurtain),
-                [typeof(LoadArenaState)] = new LoadArenaState(this, _diContainer, _sceneLoader, _sceneCurtain),
-                [typeof(GameLoopState)] = new GameLoopState(this, _diContainer, _sceneLoader, _sceneCurtain),
+                [typeof(BootstrapState)]    = new BootstrapState(this, _diContainer, _sceneLoader, _sceneCurtain),
+                [typeof(LoadScoreState)]    = new LoadScoreState(this, _diContainer, _sceneLoader, _sceneCurtain),
+                [typeof(LoadArenaState)]    = new LoadArenaState(this, _diContainer, _sceneLoader, _sceneCurtain),
+                [typeof(StartState)]        = new StartState(this, _diContainer, _sceneLoader, _sceneCurtain),
+                [typeof(GameLoopState)]     = new GameLoopState(this, _diContainer, _sceneLoader, _sceneCurtain),
+                [typeof(RestartState)]      = new RestartState(this, _diContainer, _sceneLoader, _sceneCurtain),
             };
         }
         #endregion
