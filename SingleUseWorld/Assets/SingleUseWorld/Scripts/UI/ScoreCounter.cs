@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SingleUseWorld
 {
-    public class ScoreCounter : MonoBehaviour
+    public class ScoreCounter: MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _counter;
 
@@ -20,12 +20,18 @@ namespace SingleUseWorld
         public void Construct(Score score)
         {
             _score = score;
-            _score.Changed += UpdateCounter;
             _currentScore = _score.Points;
         }
 
         private void Start()
         {
+            ResetCounter();
+            _score.Changed += UpdateCounter;
+        }
+
+        public void ResetCounter()
+        {
+            _currentScore = _score.Points;
             SetCounterText(_score.Points);
         }
 
