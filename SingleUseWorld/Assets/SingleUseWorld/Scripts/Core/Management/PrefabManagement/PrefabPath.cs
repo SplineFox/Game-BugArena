@@ -24,5 +24,11 @@ namespace SingleUseWorld
 
         public const string ArenaCamera     = "Prefabs/MainCamera";
         public const string ArenaHud        = "Prefabs/ArenaHud";
-    }
+
+        public const string MenuRoot        = "Prefabs/MenuRoot";
+        public const string MenuEventSystem = "Prefabs/MenuEventSystem";
+        public const string MainMenu        = "Prefabs/MainMenu";
+        public const string PauseMenu       = "Prefabs/PauseMenu";
+        public const string RestartMenu     = "Prefabs/RestartMenu";
+    }   
 }
