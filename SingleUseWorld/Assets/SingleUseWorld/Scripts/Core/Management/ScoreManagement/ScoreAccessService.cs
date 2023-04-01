@@ -9,7 +9,7 @@ namespace SingleUseWorld
 
         public ScoreAccessService()
         {
-            Score = new Score(500);
+            Score = new Score();
         }
     }
 }
