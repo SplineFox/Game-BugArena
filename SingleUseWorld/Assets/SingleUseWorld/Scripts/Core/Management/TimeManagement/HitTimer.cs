@@ -45,6 +45,15 @@ namespace SingleUseWorld
             Time.timeScale = 1.0f;
             _isWaiting = false;
         }
+
+        public void Pause()
+        {
+        }
+
+        public void UnPause()
+        {
+            
+        }
         #endregion
     }
 }
