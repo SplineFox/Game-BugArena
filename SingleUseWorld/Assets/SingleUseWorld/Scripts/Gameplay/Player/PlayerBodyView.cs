@@ -8,8 +8,6 @@ namespace SingleUseWorld
     public class PlayerBodyView : CharacterBodyView
     {
         #region Fields
-        private Animator _animator = default;
-
         [SerializeField] private Animator _sweatAnimator = default;
         [SerializeField] private string _idleUnarmedAnimName = "IdleUnarmed";
         [SerializeField] private string _moveUnarmedAnimName = "MoveUnarmed";
@@ -29,6 +27,7 @@ namespace SingleUseWorld
         private float _shakeOffset = 0.15f;
         private float _shakeIntensity = 0f;
 
+        private Animator _animator = default;
         private IEffectSpawner _effectSpawner;
         #endregion
 
@@ -94,6 +93,7 @@ namespace SingleUseWorld
         public void ResetSweat()
         {
             SetSweatIntensity(0f);
+            _sweatAnimator.Play("NoSweat");
         }
 
         public void SetSweatIntensity(float sweatIntensity)
