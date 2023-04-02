@@ -1,5 +1,4 @@
-﻿using BugArena.FSM;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BugArena
 {
