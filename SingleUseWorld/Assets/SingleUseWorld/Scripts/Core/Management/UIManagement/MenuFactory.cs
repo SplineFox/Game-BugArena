@@ -29,32 +29,34 @@ namespace SingleUseWorld
 
             CreateMenuEventSystem();
         }
-
-        public void CreateMainMenu()
-        {
-            var mainMenuPrefab = _prefabProvider.Load<MainMenu>(PrefabPath.MainMenu);
-            var mainMenu = Object.Instantiate(mainMenuPrefab, _menuRoot);
-            mainMenu.OnCreate(_gameStateMachine, _inputService);
-        }
-
-        public void CreatePauseMenu()
-        {
-            var pauseMenuPrefab = _prefabProvider.Load<PauseMenu>(PrefabPath.PauseMenu);
-            var pauseMenu = Object.Instantiate(pauseMenuPrefab, _menuRoot);
-            pauseMenu.OnCreate(_inputService, _pauseService);
-        }
-
-        public void CreateRestartMenu()
-        {
-            var restartMenuPrefab = _prefabProvider.Load<RestartMenu>(PrefabPath.RestartMenu);
-            var restartScoreMenu = Object.Instantiate(restartMenuPrefab, _menuRoot);
-            restartScoreMenu.OnCreate(_gameStateMachine, _scoreAccessService, _inputService);
-        }
-
         private void CreateMenuEventSystem()
         {
             var eventSystemPrefab = _prefabProvider.Load<GameObject>(PrefabPath.MenuEventSystem);
             Object.Instantiate(eventSystemPrefab, _menuRoot);
+        }
+
+        public BaseMenu CreateMainMenu()
+        {
+            var mainMenuPrefab = _prefabProvider.Load<MainMenu>(PrefabPath.MainMenu);
+            var mainMenu = Object.Instantiate(mainMenuPrefab, _menuRoot);
+            mainMenu.OnCreate(_gameStateMachine, _inputService);
+            return mainMenu;
+        }
+
+        public BaseMenu CreatePauseMenu()
+        {
+            var pauseMenuPrefab = _prefabProvider.Load<PauseMenu>(PrefabPath.PauseMenu);
+            var pauseMenu = Object.Instantiate(pauseMenuPrefab, _menuRoot);
+            pauseMenu.OnCreate(_inputService, _pauseService);
+            return pauseMenu;
+        }
+
+        public BaseMenu CreateRestartMenu()
+        {
+            var restartMenuPrefab = _prefabProvider.Load<RestartMenu>(PrefabPath.RestartMenu);
+            var restartMenu = Object.Instantiate(restartMenuPrefab, _menuRoot);
+            restartMenu.OnCreate(_gameStateMachine, _scoreAccessService, _inputService);
+            return restartMenu;
         }
     }
 }

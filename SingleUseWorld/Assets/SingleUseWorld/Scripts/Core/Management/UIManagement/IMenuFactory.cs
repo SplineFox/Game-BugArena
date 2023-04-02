@@ -3,8 +3,8 @@
     public interface IMenuFactory
     {
         void CreateMenuRoot();
-        void CreateMainMenu();
-        void CreatePauseMenu();
-        void CreateRestartMenu();
+        BaseMenu CreateMainMenu();
+        BaseMenu CreatePauseMenu();
+        BaseMenu CreateRestartMenu();
     }
 }

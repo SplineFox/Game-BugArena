@@ -2,7 +2,8 @@
 {
     public class MenuService : IMenuService
     {
-        IMenuFactory _menuFactory;
+        private IMenuFactory _menuFactory;
+        private BaseMenu _currentMenu;
 
         public MenuService(IMenuFactory menuFactory)
         {
@@ -11,16 +12,22 @@
 
         public void Open(MenuType menuType)
         {
+            if(_currentMenu)
+            {
+                _currentMenu.Close();
+                _currentMenu = null;
+            }
+
             switch (menuType)
             {
                 case MenuType.Main:
-                    _menuFactory.CreateMainMenu();
+                    _currentMenu = _menuFactory.CreateMainMenu();
                     break;
                 case MenuType.Pause:
-                    _menuFactory.CreatePauseMenu();
+                    _currentMenu = _menuFactory.CreatePauseMenu();
                     break;
                 case MenuType.Restart:
-                    _menuFactory.CreateRestartMenu();
+                    _currentMenu = _menuFactory.CreateRestartMenu();
                     break;
             }
         }
