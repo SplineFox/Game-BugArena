@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de3fc1ca6d05e4c4ba593a0f1e947fcc, type: 3}
+  m_Name: SkullEntitySettings
+  m_EditorClassIdentifier: 
+  LaunchHeight: 1
+  LaunchOffset: 0.34375
+  DamageAmount: 100
+  KnockbackHorizontalSpeed:
+    start: 2
+    end: 3
+  KnockbackVerticalSpeed:
+    start: 4
+    end: 6
+  KnockbackSpinSpeed:
+    start: 45
+    end: 90
+  LaunchSpeed: 20
+  ReboundGravityScale: 30
+  ReboundHorizontalSpeed:
+    start: 1
+    end: 3
+  ReboundVerticalSpeed:
+    start: 4
+    end: 7
+  ReboundSpinSpeed: 90
+  ReboundFadeOutTime: 0.6

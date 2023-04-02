@@ -1,5 +1,5 @@
 {
-    "name": "GameInputActions",
+    "name": "PlayerInputActions",
     "maps": [
         {
             "name": "Gameplay",
@@ -208,7 +208,23 @@
             "id": "20b4d857-6069-4d96-974c-f0fa5cea5937",
             "actions": [
                 {
-                    "name": "MouseMove",
+                    "name": "MenuMousePoint",
+                    "type": "PassThrough",
+                    "id": "582a2bc8-600e-462d-97d7-c69646c72aa4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MenuMouseClick",
+                    "type": "PassThrough",
+                    "id": "a6fae171-1e77-4ff5-b226-29af30a2a4ae",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MenuMouseMove",
                     "type": "PassThrough",
                     "id": "45967a31-d3c2-41c3-ae32-76f77ce44fad",
                     "expectedControlType": "Vector2",
@@ -216,23 +232,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Confirm",
-                    "type": "Button",
-                    "id": "0cfcfd85-60ca-41f1-a88f-ada93b3ba0e0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Cancel",
-                    "type": "Button",
-                    "id": "edfb0bf2-e206-4380-a166-653e15b5294e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Unpause",
+                    "name": "MenuUnpause",
                     "type": "Button",
                     "id": "97dcda36-2740-43b5-989b-daf2820fa08b",
                     "expectedControlType": "Button",
@@ -248,29 +248,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardAndMouse",
-                    "action": "MouseMove",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "46cde439-09e1-4d5c-8f50-4e10cf88c9ab",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardAndMouse",
-                    "action": "Confirm",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "30bbd960-bbd0-45e2-b101-86b7c5f96810",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardAndMouse",
-                    "action": "Cancel",
+                    "action": "MenuMouseMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -281,7 +259,84 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardAndMouse",
-                    "action": "Unpause",
+                    "action": "MenuUnpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11c6fd7d-bc25-4450-b639-91f1ea378d67",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MenuMousePoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02c2b6c6-2bce-4fe6-a9c6-06984f3f7d55",
+                    "path": "<Pen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MenuMousePoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5ab88222-ba18-49b0-92ae-16ebbb05a6b3",
+                    "path": "<Touchscreen>/touch*/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "MenuMousePoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9efdcb2a-4bc0-4648-9b95-f1fa7de80c5a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;KeyboardAndMouse",
+                    "action": "MenuMouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "194070ee-f859-47da-ba98-b538cbbcc2c5",
+                    "path": "<Pen>/tip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MenuMouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6ad999f-dadd-489c-8974-787cfb693650",
+                    "path": "<Touchscreen>/touch*/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "MenuMouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0f44e05-29db-4817-bf42-874910e1a5f0",
+                    "path": "<XRController>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "MenuMouseClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
