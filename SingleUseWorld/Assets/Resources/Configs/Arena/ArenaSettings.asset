@@ -54,9 +54,9 @@ MonoBehaviour:
     - Type: 5
       Weight: 10
   DifficultySettings:
-    PointsPerEnemy: 35
+    PointsPerEnemy: 50
     InitialEnemiesAmount: 20
     MaximumEnemiesAmount: 55
-    PointsPerItem: 35
+    PointsPerItem: 50
     InitialItemsAmount: 10
     MaximumItemsAmount: 15
