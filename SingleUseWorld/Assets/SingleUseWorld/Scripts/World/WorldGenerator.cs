@@ -268,7 +268,7 @@ namespace SingleUseWorld
             boxCollider2D.isTrigger = true;
 
             _levelBoundary = _levelBoundaryContainer.gameObject.AddComponent<LevelBoundary>();
-            _levelBoundary._boxCollider = boxCollider2D;
+            _levelBoundary.BoxCollider = boxCollider2D;
 
             var levelBoundary_N = new GameObject("Level Boundary N");
             var levelBoundary_S = new GameObject("Level Boundary S");
