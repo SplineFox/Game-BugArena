@@ -16,16 +16,17 @@ namespace SingleUseWorld
         public void SaveHightScore()
         {
             HighScore highScore = _scoreAccessService.HighScore;
-            string json = JsonUtility.ToJson(highScore);
-            PlayerPrefs.SetString(HighScoreKey, json);
+            PlayerPrefs.SetInt(HighScoreKey, highScore.Points);
+            PlayerPrefs.Save();
         }
 
         public HighScore LoadHighScore()
         {
-            string json = PlayerPrefs.GetString(HighScoreKey);
-            if (json == null) return null;
+            int points = 0;
+            if (PlayerPrefs.HasKey(HighScoreKey))
+                points = PlayerPrefs.GetInt(HighScoreKey);
 
-            HighScore highScore = JsonUtility.FromJson<HighScore>(json);
+            HighScore highScore = new HighScore(points);
             return highScore;
         }
     }
