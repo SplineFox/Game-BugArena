@@ -23,7 +23,7 @@ namespace SingleUseWorld
             OnClose();
         }
 
-        protected void Close()
+        public void Close()
         {
             Destroy(gameObject);
         }
