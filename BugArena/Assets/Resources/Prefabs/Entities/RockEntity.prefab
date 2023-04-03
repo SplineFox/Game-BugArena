@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8987631306542378844}
   - component: {fileID: 4554726582950685939}
   m_Layer: 12
-  m_Name: SkullEntity
+  m_Name: RockEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

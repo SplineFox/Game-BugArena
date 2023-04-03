@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 namespace BugArena
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class SkullEntityView : BodyView
+    public class RockEntityView : BodyView
     {
         private SpriteRenderer _spriteRenderer;
         protected Coroutine _spinCoroutine;

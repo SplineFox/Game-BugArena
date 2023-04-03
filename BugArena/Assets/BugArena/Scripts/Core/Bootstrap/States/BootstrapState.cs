@@ -105,7 +105,7 @@ namespace BugArena
                 _diContainer.Resolve<IVisualFeedback>()
                 ));
 
-            _diContainer.Register<SkullEntityFactory>(new SkullEntityFactory(
+            _diContainer.Register<RockEntityFactory>(new RockEntityFactory(
                 _diContainer.Resolve<IPrefabProvider>(),
                 _diContainer.Resolve<IConfigProvider>(),
                 _diContainer.Resolve<IScoreAccessService>(),
@@ -134,10 +134,10 @@ namespace BugArena
                 _diContainer.Resolve<ArrowEntityFactory>()
                 ));
 
-            _diContainer.Register<SkullItemFactory>(new SkullItemFactory(
+            _diContainer.Register<RockItemFactory>(new RockItemFactory(
                 _diContainer.Resolve<IPrefabProvider>(),
                 _diContainer.Resolve<IConfigProvider>(),
-                _diContainer.Resolve<SkullEntityFactory>()
+                _diContainer.Resolve<RockEntityFactory>()
                 ));
 
             _diContainer.Register<SwordItemFactory>(new SwordItemFactory(

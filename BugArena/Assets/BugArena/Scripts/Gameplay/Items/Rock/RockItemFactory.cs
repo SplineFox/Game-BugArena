@@ -2,7 +2,7 @@
 
 namespace BugArena
 {
-    public class SkullItemFactory : IFactory<Item>
+    public class RockItemFactory : IFactory<Item>
     {
         #region Fields
         private readonly IPrefabProvider _prefabProvider;
@@ -11,7 +11,7 @@ namespace BugArena
         #endregion
 
         #region Public Methods
-        public SkullItemFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IFactory<ItemEntity> entityFactory)
+        public RockItemFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, IFactory<ItemEntity> entityFactory)
         {
             _prefabProvider = prefabProvider;
             _configProvider = configProvider;
@@ -20,13 +20,13 @@ namespace BugArena
 
         public Item Create()
         {
-            var skullItemPrefab = _prefabProvider.Load<Item>(PrefabPath.SkullItem);
+            var rockItemPrefab = _prefabProvider.Load<Item>(PrefabPath.RockItem);
             var itemSettings = _configProvider.Load<ItemSettings>(ConfigPath.ItemSettings);
-            var skullItemSettings = _configProvider.Load<ItemTypeSettings>(ConfigPath.SkullItemSettings);
+            var rockItemSettings = _configProvider.Load<ItemTypeSettings>(ConfigPath.RockItemSettings);
 
-            var skullItem = Object.Instantiate(skullItemPrefab);
-            skullItem.OnCreate(itemSettings, skullItemSettings, _entityFactory);
-            return skullItem;
+            var rockItem = Object.Instantiate(rockItemPrefab);
+            rockItem.OnCreate(itemSettings, rockItemSettings, _entityFactory);
+            return rockItem;
         }
         #endregion
     }

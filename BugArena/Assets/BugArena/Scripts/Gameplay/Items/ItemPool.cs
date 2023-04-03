@@ -5,16 +5,16 @@ namespace BugArena
     public class ItemPool
     {
         #region Fields
-        private MonoPool<Item> _skullItemPool;
+        private MonoPool<Item> _rockItemPool;
         private MonoPool<Item> _bowItemPool;
         private MonoPool<Item> _bombItemPool;
         private MonoPool<Item> _swordItemPool;
         #endregion
 
         #region Constructors
-        public ItemPool(MonoPool<Item> skullItemPool, MonoPool<Item> bowItemPool, MonoPool<Item> bombItemPool, MonoPool<Item> swordItemPool)
+        public ItemPool(MonoPool<Item> rockItemPool, MonoPool<Item> bowItemPool, MonoPool<Item> bombItemPool, MonoPool<Item> swordItemPool)
         {
-            _skullItemPool = skullItemPool;
+            _rockItemPool = rockItemPool;
             _bowItemPool = bowItemPool;
             _bombItemPool = bombItemPool;
             _swordItemPool = swordItemPool;
@@ -27,8 +27,8 @@ namespace BugArena
             Item item = default;
             switch (itemType)
             {
-                case ItemType.Skull:
-                    item = _skullItemPool.Get();
+                case ItemType.Rock:
+                    item = _rockItemPool.Get();
                     break;
                 case ItemType.Bow:
                     item = _bowItemPool.Get();
@@ -40,7 +40,7 @@ namespace BugArena
                     item = _bombItemPool.Get();
                     break;
                 default:
-                    item = _skullItemPool.Get();
+                    item = _rockItemPool.Get();
                     break;
             }
             return item;
@@ -50,8 +50,8 @@ namespace BugArena
         {
             switch (item.Type)
             {
-                case ItemType.Skull:
-                    _skullItemPool.Release(item);
+                case ItemType.Rock:
+                    _rockItemPool.Release(item);
                     break;
                 case ItemType.Bow:
                     _bowItemPool.Release(item);

@@ -3,16 +3,16 @@ using UnityEngine.Assertions;
 
 namespace BugArena
 {
-    public class SkullEntity : ItemEntity
+    public class RockEntity : ItemEntity
     {
         #region Fields
-        [SerializeField] private SkullEntityView _view = default;
+        [SerializeField] private RockEntityView _view = default;
         [SerializeField] private ShadowView _shadow = default;
         [SerializeField] private ProjectileTrigger _projectileTrigger = default;
 
         private bool _hitEnemy;
         private Projectile2D _projectile;
-        private SkullEntitySettings _settings;
+        private RockEntitySettings _settings;
 
         private Score _score;
         private IHitTimer _hitTimer;
@@ -22,7 +22,7 @@ namespace BugArena
         #region Properties
         public override ItemEntityType Type
         {
-            get => ItemEntityType.Skull;
+            get => ItemEntityType.Rock;
         }
         #endregion
 
@@ -31,12 +31,12 @@ namespace BugArena
         {
             base.Awake();
             _projectile = GetComponent<Projectile2D>();
-            Assert.IsNotNull(_projectileTrigger, "SkullEntity: ProjectileTrigger is not assigned!");
-            Assert.IsNotNull(_view, "SkullEntity: SkullEntityView is not assigned!");
-            Assert.IsNotNull(_shadow, "SkullEntity: ShadowView is not assigned!");
+            Assert.IsNotNull(_projectileTrigger, "RockEntity: ProjectileTrigger is not assigned!");
+            Assert.IsNotNull(_view, "RockEntity: RockEntityView is not assigned!");
+            Assert.IsNotNull(_shadow, "RockEntity: ShadowView is not assigned!");
         }
 
-        public void OnCreate(SkullEntitySettings settings, Score score, IHitTimer hitTimer, CameraShaker cameraShaker)
+        public void OnCreate(RockEntitySettings settings, Score score, IHitTimer hitTimer, CameraShaker cameraShaker)
         {
             _settings = settings;
             _score = score;

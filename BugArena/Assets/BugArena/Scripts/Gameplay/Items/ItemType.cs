@@ -4,17 +4,9 @@ namespace BugArena
 {
     public enum ItemType
     {
-        // Tier 1
-        Skull,
-        Spear,
-        Dynamite,
-        // Tier 2
+        Rock,
         Bow,
         Sword,
         Bomb,
-        // Tier 3
-        Chakram,
-        Shield,
-        Potion
     }
 }

@@ -12,12 +12,12 @@ namespace BugArena
         public const string ItemSettings        = "Configs/Items/ItemSettings";
         public const string BombItemSettings    = "Configs/Items/BombItemSettings";
         public const string BowItemSettings     = "Configs/Items/BowItemSettings";
-        public const string SkullItemSettings   = "Configs/Items/SkullItemSettings";
+        public const string RockItemSettings    = "Configs/Items/RockItemSettings";
         public const string SwordItemSettings   = "Configs/Items/SwordItemSettings";
 
         public const string BombEntitySettings  = "Configs/Entities/BombEntitySettings";
         public const string ArrowEntitySettings = "Configs/Entities/ArrowEntitySettings";
-        public const string SkullEntitySettings = "Configs/Entities/SkullEntitySettings";
+        public const string RockEntitySettings = "Configs/Entities/RockEntitySettings";
         public const string SwordEntitySettings = "Configs/Entities/SwordEntitySettings";
     }
 }

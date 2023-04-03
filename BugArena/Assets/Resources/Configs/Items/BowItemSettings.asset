@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6aa928324ed5343ae578e56b794cb3, type: 3}
   m_Name: BowItemSettings
   m_EditorClassIdentifier: 
-  Type: 3
+  Type: 1
   SpeedFactor: 0.8

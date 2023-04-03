@@ -2,14 +2,14 @@
 
 namespace BugArena
 {
-    public class SkullEntityFactory : IFactory<ItemEntity>
+    public class RockEntityFactory : IFactory<ItemEntity>
     {
         private IPrefabProvider _prefabProvider;
         private IConfigProvider _configProvider;
         private IScoreAccessService _scoreAccessService;
         private IVisualFeedback _visualFeedback;
 
-        public SkullEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, 
+        public RockEntityFactory(IPrefabProvider prefabProvider, IConfigProvider configProvider, 
             IScoreAccessService scoreAccessService, IVisualFeedback visualFeedback)
         {
             _prefabProvider = prefabProvider;
@@ -21,12 +21,12 @@ namespace BugArena
         #region Public Mehods
         public ItemEntity Create()
         {
-            var skullEntityPrefab = _prefabProvider.Load<SkullEntity>(PrefabPath.SkullEntity);
-            var skullEntitySettings = _configProvider.Load<SkullEntitySettings>(ConfigPath.SkullEntitySettings);
+            var rockEntityPrefab = _prefabProvider.Load<RockEntity>(PrefabPath.RockEntity);
+            var rockEntitySettings = _configProvider.Load<RockEntitySettings>(ConfigPath.RockEntitySettings);
 
-            var skullEntity = Object.Instantiate(skullEntityPrefab);
-            skullEntity.OnCreate(skullEntitySettings, _scoreAccessService.Score, _visualFeedback.Timer, _visualFeedback.Shaker);
-            return skullEntity;
+            var rockEntity = Object.Instantiate(rockEntityPrefab);
+            rockEntity.OnCreate(rockEntitySettings, _scoreAccessService.Score, _visualFeedback.Timer, _visualFeedback.Shaker);
+            return rockEntity;
         }
         #endregion
     }

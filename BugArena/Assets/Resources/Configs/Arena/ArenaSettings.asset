@@ -24,7 +24,7 @@ MonoBehaviour:
     InitialSize: 5
     MaxSize: 15
     PoolExpandMethod: 1
-  SkullItemPoolSettings:
+  RockItemPoolSettings:
     InitialSize: 15
     MaxSize: 20
     PoolExpandMethod: 1
@@ -47,11 +47,11 @@ MonoBehaviour:
     ItemsProbabilities:
     - Type: 0
       Weight: 20
-    - Type: 4
+    - Type: 1
+      Weight: 15
+    - Type: 2
       Weight: 15
     - Type: 3
-      Weight: 15
-    - Type: 5
       Weight: 10
   DifficultySettings:
     PointsPerEnemy: 50

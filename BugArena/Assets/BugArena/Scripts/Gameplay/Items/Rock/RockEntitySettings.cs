@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace BugArena
 {
-    [CreateAssetMenu(fileName = "SkullEntitySettingsSO", menuName = "SingleUseWorld/Settings/Items/SkullEntity Settings SO")]
-    public class SkullEntitySettings : EntitySettings
+    [CreateAssetMenu(fileName = "RockEntitySettingsSO", menuName = "SingleUseWorld/Settings/Items/RockEntity Settings SO")]
+    public class RockEntitySettings : EntitySettings
     {
         #region Fields
-        [ColoredHeader("Skull parameters:", "#FD6D40")]
+        [ColoredHeader("Rock parameters:", "#FD6D40")]
         [Min(0f)]
         public float LaunchSpeed = 20f;
 

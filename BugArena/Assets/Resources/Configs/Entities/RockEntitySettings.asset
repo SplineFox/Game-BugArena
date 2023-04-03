@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de3fc1ca6d05e4c4ba593a0f1e947fcc, type: 3}
-  m_Name: SkullEntitySettings
+  m_Name: RockEntitySettings
   m_EditorClassIdentifier: 
-  LaunchHeight: 1
+  LaunchHeight: 0.75
   LaunchOffset: 0.34375
   DamageAmount: 100
   KnockbackHorizontalSpeed:

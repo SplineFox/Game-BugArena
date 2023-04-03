@@ -103,17 +103,17 @@ namespace BugArena
 
         private ItemPool CreateItemPool(ArenaSettings arenaSettings, Transform itemContainer)
         {
-            var skullItemFactory = _diContainer.Resolve<SkullItemFactory>();
+            var rockItemFactory = _diContainer.Resolve<RockItemFactory>();
             var bowItemFactory = _diContainer.Resolve<BowItemFactory>();
             var bombItemFactory = _diContainer.Resolve<BombItemFactory>();
             var swordItemFactory = _diContainer.Resolve<SwordItemFactory>();
 
-            var skullItemPool = new MonoPool<Item>(skullItemFactory, itemContainer, arenaSettings.SkullItemPoolSettings);
+            var rockItemPool = new MonoPool<Item>(rockItemFactory, itemContainer, arenaSettings.RockItemPoolSettings);
             var bowItemPool = new MonoPool<Item>(bowItemFactory, itemContainer, arenaSettings.BowItemPoolSettings);
             var bombItemPool = new MonoPool<Item>(bombItemFactory, itemContainer, arenaSettings.BombItemPoolSettings);
             var swordItemPool = new MonoPool<Item>(swordItemFactory, itemContainer, arenaSettings.SwordItemPoolSettings);
 
-            var itemPool = new ItemPool(skullItemPool, bowItemPool, bombItemPool, swordItemPool);
+            var itemPool = new ItemPool(rockItemPool, bowItemPool, bombItemPool, swordItemPool);
             return itemPool;
         }
     }

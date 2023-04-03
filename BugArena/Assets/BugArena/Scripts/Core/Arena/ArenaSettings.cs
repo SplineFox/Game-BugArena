@@ -13,7 +13,7 @@ namespace BugArena
         public MonoPoolSettings ExploderEnemyPoolSettings;
         [Space]
         [Header("Item pools")]
-        public MonoPoolSettings SkullItemPoolSettings;
+        public MonoPoolSettings RockItemPoolSettings;
         public MonoPoolSettings BowItemPoolSettings;
         public MonoPoolSettings BombItemPoolSettings;
         public MonoPoolSettings SwordItemPoolSettings;

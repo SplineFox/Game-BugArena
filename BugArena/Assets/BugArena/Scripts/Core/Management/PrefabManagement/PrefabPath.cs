@@ -14,12 +14,12 @@ namespace BugArena
 
         public const string BombItem        = "Prefabs/Items/BombItem";
         public const string BowItem         = "Prefabs/Items/BowItem";
-        public const string SkullItem       = "Prefabs/Items/SkullItem";
+        public const string RockItem       = "Prefabs/Items/RockItem";
         public const string SwordItem       = "Prefabs/Items/SwordItem";
 
         public const string BombEntity      = "Prefabs/Entities/BombEntity";
         public const string ArrowEntity     = "Prefabs/Entities/ArrowEntity";
-        public const string SkullEntity     = "Prefabs/Entities/SkullEntity";
+        public const string RockEntity      = "Prefabs/Entities/RockEntity";
         public const string SwordEntity     = "Prefabs/Entities/SwordEntity";
 
         public const string ArenaCamera     = "Prefabs/Arena/MainCamera";
