@@ -1,6 +1,6 @@
 # Bug Arena
 <!--![Social Preview](https://github.com/SplineFox/Game-BugArena/blob/master/ReadmeMedia/Bug%20Arena%20-%20Social%20Preview.png)-->
-<img src="https://github.com/SplineFox/Game-BugArena/blob/master/ReadmeMedia/Bug%20Arena%20-%20Social%20Preview.png" width="70%" height="70%">
+<img src="https://github.com/SplineFox/Game-BugArena/blob/master/ReadmeMedia/Bug%20Arena%20-%20Banner.png">
 
 ## Overview
 ***Bug Arena*** is a single-player 2D action game developed in Unity. The player controls the Bug that fights for its life in the arena against a crowd of Ticks.
